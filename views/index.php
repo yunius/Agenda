@@ -14,6 +14,7 @@
     <article>
         ----------------------------------------------------<br />
         <h2><?php echo $collective->getCollTitre() ?></h2><br />
+        <p>Date de la collective : <?php echo $collective->getCollDateDebut() ?></p>
         <p>Description : <?php echo $collective->getCollObservations() ?></p><br />
         <p>Nombre de participant maximum : <?php echo $collective->getCollNbparticipantMax() ?></p><br />
         --------------------------------------------------------<br />

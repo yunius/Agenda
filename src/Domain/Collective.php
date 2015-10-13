@@ -6,12 +6,15 @@
  * and open the template in the editor.
  */
 namespace Agenda\Domain;
+
+
+
 /**
  * Description of Collective
  *
  * @author inpiron
  */
-class Collective {
+class Collective extends Popo {
     
     private $IDcollective;
     private $collTitre;
@@ -38,6 +41,8 @@ class Collective {
     private $IDobjectif;
     private $IDadherent;
     
+    
+    
     public function getIDcollective() {
         return $this->IDcollective;
     }
@@ -55,7 +60,8 @@ class Collective {
     }
 
     public function getCollDateDebut() {
-        return $this->collDateDebut;
+        $date = $this->date2FullFr($this->collDateDebut);
+        return $date ;
     }
     
     public function setCollDateDebut($collDateDebut) {
@@ -229,10 +235,7 @@ class Collective {
     
     public function setIDadherent($IDadherent) {
         $this->IDadherent = $IDadherent;
-    }
-
-               
-    
+    } 
 }
 
     

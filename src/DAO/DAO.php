@@ -25,6 +25,6 @@ abstract class DAO {
         return $this->db;
     }
     
-    protected abstract function buildDomainObject($row);
+    /*protected abstract function buildDomainObject($row);*/
     
 }

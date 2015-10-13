@@ -23,17 +23,17 @@ class CollectiveDAO extends DAO {
         $collectives = array();
         foreach ($result as $row) {
             $IDcollective = $row['IDcollective'];
-            $collectives[$IDcollective] = $this->buildDomainObject($row);
+            $collectives[$IDcollective] = new Collective($row);            
         }
         return $collectives;
         
     }
     
-    protected function buildDomainObject($row) {
+    /*protected function buildDomainObject($row) {
         $collective = new Collective();
         $collective->setCollTitre($row['collTitre']);
         $collective->setCollObservations($row['collObservations']);
         $collective->setCollNbParticipantMax($row['collNbParticipantMax']);
         return $collective;
-    }
+    }*/
 }
