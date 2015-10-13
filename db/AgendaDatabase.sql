@@ -199,7 +199,7 @@ CREATE TABLE liste_de_cotation(
 
 
 CREATE TABLE RDV(
-        heureRDV     Date ,
+        heureRDV     Time NOT NULL ,
         IDlieu       Int NOT NULL ,
         IDcollective Int NOT NULL ,
         PRIMARY KEY (IDlieu ,IDcollective )

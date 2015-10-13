@@ -10,12 +10,13 @@
         <h1>TEST</h1>
     </header>
     <?php
-    $bdd = new PDO('mysql:host=localhost;dbname=agenda;charset=utf8', 'root', '');
-    $entrees = $bdd->query('select * from role');
     foreach ($entrees as $entree): ?>
     <article>
-        <h2><?php echo $entree['RoleLibelle'].' : '.$entree['RoleDescription'] ?></h2>
-        
+        ----------------------------------------------------<br />
+        <h2><?php echo $entree['collTitre'] ?></h2><br />
+        <p>Description : <?php echo $entree['collObservations'] ?></p><br />
+        <p>Nombre de participant maximum : <?php echo $entree['collNbparticipantMax'] ?></p><br />
+        --------------------------------------------------------<br />
     </article>
     <?php endforeach ?>
     <footer class="footer">
