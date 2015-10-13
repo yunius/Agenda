@@ -13,6 +13,6 @@ $app->register(new Silex\Provider\DoctrineServiceProvider());
 
 //recuperer les service
 $app['dao.collective'] = $app->share( function ($app) {
-    return new Agenda\DAO\CollectivesDAO($app['db']);
+    return new Agenda\DAO\CollectiveDAO($app['db']);
 });
 

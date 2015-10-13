@@ -10,12 +10,12 @@
         <h1>TEST</h1>
     </header>
     <?php
-    foreach ($entrees as $entree): ?>
+    foreach ($collectives as $collective): ?>
     <article>
         ----------------------------------------------------<br />
-        <h2><?php echo $entree['collTitre'] ?></h2><br />
-        <p>Description : <?php echo $entree['collObservations'] ?></p><br />
-        <p>Nombre de participant maximum : <?php echo $entree['collNbparticipantMax'] ?></p><br />
+        <h2><?php echo $collective->getCollTitre() ?></h2><br />
+        <p>Description : <?php echo $collective->getCollObservations() ?></p><br />
+        <p>Nombre de participant maximum : <?php echo $collective->getCollNbparticipantMax() ?></p><br />
         --------------------------------------------------------<br />
     </article>
     <?php endforeach ?>

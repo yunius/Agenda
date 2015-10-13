@@ -7,37 +7,29 @@
  */
 namespace Agenda\DAO;
 
-use Doctrine\DBAL\Connection; 
+
 use Agenda\Domain\Collective;
 /**
  * Description of CollectivesDAO
  *
  * @author inpiron
  */
-class CollectivesDAO {
-    
-    private $db;
-    
-    public function __construct($db) {
-        $this->db = $db;
-    }
-    
-    
+class CollectiveDAO extends DAO {
     
     public function findAll() {
-        $sql = "SELECT * FROM collectives order by collDateDebut";
-        $result = $this->db->fetchAll($sql);
+        $sql = "SELECT * FROM collectives ORDER BY collDateDebut";
+        $result = $this->getDB()->fetchAll($sql);
         
         $collectives = array();
         foreach ($result as $row) {
             $IDcollective = $row['IDcollective'];
-            $collectives[$IDcollective] = $this->buildCollective($row);
+            $collectives[$IDcollective] = $this->buildDomainObject($row);
         }
         return $collectives;
         
     }
     
-    public function buildCollective(array $row) {
+    protected function buildDomainObject($row) {
         $collective = new Collective();
         $collective->setCollTitre($row['collTitre']);
         $collective->setCollObservations($row['collObservations']);

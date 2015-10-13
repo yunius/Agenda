@@ -1,6 +1,6 @@
 <?php
 // parametre pour Doctrine
-$app['db.option'] = array(
+$app['db.options'] = array(
     'driver'   => 'pdo_mysql',
     'charset'  => 'utf8',
     'host'     => 'localhost',
