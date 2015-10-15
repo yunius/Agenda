@@ -1,0 +1,148 @@
+body { 
+  background: url(/../img/ciel-gare-est-paris.NB.jpg)no-repeat center center fixed;
+  background-size: cover;
+  min-width: 436px;
+}
+
+
+/*.row {
+    margin-bottom: 15px;
+}
+
+.row [class^="col-"] {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #eee;
+    border: 1px solid #ddd;
+    background-color: rgba(86,61,124,.15);
+    border: 1px solid rgba(86,61,124,.2);
+}*/
+
+
+
+.col-md-4 img {
+    width: 100%;
+}
+.col-xs-6 img {
+    width: 100%;
+}
+
+.bandeau {
+    width:100%;
+    height: 15vw;
+    min-height: 110px;
+    background-image: url(/../img/galerie_photos_pyr_1_001.jpg);
+    background-repeat: none;
+    background-size: cover;
+}
+
+
+.bandeau h2 {
+    margin-left: 2vw;
+    padding-top: 4vw;
+    color: white;
+    
+}
+
+#filAriane a {
+    color: white;
+    font-weight: bolder;
+    margin-left: 2vw;
+}
+
+.navbar {
+    margin-top: 15px;
+    background-color: transparent;
+    border:none;
+    border-radius: 15px;
+    
+}
+#overrideBootstrap ul li a {
+    color: white;
+    font-weight: bolder;
+}
+
+#overrideBootstrap ul li:hover {
+    background-color: #00a6d0;
+}
+
+#overrideBootstrap ul li {
+    margin:5px;
+    background-color: #43bfe1;
+    border-radius: 15px;
+    border: solid 2px white;
+    box-shadow: #000000 1px 1px;
+        
+}
+
+#overrideBootstrap .navbar-default .navbar-nav>.active>a {
+    
+    background-color: #00a6d0;
+    border-radius: 15px;
+}
+
+#overrideBootstrap .navbar-default .navbar-toggle {
+    background-color: #00a6d0;
+    color:white;
+    font-weight: bolder;
+    border:none;
+    z-index:100;
+}
+
+#overrideBootstrap .navbar-collapse {
+    border-top: none;
+}
+#overrideBootstrap .dropdown-menu {
+    background-color: transparent;
+    border:none;
+}
+
+#overrideBootstrap .dropdown-menu li a:hover {
+    background-color: transparent;
+}
+
+#overrideBootstrap .navbar-nav {
+    
+}
+
+/*.navbar-toggle {
+    float: left;
+    margin-left: 15px;
+}*/
+
+.col-md-4 .boutonconnexion {
+    //float: right;
+    margin-top: 10%;
+    margin-left:40%;
+}
+.col-md-4 .boutonconnexion li a:hover {
+    background-color: transparent;   
+}
+
+#overrideBootstrap .nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
+    background-color: transparent; 
+    border-color: #337ab7;
+}
+
+
+/**
+/****
+/****** ****/
+
+.monContenu {
+    background-color: #99ff99;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    z-index:99;
+    //height: 13vw;
+    border-radius: 15px;
+}
+
+.monContenu .row [class^="col-"] {
+    border: 1px solid #000;
+} 
+
+
+
+
+

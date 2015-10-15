@@ -10,6 +10,8 @@ ExceptionHandler::register();
 //recuperer les services Silex/symfony
 ///recuperer le service de connexion
 $app->register(new Silex\Provider\DoctrineServiceProvider());
+///recuperer le service de moteur de template Twig
+$app->register(new Silex\Provider\TwigServiceProvider(), array('twig.path' => __DIR__.'/../views'));
 
 //recuperer les service
 $app['dao.collective'] = $app->share( function ($app) {
