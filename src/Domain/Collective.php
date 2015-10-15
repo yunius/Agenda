@@ -34,14 +34,21 @@ class Collective extends Popo {
     private $collTypeRocher;
     private $collDureeApproche;
     private $collCondition_neige_rocher_glace;
+    private $coll_incident_accident;
     private $collEtatNeige;
     private $collConditionTerrain;
     private $collCR_Horodateur;
-    private $IDtypeActivite;
+    private $typeActivite;
     private $IDobjectif;
     private $IDadherent;
     
+    public function getColl_incident_accident() {
+        return $this->coll_incident_accident;
+    }
     
+    public function setColl_incident_accident($coll_incident_accident) {
+        $this->coll_incident_accident = $coll_incident_accident;
+    }
     
     public function getIDcollective() {
         return $this->IDcollective;
@@ -213,12 +220,12 @@ class Collective extends Popo {
         $this->collCR_Horodateur = $collCR_Horodateur;
     }
 
-    public function getIDtypeActivite() {
+    public function getTypeActivite() {
         return $this->IDtypeActivite;
     }
     
-    public function setIDtypeActivite($IDtypeActivite) {
-        $this->IDtypeActivite = $IDtypeActivite;
+    public function setTypeActivite(TypeActivite $typeActivite) {
+        $this->typeActivite = $typeActivite;
     }
 
     public function getIDobjectif() {

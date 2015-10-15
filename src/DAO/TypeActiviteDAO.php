@@ -20,7 +20,7 @@ class TypeActiviteDAO extends DAO {
         $row = $this->getDB()->fetchAssoc($sql, array($IDtypeActivite));
         
         if($row) {
-            return new TypeActivite($row);
+            return $this->buildDomainObject($row);
         }
         else {
             throw new Exception("pas de type d'activité n°" . $IDtypeActivite);
@@ -35,9 +35,19 @@ class TypeActiviteDAO extends DAO {
         $activites = array();
         foreach ($result as $row) {
             $IDtypeActivite = $row['IDtypeActivite'];
-            $activites[$IDtypeActivite] = new TypeActivite($row);            
+            $activites[$IDtypeActivite] = $this->buildDomainObject($row);            
         }
         return $activites;
         
     }
+
+    protected function buildDomainObject($row) {
+        $typeActivite = new TypeActivite();
+    $typeActivite->setIDtypeActivite($row['IDtypeActivite']);
+        $typeActivite->setActiviteLibelle($row['activiteLibelle']);
+        $typeActivite->setIDactiviteParente($row['IDactiviteParente']);
+        
+        return $typeActivite;
+    }
+
 }

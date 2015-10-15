@@ -17,7 +17,9 @@ $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 
 //recuperer les service
 $app['dao.collective'] = $app->share( function ($app) {
-    return new Agenda\DAO\CollectiveDAO($app['db']);
+    $collectiveDAO = new Agenda\DAO\CollectiveDAO($app['db']);
+    $collectiveDAO->setTypeActivite($app['dao.typeactivite']);
+    return $collectiveDAO;
 });
 
 $app['dao.typeactivite'] = $app->share( function ($app) {

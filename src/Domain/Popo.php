@@ -15,7 +15,7 @@ use DateTime;
  */
 abstract class Popo {
     
-    public function __construct(array $data) {
+    /*public function __construct(array $data) {
         $this->Hydrate($data);
     }
     
@@ -27,7 +27,7 @@ abstract class Popo {
                 $this->$method($value);
             }
         }
-    }
+    }*/
     
     protected function date2FullFr($date) {
 	date_default_timezone_set('Europe/Paris');
