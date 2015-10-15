@@ -1,106 +1,34 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="{{app.request.basepath}}/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <link href="{{app.request.basepath}}/css/BoostrapTemplate.css" type="text/css" rel="stylesheet">
-        
-        <title>CAF Agenda - page d'acceuil</title>  
-    </head>
-    <body id="overrideBootstrap">
-        
-            
-            
-        
-        
-        <div class="container-fluid">
-            
+{% extends "layout.html.twig" %}
+
+{% block title %}Acceuil{% endblock %}
+
+{% block content %}
+    {% for collective in collectives %}
+        <div class="container monContenu">
             <div class="row">
-                <div class="col-md-4 col-xs-6">
-                    
-                    <img src="img/logo.trans.png" />
-                    
+                <div class="col-md-2 col-xs-3">activité :{{collective.IDtypeActivite}} </div>
+
+                <div class="col-md-4 col-xs-7">  
+                    <div class="row">{{collective.collDateDebut}}</div>
+                    <div class="row">{{collective.collTitre}}</div>
+                    <div class="row">rdv</div>
                 </div>
-                <div class="col-md-4 hidden-xs">
-                    
+
+                <div class="col-md-2 col-xs-6">
+                    <div class="row">difficulté</div>
+                    <div class="row">{{collective.collDenivele}}m</div>
                 </div>
+
                 <div class="col-md-4 col-xs-6">
-                    <ul class="nav navbar-nav boutonconnexion">
-                            <li class="active dropdown">
-                                <a data-toggle="dropdown" href="#">Connexion <p class="caret"></p></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">se connecter</a></li>
-                                    <li><a href="#">creer un compte</a></li>
-                                    
-                                </ul>
-                            </li>                            
-                    </ul>
+                    <div class="row">
+                        <div class="col-md-6">encadrant : {{collective.IDadherent}}</div>
+                        <div class="col-md-6">inscription</div> 
+                    </div>
+
                 </div>
             </div>
         </div>
-            
-            
-            <div class="bandeau">
-                <H2>L'agenda des sorties collectives</H2>
-		<div id="filAriane"><p><a href="index.php">Accueil</a></p></div>                
-            </div>
-            
-        
-        
-        
-            <div class="navbar navbar-default" role="navigation">
-                <!-- Partie de la barre toujours affichée -->
-                <div class="navbar-header">
-                    <!-- Bouton d'accès affiché à droite si la zone d'affichage est trop petite -->
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-target">
-                        <span class="sr-only">Activer la navigation</span>
-                        
-                        <span>MENU</span>
-                    </button>
-                    
-                </div>
-                    <!-- Partie de la barre masquée si la surface d'affichage est insuffisante -->
-                    
-                    <div class="collapse navbar-collapse" id="navbar-collapse-target">
-                        <ul class="nav navbar-nav">
-                            <li class="active dropdown">
-                                <a data-toggle="dropdown" href="#">Rubrique 1<p class="caret"></p></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Sous Rubrique 1.1</a></li>
-                                    <li><a href="#">Sous Rubrique 1.2</a></li>
-                                    <li><a href="#">Sous Rubrique 1.3</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">Rubrique 2</a></li>                    
-                            <li><a href="#">Rubrique 3</a></li>
-                            <li><a href="#">Rubrique 4</a></li>
-                            <li><a href="#">Rubrique 5</a></li>
-                        </ul>    
-                    </div> 
-                    
-                    <?php //include './collectives.php'; ?>
-                
-            </div>
-        
-        
-        
-        <script src="{{app.request.basepath}}/lib/jquery/jquery.min.js" ></script>
-        <script src="{{app.request.basepath}}/lib/bootstrap/js/bootstrap.min.js"></script>
-        <script>
-            $('.dropdown').on('show.bs.dropdown', function(e){
-                $(this).find('.dropdown-menu').first().stop(true, true).slideDown();
-            });
-              
-            $('.dropdown').on('hide.bs.dropdown', function(e){
-                $(this).find('.dropdown-menu').first().stop(true, true).slideUp();
-            });
-        </script>
-    </body>
-</html>
+    {% endfor  %}
+    
+
+{% endblock %}

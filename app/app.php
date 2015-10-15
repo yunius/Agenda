@@ -13,8 +13,14 @@ $app->register(new Silex\Provider\DoctrineServiceProvider());
 ///recuperer le service de moteur de template Twig
 $app->register(new Silex\Provider\TwigServiceProvider(), array('twig.path' => __DIR__.'/../views'));
 
+$app->register(new Silex\Provider\UrlGeneratorServiceProvider());
+
 //recuperer les service
 $app['dao.collective'] = $app->share( function ($app) {
     return new Agenda\DAO\CollectiveDAO($app['db']);
+});
+
+$app['dao.typeactivite'] = $app->share( function ($app) {
+    return new Agenda\DAO\TypeActiviteDAO($app['db']);
 });
 
