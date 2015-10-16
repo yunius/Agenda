@@ -17,12 +17,27 @@ use Agenda\Domain\Collective;
 class CollectiveDAO extends DAO {
     
     private $typeActiviteDAO;
+    private $objectifDAO;
+    private $adherentDAO;
+    private $rvdDAO;
+    
     
     public function setTypeActivite(TypeActiviteDAO $typeActiviteDAO) {
         $this->typeActiviteDAO = $typeActiviteDAO;
     }
     
-    public function findAll() {
+    public function setObjectif(ObjectifDAO $objectifDAO) {
+        $this->objectifDAO = $objectifDAO;
+    }
+    
+    public function setAdherent(AdherentDAO $adherentDAO) {
+        $this->adherentDAO = $adherentDAO;
+    }
+    public function setRdvDAO(RdvDAO $rdvDAO) {
+        $this->rvdDAO =$rdvDAO;
+    }
+
+        public function findAll() {
         $sql = "SELECT * FROM collectives ORDER BY collDateDebut";
         $result = $this->getDB()->fetchAll($sql);
         
@@ -59,14 +74,28 @@ class CollectiveDAO extends DAO {
         $collective->setCollEtatNeige($row['collEtatNeige']);
         $collective->setCollConditionTerrain($row['collConditionTerrain']);
         $collective->setCollCR_Horodateur($row['collCR_Horodateur']);
-        $collective->setIDobjectif($row['IDobjectif']);
-        $collective->setIDadherent($row['IDadherent']);
+        
         
         if (array_key_exists('IDtypeActivite', $row)) {
             $IDtypeActivite = $row['IDtypeActivite'];
             $typeactivite = $this->typeActiviteDAO->find($IDtypeActivite);
             $collective->setTypeActivite($typeactivite);
         }
+        if (array_key_exists('IDobjectif', $row)) {
+            $IDobjectif = $row['IDobjectif'];
+            $objectif = $this->objectifDAO->find($IDobjectif);
+            $collective->setObjectif($objectif);
+        }
+        if(array_key_exists('IDadherent', $row)) {
+            $IDadherent = $row['IDadherent'];
+            $adherent = $this->adherentDAO->find($IDadherent);
+            $collective->setAdherent($adherent);
+        }
+        
+        $IDcollective = $row['IDcollective'];
+        $rdv = $this->rvdDAO->findAll($IDcollective);
+        $collective->setRdv($rdv);
+        
         return $collective;
     }
 }

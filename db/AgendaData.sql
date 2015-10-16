@@ -70,6 +70,7 @@ INSERT INTO `agenda`.`lieu` (`IDlieu`, `lieuLibelle`)
 VALUES 
 (NULL, 'Parking meuble Laclau'),
 (NULL, 'Parking pont d''Oly');
+(NULL, 'maison des pyrénées');
 
 INSERT INTO `agenda`.`secteur` (`IDsecteur`, `secteurLibelle`, `IDcommune`) 
 VALUES 
@@ -89,17 +90,17 @@ VALUES
 (NULL, 'Ossau face nord', '1');
 
 
-INSERT INTO `agenda`.`adherents` (`IDadherent`, `numLicence`, `statut`, `nomAdherent`, `prenomAdherent`, `pseudoAdherent`, `motDePasseAdherent`, `DateNaissAdherent`, `genreAdherent`, `MailAdherent`, `adherentLibelleRue`, `adherentNumRue`, `adherentNumTel`, `Vehicule`, `co_voitureur`, `CompteActif`, `IDcommune`, `IDclub`, `IDrole`) 
+INSERT INTO `agenda`.`adherents` (`IDadherent`, `numLicence`, `statut`, `nomAdherent`, `prenomAdherent`, `pseudoAdherent`, `motDePasseAdherent`, `adherent_salt` , `DateNaissAdherent`, `genreAdherent`, `MailAdherent`, `adherentLibelleRue`, `adherentNumRue`, `adherentNumTel`, `Vehicule`, `co_voitureur`, `CompteActif`, `IDcommune`, `IDclub`, `IDrole`) 
 VALUES 
-(NULL, '9265478', 'adherent', 'trump', 'donald', 'donald', '54321', '1966-05-22', 'H', 'trump@mail.com', 'rue somwhere', '32', '0559000000', NULL, NULL, NULL, '1', '1', '1'),
-(NULL, '9265478', 'encadrant', 'prolix', 'remi', 'remi', '12345', '1972-07-02', 'H', 'prolix@mail.com', 'rue bidule', '12', '0559000000', NULL, NULL, NULL, '1', '1', '2');
-(NULL, '1284832', 'adherent', 'Martin', 'Alexia', 'Alexia', '2501', '1959-04-30', 'F', 'paupiette@mail.com', 'rue truc', '06', '0559000000', NULL, NULL, NULL, '1', '1', '1');
-(NULL, '383783', 'adherent', 'Bonnet', 'Guillaume', 'Guillaume', '2501', '1959-04-30', 'H', 'paupiette@mail.com', 'rue truc', '06', '0559000000', NULL, NULL, NULL, '1', '1', '1');
-(NULL, '37837838', 'adherent', 'Mestres', 'Annabelle', 'Annabelle', '2501', '1959-04-30', 'F', 'paupiette@mail.com', 'rue truc', '06', '0559000000', NULL, NULL, NULL, '1', '1', '1');
-(NULL, '78383', 'adherent', 'Guisset', 'Anthony', 'Anthony', '2501', '1959-04-30', 'H', 'paupiette@mail.com', 'rue truc', '06', '0559000000', NULL, NULL, NULL, '1', '1', '1');
-(NULL, '933433', 'adherent', 'Fourcade', 'Laurie', 'Laurie', '2501', '1959-04-30', 'F', 'paupiette@mail.com', 'rue truc', '06', '0559000000', NULL, NULL, NULL, '1', '1', '1');
-(NULL, '38343943', 'adherent', 'Maury', 'Étienne', 'Étienne', '2501', '1959-04-30', 'H', 'paupiette@mail.com', 'rue truc', '06', '0559000000', NULL, NULL, NULL, '1', '1', '1');
-(NULL, '3434389', 'adherent', 'Roque', 'Marianne', 'Marianne', '2501', '1959-04-30', 'F', 'paupiette@mail.com', 'rue truc', '06', '0559000000', NULL, NULL, NULL, '1', '1', '1');
+(NULL, '9265478', 'adherent', 'trump', 'donald', 'donald', '54321','', '1966-05-22', 'H', 'trump@mail.com', 'rue somwhere', '32', '0559000000', NULL, NULL, NULL, '1', '1', '1'),
+(NULL, '9265478', 'encadrant', 'prolix', 'remi', 'remi', '12345','', '1972-07-02', 'H', 'prolix@mail.com', 'rue bidule', '12', '0559000000', NULL, NULL, NULL, '1', '1', '2');
+(NULL, '1284832', 'adherent', 'Martin', 'Alexia', 'Alexia', '2501','', '1959-04-30', 'F', 'paupiette@mail.com', 'rue truc', '06', '0559000000', NULL, NULL, NULL, '1', '1', '1');
+(NULL, '383783', 'adherent', 'Bonnet', 'Guillaume', 'Guillaume','', '2501', '1959-04-30', 'H', 'paupiette@mail.com', 'rue truc', '06', '0559000000', NULL, NULL, NULL, '1', '1', '1');
+(NULL, '37837838', 'adherent', 'Mestres', 'Annabelle', 'Annabelle','', '2501', '1959-04-30', 'F', 'paupiette@mail.com', 'rue truc', '06', '0559000000', NULL, NULL, NULL, '1', '1', '1');
+(NULL, '78383', 'adherent', 'Guisset', 'Anthony', 'Anthony', '2501','', '1959-04-30', 'H', 'paupiette@mail.com', 'rue truc', '06', '0559000000', NULL, NULL, NULL, '1', '1', '1');
+(NULL, '933433', 'adherent', 'Fourcade', 'Laurie', 'Laurie', '2501','', '1959-04-30', 'F', 'paupiette@mail.com', 'rue truc', '06', '0559000000', NULL, NULL, NULL, '1', '1', '1');
+(NULL, '38343943', 'adherent', 'Maury', 'Étienne', 'Étienne', '2501','', '1959-04-30', 'H', 'paupiette@mail.com', 'rue truc', '06', '0559000000', NULL, NULL, NULL, '1', '1', '1');
+(NULL, '3434389', 'adherent', 'Roque', 'Marianne', 'Marianne', '2501','', '1959-04-30', 'F', 'paupiette@mail.com', 'rue truc', '06', '0559000000', NULL, NULL, NULL, '1', '1', '1');
 
 INSERT INTO `agenda`.`collectives` (`IDcollective`, `collTitre`, `collDateDebut`, `collDateFin`, `collDenivele`, `collDureeCourseEstim`, `collObservations`, `collPublie`, `collNbparticipantMax`, `collNblongueurs`, `collHeureDepartTerrain`, `collHeureRetourTerrain`, `collDureeCourse`, `collConditionMeteo`, `collInfoComplementaire`, `coll_incident_accident`, `collTypeRocher`, `collDureeApproche`, `collCondition_neige_rocher_glace`, `collEtatNeige`, `collConditionTerrain`, `collCR_Horodateur`, `IDtypeActivite`, `IDobjectif`, `IDadherent`) 
 VALUES 
@@ -117,6 +118,7 @@ VALUES
 ('06:45:00', '1', '3'),
 ('07:00:00', '2', '2'),
 ('07:30:00', '1', '1');
+('07:15:00', '3', '1');
 
 INSERT INTO `agenda`.`etats` (`IDetats`, `libelleEtat`) 
 VALUES 

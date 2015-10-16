@@ -39,8 +39,9 @@ class Collective extends Popo {
     private $collConditionTerrain;
     private $collCR_Horodateur;
     private $typeActivite;
-    private $IDobjectif;
-    private $IDadherent;
+    private $objectif;
+    private $adherent;
+    private $rdv;
     
     public function getColl_incident_accident() {
         return $this->coll_incident_accident;
@@ -221,28 +222,38 @@ class Collective extends Popo {
     }
 
     public function getTypeActivite() {
-        return $this->IDtypeActivite;
+        return $this->typeActivite;
     }
     
     public function setTypeActivite(TypeActivite $typeActivite) {
         $this->typeActivite = $typeActivite;
     }
 
-    public function getIDobjectif() {
-        return $this->IDobjectif;
+    public function getObjectif() {
+        return $this->objectif;
     }
     
-    public function setIDobjectif($IDobjectif) {
-        $this->IDobjectif = $IDobjectif;
+    public function setObjectif(Objectif $objectif) {
+        $this->objectif = $objectif;
     }
 
-    public function getIDadherent() {
-        return $this->IDadherent;
+    public function getAdherent() {
+        return $this->adherent;
     }
     
-    public function setIDadherent($IDadherent) {
-        $this->IDadherent = $IDadherent;
+    public function setAdherent(Adherent $adherent) {
+        $this->adherent = $adherent;
     } 
+    
+    public function getRdv() {
+        return $this->rdv;
+    }
+
+    public function setRdv(array $rdv) {
+        $this->rdv = $rdv;
+    }
+
+
 }
 
     

@@ -4,14 +4,15 @@
 
 {% block content %}
     {% for collective in collectives %}
+        
         <div class="container monContenu">
             <div class="row">
-                <div class="col-md-2 col-xs-3">activité :{{collective.typeactivite}} </div>
+                <div class="col-md-2 col-xs-3">activité :{{ collective.typeActivite.activiteLibelle }}</div>
 
                 <div class="col-md-4 col-xs-7">  
                     <div class="row">{{collective.collDateDebut}}</div>
-                    <div class="row">{{collective.collTitre}}</div>
-                    <div class="row">rdv</div>
+                    <div class="row">{{collective.objectif.objectifLibelle}}</div>
+                    <div class="row">{% for rdv in collective.rdv %} rdv {{loop.index}}: {{ rdv.heureRDV }} - {{ rdv.lieu.lieuLibelle }}<br />{% endfor %}</div>
                 </div>
 
                 <div class="col-md-2 col-xs-6">
@@ -21,8 +22,8 @@
 
                 <div class="col-md-4 col-xs-6">
                     <div class="row">
-                        <div class="col-md-6">encadrant : {{collective.IDadherent}}</div>
-                        <div class="col-md-6">inscription</div> 
+                        <div class="col-md-6 col-xs-6">encadrant :{{collective.adherent.prenomAdherent}} {{collective.adherent.nomAdherent}}</div>
+                        <div class="col-md-6 col-xs-6">inscription</div> 
                     </div>
 
                 </div>

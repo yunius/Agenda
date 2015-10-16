@@ -40,6 +40,7 @@ CREATE TABLE Adherents(
         prenomAdherent     Varchar (50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
         pseudoAdherent     Varchar (50) CHARACTER SET utf8 COLLATE utf8_general_ci ,
         motDePasseAdherent Varchar (50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+        adherent_salt      Varchar(23) NOT NULL,
         DateNaissAdherent  Date NOT NULL ,
         genreAdherent      Char (6) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
         MailAdherent       Varchar (60) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
