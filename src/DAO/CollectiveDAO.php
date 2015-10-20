@@ -16,6 +16,7 @@ use Agenda\Domain\Collective;
  */
 class CollectiveDAO extends DAO {
     
+    
     private $typeActiviteDAO;
     private $objectifDAO;
     private $adherentDAO;

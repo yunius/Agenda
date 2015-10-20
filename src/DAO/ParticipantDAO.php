@@ -47,18 +47,31 @@ class ParticipantDAO extends DAO{
         }
         return $participants;
     }
+    
+    public function countParticipant(Collective $collective) {
+        $IDcollective = $collective->getIDcollective();
+        $sql = "SELECT count(*) AS nbParticipant FROM participants WHERE IDcollective=?";
+        $result = $this->getDB()->fetchAll($sql, array($IDcollective));
+        
+        
+        foreach ($result as $row) {
+               $nb = $row['nbParticipant'];      
+        }
+        return $nb;
+    }
 
 
     protected function buildDomainObject($row) {
         $participant = new Participant();
         $participant->setIDcollective($row['IDcollective']);
-        $participant->getIDetats($row['IDetats']);
+        $participant->setIDetats($row['IDetats']);
         
         if(array_key_exists('IDadherent', $row)) {
             $IDadherent = $row['IDadherent'];
             $adherent = $this->adherentDAO->find($IDadherent);
-            $participant->getAdherent($adherent);
+            $participant->setAdherent($adherent);
         }
+        return $participant;
     }
 
 

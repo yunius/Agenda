@@ -53,5 +53,19 @@ $app['dao.participant'] = $app->share ( function ($app) {
     return $participantDAO;
 });
 
+$app['dao.cotation'] = $app->share ( function ($app) {
+    return new Agenda\DAO\CotationDAO($app['db']);
+});
+
+$app['dao.collectivecotation'] = $app->share ( function ($app) {
+    $collectiveCotationDAO = new Agenda\DAO\CollectiveCotationDAO($app['db']);
+    $collectiveCotationDAO->setCotationDAO($app['dao.cotation']);
+    return $collectiveCotationDAO;
+});
+
+
+
+
+
 
 

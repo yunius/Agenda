@@ -38,7 +38,6 @@ class AdherentDAO extends DAO{
             $adherents[$IDadherent] = $this->buildDomainObject($row);            
         }
         return $adherents;
-        
     }
     
     protected function buildDomainObject($row) {

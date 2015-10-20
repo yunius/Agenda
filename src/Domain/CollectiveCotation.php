@@ -7,39 +7,33 @@
  */
 namespace Agenda\Domain;
 /**
- * Description of Participant
+ * Description of CollectiveCotation
  *
  * @author inpiron
  */
-class Participant extends Popo {
+class CollectiveCotation extends Popo {
     
-    private $IDetats;
-    private $adherent;
     private $IDcollective;
+    private $cotation;
     
-    public function getIDetats() {
-        return $this->IDetats;
-    }
-
-    public function getAdherent() {
-        return $this->adherent;
-    }
-
     public function getIDcollective() {
         return $this->IDcollective;
-    }
-
-    public function setIDetats($IDetats) {
-        $this->IDetats = $IDetats;
-    }
-
-    public function setAdherent(Adherent $adherent) {
-        $this->adherent = $adherent;
     }
 
     public function setIDcollective($IDcollective) {
         $this->IDcollective = $IDcollective;
     }
+    
+    public function getCotation() {
+        return $this->cotation;
+    }
+    
+    public function setCotation(Cotation $cotation) {
+        $this->cotation = $cotation;
+    }
 
 
+    
+    
+            
 }
