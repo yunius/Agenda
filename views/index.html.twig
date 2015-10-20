@@ -26,7 +26,9 @@
                     <div class="row">
                         <div class="col-md-6 col-xs-6">encadrant :{{collective.adherent.prenomAdherent}} {{collective.adherent.nomAdherent}}</div>
                         <div class="col-md-6 col-xs-6">inscription nb inscrit : {{participants[id]}} / {{collective.collNbParticipantMax}} 
-                        il reste {{(collective.collNbParticipantMax)-(participants[id])}} place</div> 
+                        il reste {{(collective.collNbParticipantMax)-(participants[id])}} place
+                        <h4><a href="{{ path('fichecollective',{'id': id} ) }}">S'inscrire à cette collective</a></h4>
+                        </div> 
                     </div>
 
                 </div>

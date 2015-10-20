@@ -37,17 +37,29 @@ class CollectiveDAO extends DAO {
     public function setRdvDAO(RdvDAO $rdvDAO) {
         $this->rvdDAO =$rdvDAO;
     }
-
-        public function findAll() {
-        $sql = "SELECT * FROM collectives ORDER BY collDateDebut";
-        $result = $this->getDB()->fetchAll($sql);
+    
+    public function find($IDcollective) {
+        $sql = "SELECT * FROM collectives WHERE IDcollective=?";
+        $row = $this->getDB()->fetchAssoc($sql, array($IDcollective));
         
-        $collectives = array();
-        foreach ($result as $row) {
-            $IDcollective = $row['IDcollective'];
-            $collectives[$IDcollective] = $this->buildDomainObject($row);            
+        if($row) {
+            return $this->buildDomainObject($row);
         }
-        return $collectives;
+        else {
+            throw new Exception("pas de collective n°" . $IDcollective);
+        }
+    }
+
+    public function findAll() {
+    $sql = "SELECT * FROM collectives ORDER BY collDateDebut";
+    $result = $this->getDB()->fetchAll($sql);
+
+    $collectives = array();
+    foreach ($result as $row) {
+        $IDcollective = $row['IDcollective'];
+        $collectives[$IDcollective] = $this->buildDomainObject($row);            
+    }
+    return $collectives;
         
     }
     

@@ -1,0 +1,83 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}Description de la Collective{% endblock %}
+
+{% block content %}
+    <div class="container monContenu">
+        <div class="row section">
+            <div class="col-md-2">ACTIVITE</div>
+
+            <div class="col-md-6">
+                <div class="row">{{collective.collTitre}}</div>
+                <div class="row">secteur</div>
+                <div class="row">date(s)</div>
+                <div class="row">Observation :</div>
+
+            </div>
+            <div class="col-md-4">
+                <div class="row">ENCADRANT</div>
+                <div class="row">difficulté(s)</div>
+                <div class="row">dénivelé</div>
+                <div class="row">nombre de longueurs</div>
+            </div>
+
+        </div>
+        <div class="row section">
+            <div class="col-md-2"></div>
+
+            <div class="col-md-8">
+                <div class="row">MATERIEL</div>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-4">piece de materiel 1</div>
+                    <div class="col-md-4">piece de materiel 2</div>
+                    <div class="col-md-2"></div>
+                </div>
+                <div class="row">materiel texte</div>
+            </div>
+
+            <div class="col-md-2"></div>
+
+        </div>
+        <div class="row section">
+
+            <div class="col-md-1"></div>
+
+            <div class="col-md-10">
+
+                <div class="row">
+                   <div class="col-md-4">resumé</div>
+                   <div class="col-md-4">PARTICIPANTS</div>
+                   <div class="col-md-4"></div> 
+                </div>
+
+                <div class="row">
+                   <div class="col-md-4">encadrants</div>
+                   <div class="col-md-4">participants</div>
+                   <div class="col-md-4">liste d'attente</div> 
+                </div>
+
+            </div>
+
+            <div class="col-md-1"></div>
+
+        </div>
+        <div class="row section">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <div class="row">INSCRIPTION</div>
+
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-5">RDV</div>
+                    <div class="col-md-5">Commentaire</div>
+                    <div class="col-md-1"></div>                
+                </div>
+
+                <div class="row">JE M'INSCRIS</div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </div>
+    
+{% endblock %}

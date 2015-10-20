@@ -140,7 +140,14 @@ body {
 
 .monContenu .row [class^="col-"] {
     border: 1px solid #000;
+    background-color: #cccccc;
+    border-radius: 15px;
+        
 } 
+
+.section {
+    margin-bottom: 15px;
+}
 
 
 
