@@ -155,8 +155,21 @@ VALUES
 ('1', '1');
 
 INSERT INTO `agenda`.`liste_de_materiel_collective` (`IDtypeMat`, `IDcollective`) 
-VALUES 
-('1', '1');
+VALUES
+('1', '3'), 
+('2', '3'), 
+('12', '3'), 
+('2', '2'),
+('3', '2'),
+('4', '2'),
+('5', '2'),
+('6', '2'),
+('7', '2'),
+('8', '2'),
+('11', '2'),
+('1', '1'),
+('2', '1'),
+('12', '1');
 
 INSERT INTO `agenda`.`liste_de_cotation` (`IDtypeActivite`, `IDcotation`) 
 VALUES 

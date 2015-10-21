@@ -47,6 +47,11 @@ body {
 #filAriane a {
     color: white;
     font-weight: bolder;
+    font-family: sans-serif;
+    
+}
+#filAriane p {
+    margin-top: 2vw;
     margin-left: 2vw;
 }
 
@@ -130,7 +135,7 @@ body {
 /****** ****/
 
 .monContenu {
-    background-color: #99ff99;
+    background-color: #ffffff;
     margin-top: 25px;
     margin-bottom: 25px;
     z-index:99;
@@ -139,7 +144,7 @@ body {
 }
 
 .monContenu .row [class^="col-"] {
-    border: 1px solid #000;
+    
     background-color: #cccccc;
     border-radius: 15px;
         

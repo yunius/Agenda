@@ -20,7 +20,7 @@ and open the template in the editor.
                 <div class="row">
                     <div class="col-md-4 col-xs-6">
 
-                        <img src="img/logo.trans.png" />
+                        <img src="{{app.request.basepath}}/img/logo.trans.png" />
 
                     </div>
                     <div class="col-md-4 hidden-xs">
@@ -42,9 +42,10 @@ and open the template in the editor.
             </div>
             
             
-            <div class="bandeau">
+            <div class="bandeau">                
                 <H2>L'agenda des sorties collectives</H2>
-		<div id="filAriane"><p><a href="{{ path('Acceuil')}}">Accueil</a></p></div>                
+                
+                <div id="filAriane"><p><a href="{{ path('Acceuil')}}">Accueil</a><a href="">{{fil}}</a></p></div>                
             </div>
             
         

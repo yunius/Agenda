@@ -3,9 +3,10 @@
 {% block title %}Description de la Collective{% endblock %}
 
 {% block content %}
+    
     <div class="container monContenu">
         <div class="row section">
-            <div class="col-md-2">ACTIVITE</div>
+            <div class="col-md-2">{{ collective.typeActivite.activiteLibelle }}</div>
 
             <div class="col-md-6">
                 <div class="row">{{collective.collTitre}}</div>
@@ -15,10 +16,16 @@
 
             </div>
             <div class="col-md-4">
-                <div class="row">ENCADRANT</div>
-                <div class="row">difficulté(s)</div>
-                <div class="row">dénivelé</div>
-                <div class="row">nombre de longueurs</div>
+                <div class="row"><h2>{{collective.adherent.prenomAdherent}} {{collective.adherent.nomAdherent}}</h2></div>
+                <div class="row">
+                    {% for cotation in cotations %}
+                    <div class="col-md-3">difficulté {{cotation.cotation.LibelleCotation}}<br />{{cotation.cotation.valeurCotation}}</div>                    
+                    {% endfor %}
+                </div>
+                <div class="row">Denivelé : {{collective.collDenivele}}m</div>
+                {% if collective.collNbLongueurs is not null %}
+                <div class="row">Nombre de longueur : {{collective.collNbLongueurs}}</div>
+                {% endif %}
             </div>
 
         </div>
@@ -29,9 +36,16 @@
                 <div class="row">MATERIEL</div>
                 <div class="row">
                     <div class="col-md-2"></div>
-                    <div class="col-md-4">piece de materiel 1</div>
-                    <div class="col-md-4">piece de materiel 2</div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            {% for materiel in listemateriel %}
+                            <div class="col-md-6">{{ materiel.TypeMateriel.typeMatLibelle }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
                     <div class="col-md-2"></div>
+                    
+                    
                 </div>
                 <div class="row">materiel texte</div>
             </div>
@@ -52,9 +66,25 @@
                 </div>
 
                 <div class="row">
-                   <div class="col-md-4">encadrants</div>
-                   <div class="col-md-4">participants</div>
-                   <div class="col-md-4">liste d'attente</div> 
+                   <div class="col-md-4">
+                       <div class="row">encadrants :</div>
+                       <div class="row">encadrant</div>
+                       <div class="row">coencadrant</div>
+                   </div>
+                    <div class="col-md-4">
+                       <div class="row">Participants validé :</div>
+                       {% for participant in participantValide %}
+                           <div class="row"> - {{ participant.adherent.prenomAdherent }} {{ participant.adherent.nomAdherent }}</div>
+                       {% endfor %}
+                           
+                    </div>
+                       
+                    <div class="col-md-4">
+                        <div class="row">Liste d'attente :</div>
+                        {% for participant in listeAttente %}
+                           <div class="row"> - {{ participant.adherent.prenomAdherent }} {{ participant.adherent.nomAdherent }}</div>
+                        {% endfor %}
+                    </div> 
                 </div>
 
             </div>
@@ -69,7 +99,12 @@
 
                 <div class="row">
                     <div class="col-md-1"></div>
-                    <div class="col-md-5">RDV</div>
+                    <div class="col-md-5">
+                        <div class="row">rendez-vous :</div>
+                        {% for rdv in collective.rdv %}  
+                        <div class="row">{{loop.index}}: {{ rdv.heureRDV }} - {{ rdv.lieu.lieuLibelle }}</div>
+                        {% endfor %}
+                    </div>
                     <div class="col-md-5">Commentaire</div>
                     <div class="col-md-1"></div>                
                 </div>

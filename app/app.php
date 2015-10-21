@@ -63,6 +63,16 @@ $app['dao.collectivecotation'] = $app->share ( function ($app) {
     return $collectiveCotationDAO;
 });
 
+$app['dao.typemateriel'] = $app->share ( function ($app) {
+    return new Agenda\DAO\TypeMaterielDAO($app['db']);
+});
+
+$app['dao.materielcollective'] = $app->share ( function ($app) {
+    $materielCollectiveDAO = new Agenda\DAO\MaterielCollectiveDAO($app['db']);
+    $materielCollectiveDAO->setTypeMateriel($app['dao.typemateriel']);
+    return $materielCollectiveDAO;
+});
+
 
 
 

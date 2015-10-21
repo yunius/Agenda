@@ -48,6 +48,32 @@ class ParticipantDAO extends DAO{
         return $participants;
     }
     
+    public function findAllValide(Collective $collective) {
+        $IDcollective = $collective->getIDcollective();
+        $sql = "SELECT * FROM participants WHERE IDcollective=? AND IDetats=2 ORDER BY IDadherent";
+        $result = $this->getDB()->fetchAll($sql, array($IDcollective));
+        
+        $participants = array();
+        foreach ($result as $row) {
+            $IDadherent = $row['IDadherent'];
+            $participants[$IDadherent] = $this->buildDomainObject($row);            
+        }
+        return $participants;
+    }
+    
+    public function findAllAttente(Collective $collective) {
+        $IDcollective = $collective->getIDcollective();
+        $sql = "SELECT * FROM participants WHERE IDcollective=? AND IDetats=1 ORDER BY IDadherent";
+        $result = $this->getDB()->fetchAll($sql, array($IDcollective));
+        
+        $participants = array();
+        foreach ($result as $row) {
+            $IDadherent = $row['IDadherent'];
+            $participants[$IDadherent] = $this->buildDomainObject($row);            
+        }
+        return $participants;
+    }
+    
     public function countParticipant(Collective $collective) {
         $IDcollective = $collective->getIDcollective();
         $sql = "SELECT count(*) AS nbParticipant FROM participants WHERE IDcollective=?";
