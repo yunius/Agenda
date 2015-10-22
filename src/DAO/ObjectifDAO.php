@@ -15,6 +15,11 @@ use Agenda\Domain\Objectif;
  */
 class ObjectifDAO extends DAO {
     
+    private $secteurDAO;
+    
+    public function setSecteurDAO(SecteurDAO $secteurDAO) {
+        $this->secteurDAO = $secteurDAO;
+    }
     
     public function find($IDobjectif) {
         $sql = "SELECT * FROM objectif WHERE IDobjectif=?";
@@ -46,8 +51,11 @@ class ObjectifDAO extends DAO {
         $objectif = new Objectif();
         $objectif->setIDobjectif($row['IDobjectif']);
         $objectif->setObjectifLibelle($row['objectifLibelle']);
-        $objectif->setIDsecteur($row['IDsecteur']);
-        
+        if(array_key_exists('IDsecteur', $row)) {
+            $IDsecteur = $row['IDsecteur'];
+            $secteur = $this->secteurDAO->find($IDsecteur);
+            $objectif->setSecteur($secteur);
+        }
         return $objectif;
     }
 

@@ -10,9 +10,18 @@
 
             <div class="col-md-6">
                 <div class="row">{{collective.collTitre}}</div>
-                <div class="row">secteur</div>
-                <div class="row">date(s)</div>
-                <div class="row">Observation :</div>
+                <div class="row">{{collective.objectif.objectifLibelle}}</div>
+                <div class="row">{{collective.objectif.secteur.secteurLibelle}}</div>
+                
+                {% if collective.collDateFin is not null%}
+                    <div class="row">{{collective.collDateDebut}} - {{collective.collDateFin}}</div>
+                {% else %}
+                    <div class="row">{{collective.collDateDebut}}</div>
+                {% endif %}
+                
+                <div class="row">Observation : <br />
+                    <p>{{collective.collObservations}}</p>
+                </div>
 
             </div>
             <div class="col-md-4">

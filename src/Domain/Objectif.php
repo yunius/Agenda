@@ -14,15 +14,15 @@ namespace Agenda\Domain;
 class Objectif extends Popo{
     
     private $IDobjectif;
-    private $IDsecteur;
+    private $secteur;
     private $objectifLibelle;
     
     public function getIDobjectif() {
         return $this->IDobjectif;
     }
 
-    public function getIDsecteur() {
-        return $this->IDsecteur;
+    public function getSecteur() {
+        return $this->secteur;
     }
 
     public function getObjectifLibelle() {
@@ -33,8 +33,8 @@ class Objectif extends Popo{
         $this->IDobjectif = $IDobjectif;
     }
 
-    public function setIDsecteur($IDsecteur) {
-        $this->IDsecteur = $IDsecteur;
+    public function setSecteur(Secteur $secteur) {
+        $this->secteur = $secteur;
     }
 
     public function setObjectifLibelle($objectifLibelle) {

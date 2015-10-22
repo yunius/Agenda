@@ -29,8 +29,14 @@ $app['dao.typeactivite'] = $app->share( function ($app) {
     return new Agenda\DAO\TypeActiviteDAO($app['db']);
 });
 
+$app['dao.secteur'] = $app->share( function ($app) {
+    return new Agenda\DAO\SecteurDAO($app['db']);
+});
+
 $app['dao.objectif'] = $app->share ( function ($app) {
-   return new Agenda\DAO\ObjectifDAO($app['db']); 
+   $objectifDAO = new Agenda\DAO\ObjectifDAO($app['db']); 
+   $objectifDAO->setSecteurDAO($app['dao.secteur']);
+   return $objectifDAO;
 });
 
 $app['dao.adherent'] = $app->share (function ($app) {

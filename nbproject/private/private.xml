@@ -3,14 +3,32 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp/www/Agenda/src/Domain/Collective.php</file>
+            <file>file:/C:/wamp/www/Agenda/src/DAO/ParticipantDAO.php</file>
             <file>file:/C:/wamp/www/Agenda/src/DAO/AdherentDAO.php</file>
+            <file>file:/C:/wamp/www/Agenda/src/Domain/Popo.php</file>
+            <file>file:/C:/wamp/www/Agenda/src/DAO/MaterielCollectiveDAO.php</file>
             <file>file:/C:/wamp/www/Agenda/views/index.html.twig</file>
+            <file>file:/C:/wamp/www/Agenda/composer.json</file>
             <file>file:/C:/wamp/www/Agenda/views/layout.html.twig</file>
+            <file>file:/C:/wamp/www/Agenda/vendor/pimple/pimple/lib/Pimple.php</file>
+            <file>file:/C:/wamp/www/Agenda/app/routes.php</file>
+            <file>file:/C:/wamp/www/Agenda/src/DAO/LieuDAO.php</file>
+            <file>file:/C:/wamp/www/Agenda/src/DAO/SecteurDAO.php</file>
+            <file>file:/C:/wamp/www/Agenda/src/DAO/CollectiveCotationDAO.php</file>
+            <file>file:/C:/wamp/www/Agenda/src/DAO/TypeActiviteDAO.php</file>
+            <file>file:/C:/wamp/www/Agenda/src/Domain/MaterielCollective.php</file>
+            <file>file:/C:/wamp/www/Agenda/db/AgendaData.sql</file>
+            <file>file:/C:/wamp/www/Agenda/src/Domain/Collective.php</file>
+            <file>file:/C:/wamp/www/Agenda/src/Domain/Objectif.php</file>
+            <file>file:/C:/wamp/www/Agenda/app/app.php</file>
+            <file>file:/C:/wamp/www/Agenda/src/DAO/ObjectifDAO.php</file>
+            <file>file:/C:/wamp/www/Agenda/src/DAO/DAO.php</file>
+            <file>file:/C:/wamp/www/Agenda/src/DAO/RdvDAO.php</file>
             <file>file:/C:/wamp/www/Agenda/src/DAO/CollectiveDAO.php</file>
             <file>file:/C:/wamp/www/Agenda/web/css/BoostrapTemplate.css</file>
-            <file>file:/C:/wamp/www/Agenda/app/routes.php</file>
             <file>file:/C:/wamp/www/Agenda/views/fichecollective.html.twig</file>
+            <file>file:/C:/wamp/www/Agenda/src/DAO/TypeMaterielDAO.php</file>
+            <file>file:/C:/wamp/www/Agenda/src/Domain/Secteur.php</file>
         </group>
     </open-files>
 </project-private>

@@ -39,7 +39,7 @@ CREATE TABLE Adherents(
         nomAdherent        Varchar (50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
         prenomAdherent     Varchar (50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
         pseudoAdherent     Varchar (50) CHARACTER SET utf8 COLLATE utf8_general_ci ,
-        motDePasseAdherent Varchar (50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+        motDePasseAdherent Varchar (88) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
         adherent_salt      Varchar(23) NOT NULL,
         DateNaissAdherent  Date NOT NULL ,
         genreAdherent      Char (6) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
@@ -52,7 +52,7 @@ CREATE TABLE Adherents(
         CompteActif        Bool ,
         IDcommune          Int NOT NULL ,
         IDclub             Int NOT NULL ,
-        IDrole             Int ,
+        roleAdherent       Varchar(50) NOT NULL DEFAULT 'ROLE_USER',
         PRIMARY KEY (IDadherent )
 )ENGINE=InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
 
@@ -174,12 +174,12 @@ CREATE TABLE encadrant(
 
 
 
-CREATE TABLE Role(
-        IDrole          Int NOT NULL auto_increment ,
-        RoleLibelle     Varchar (15) CHARACTER SET utf8 COLLATE utf8_general_ci ,
-        RoleDescription Text CHARACTER SET utf8 COLLATE utf8_general_ci ,
-        PRIMARY KEY (IDrole )
-)ENGINE=InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
+-- CREATE TABLE Role(
+--         IDrole          Int NOT NULL auto_increment ,
+--         RoleLibelle     Varchar (15) CHARACTER SET utf8 COLLATE utf8_general_ci ,
+--         RoleDescription Text CHARACTER SET utf8 COLLATE utf8_general_ci ,
+--         PRIMARY KEY (IDrole )
+-- )ENGINE=InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 
 
@@ -273,7 +273,7 @@ CREATE TABLE CollCotations(
 ALTER TABLE Type_Activite ADD CONSTRAINT FK_Type_Activite_IDactiviteParente FOREIGN KEY (IDactiviteParente) REFERENCES Type_Activite(IDtypeActivite);
 ALTER TABLE Adherents ADD CONSTRAINT FK_Adherents_IDcommune FOREIGN KEY (IDcommune) REFERENCES commune(IDcommune);
 ALTER TABLE Adherents ADD CONSTRAINT FK_Adherents_IDclub FOREIGN KEY (IDclub) REFERENCES club(IDclub);
-ALTER TABLE Adherents ADD CONSTRAINT FK_Adherents_IDrole FOREIGN KEY (IDrole) REFERENCES Role(IDrole);
+--ALTER TABLE Adherents ADD CONSTRAINT FK_Adherents_IDrole FOREIGN KEY (IDrole) REFERENCES Role(IDrole);
 ALTER TABLE commune ADD CONSTRAINT FK_commune_IDpays FOREIGN KEY (IDpays) REFERENCES pays(IDpays);
 ALTER TABLE club ADD CONSTRAINT FK_club_IDcommune FOREIGN KEY (IDcommune) REFERENCES commune(IDcommune);
 ALTER TABLE Encadrant_Professionnel ADD CONSTRAINT FK_Encadrant_Professionnel_IDcommune FOREIGN KEY (IDcommune) REFERENCES commune(IDcommune);

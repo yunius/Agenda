@@ -30,7 +30,7 @@ class RdvDAO extends DAO {
             return $this->buildDomainObject($row);
         }
         else {
-            throw new Exception("pas de de rdv correspondant");
+            throw new Exception("pas de rdv correspondant");
         }
     }
     
