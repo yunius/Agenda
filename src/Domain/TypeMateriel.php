@@ -11,7 +11,7 @@ namespace Agenda\Domain;
  *
  * @author inpiron
  */
-class TypeMateriel {
+class TypeMateriel extends Popo {
     
     private $IDtypeMat;
     private $typeMatLibelle;

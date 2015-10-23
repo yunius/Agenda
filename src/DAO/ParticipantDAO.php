@@ -22,6 +22,16 @@ class ParticipantDAO extends DAO{
         $this->adherentDAO = $adherentDAO;
     }
     
+    public function save(Participant $participant) {
+        $participantData = array(
+            'IDcollective' => $participant->getIDcollective(),
+            'IDadherent' => $participant->getAdherent()->getIDadherent(),
+        );
+        if(!$participant->getAdherent()) {
+            $this->getDB()->insert('participant', $participantData);
+        }
+    }
+    
     public function find($IDadherent) {
         $sql = "SELECT * FROM participants WHERE IDadherent=?";
         $row = $this->getDB()->fetchAssoc($sql, array($IDadherent));

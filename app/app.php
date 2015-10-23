@@ -29,6 +29,9 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
         ),
     ),
 ));
+///recuperer les services pour les generation de formulaire           
+$app->register(new Silex\Provider\FormServiceProvider());
+$app->register(new Silex\Provider\TranslationServiceProvider());
 
 
 //recuperer les service
@@ -93,6 +96,12 @@ $app['dao.materielcollective'] = $app->share ( function ($app) {
     $materielCollectiveDAO = new Agenda\DAO\MaterielCollectiveDAO($app['db']);
     $materielCollectiveDAO->setTypeMateriel($app['dao.typemateriel']);
     return $materielCollectiveDAO;
+});
+
+$app['dao.commentaire'] = $app->share ( function ($app) {
+    $commentaireDAO = new Agenda\DAO\CommentaireDAO($app['db']);
+    $commentaireDAO->setAdherentDAO($app['dao.adherent']);
+    return $commentaireDAO;
 });
 
 
