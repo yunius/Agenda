@@ -7,13 +7,20 @@
  */
 namespace Agenda\DAO;
 
+
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Agenda\Domain\Adherent;
+
+
 /**
  * Description of AdherentDAO
  *
  * @author inpiron
  */
-class AdherentDAO extends DAO{
+class AdherentDAO extends DAO implements UserProviderInterface{
     
     public function find($IDadherent) {
         $sql = "SELECT * FROM adherents WHERE IDadherent=?";
@@ -39,6 +46,33 @@ class AdherentDAO extends DAO{
         }
         return $adherents;
     }
+    /**
+     * {@inheritDoc}
+     */
+    public function loadUserByUsername($username) {
+        $sql = "SELECT * FROM adherents WHERE pseudoAdherent=?";
+        $row = $this->getDB()->fetchAssoc($sql, array($username));
+        
+        if ($row) {
+            return $this->buildDomainObject($row);
+        }
+        else {
+            throw new UsernameNotFoundException(sprintf('uilisateur "%s" non trouvé.', $username));
+            
+        }
+    }
+    
+    public function refreshUser(UserInterface $adherent) {
+        $class = get_class($adherent);
+        if (!$this->supportsClass($class)) {
+            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $class));
+        }
+        return $this->loadUserByUsername($adherent->getUsername());
+    }
+    
+    public function supportsClass($class) {
+        return 'Agenda\Domain\Adherent' === $class;
+    }
     
     protected function buildDomainObject($row) {
         $adherent = new Adherent();
@@ -47,8 +81,9 @@ class AdherentDAO extends DAO{
         $adherent->setStatut($row['statut']);
         $adherent->setNomAdherent($row['nomAdherent']);
 	$adherent->setPrenomAdherent($row['prenomAdherent']);
-	$adherent->setPseudoAdherent($row['pseudoAdherent']);
-	$adherent->setMotDePasseAdherent($row['motDePasseAdherent']);
+	$adherent->setUsername($row['pseudoAdherent']);
+	$adherent->setPassword($row['motDePasseAdherent']);
+        $adherent->setSalt($row['adherent_salt']);
 	$adherent->setDateNaissAdherent($row['DateNaissAdherent']);
 	$adherent->setGenreAdherent($row['genreAdherent']);
 	$adherent->setMailAdherent($row['MailAdherent']);
@@ -60,7 +95,7 @@ class AdherentDAO extends DAO{
 	$adherent->setCompteActif($row['CompteActif']);
 	$adherent->setIDcommune($row['IDcommune']);
 	$adherent->setIDclub($row['IDclub']);
-	$adherent->setIDrole($row['IDrole']);
+	$adherent->setRole($row['roleAdherent']);
         
         return $adherent;
     }

@@ -57,10 +57,6 @@ INSERT INTO `agenda`.`club` (`IDclub`, `nomClub`, `clubSecteur`, `clubNumTel`, `
 VALUES 
 (NULL, 'CAF de pau', 'Pau et vallée d''ossau', '0559000000', '1');
 
-INSERT INTO `agenda`.`role` (`IDrole`, `RoleLibelle`, `RoleDescription`) 
-VALUES 
-(NULL, 'participant', 'peut consulter les collectives et poster une candidature'),
-(NULL, 'contributeur', 'peut rediger du contenu');
 
 INSERT INTO `agenda`.`encadrant_professionnel` (`IDencadrantPro`, `encProNom`, `encProPrenom`, `encProDateNaiss`, `encProGenre`, `encProMail`, `encProLibelleRue`, `encProNumRue`, `encProNumTel`, `IDcommune`) 
 VALUES 
@@ -69,14 +65,14 @@ VALUES
 INSERT INTO `agenda`.`lieu` (`IDlieu`, `lieuLibelle`) 
 VALUES 
 (NULL, 'Parking meuble Laclau'),
-(NULL, 'Parking pont d''Oly');
+(NULL, 'Parking pont d''Oly'),
 (NULL, 'maison des pyrénées');
 
 INSERT INTO `agenda`.`secteur` (`IDsecteur`, `secteurLibelle`, `IDcommune`) 
 VALUES 
-(NULL, 'vallée d''ossau', '1');
-(NULL, 'cirque de gavarnie', '5');
-(NULL, 'cirque de lescun', '4');
+(NULL, 'vallée d''ossau', '1'),
+(NULL, 'cirque de gavarnie', '5'),
+(NULL, 'cirque de lescun', '4'),
 (NULL, 'cauterets', '3');
 
 INSERT INTO `agenda`.`objectif` (`IDobjectif`, `objectifLibelle`, `IDsecteur`) 
@@ -90,34 +86,34 @@ VALUES
 (NULL, 'Ossau face nord', '1');
 
 
-INSERT INTO `agenda`.`adherents` (`IDadherent`, `numLicence`, `statut`, `nomAdherent`, `prenomAdherent`, `pseudoAdherent`, `motDePasseAdherent`, `adherent_salt` , `DateNaissAdherent`, `genreAdherent`, `MailAdherent`, `adherentLibelleRue`, `adherentNumRue`, `adherentNumTel`, `Vehicule`, `co_voitureur`, `CompteActif`, `IDcommune`, `IDclub`, `IDrole`) 
+INSERT INTO `agenda`.`adherents` (`IDadherent`, `numLicence`, `statut`, `nomAdherent`, `prenomAdherent`, `pseudoAdherent`, `motDePasseAdherent`, `adherent_salt` , `DateNaissAdherent`, `genreAdherent`, `MailAdherent`, `adherentLibelleRue`, `adherentNumRue`, `adherentNumTel`, `Vehicule`, `co_voitureur`, `CompteActif`, `IDcommune`, `IDclub`, `roleAdherent`) 
 VALUES 
-(NULL, '9265478', 'adherent', 'trump', 'donald', 'donald', 'L2nNR5hIcinaJkKR+j4baYaZjcHS0c3WX2gjYF6Tmgl1Bs+C9Qbr+69X8eQwXDvw0vp73PrcSeT0bGEW5+T2hA==','YcM=A$nsYzkyeDVjEUa7W9K', '1966-05-22', 'H', 'trump@mail.com', 'rue somwhere', '32', '0559000000', NULL, NULL, NULL, '1', '1', 'ROLE_USER'),
-(NULL, '9265478', 'encadrant', 'prolix', 'remi', 'remi', 'L2nNR5hIcinaJkKR+j4baYaZjcHS0c3WX2gjYF6Tmgl1Bs+C9Qbr+69X8eQwXDvw0vp73PrcSeT0bGEW5+T2hA==','YcM=A$nsYzkyeDVjEUa7W9K', '1972-07-02', 'H', 'prolix@mail.com', 'rue bidule', '12', '0559000000', NULL, NULL, NULL, '1', '1', 'ROLE_USER');
-(NULL, '1284832', 'adherent', 'Martin', 'Alexia', 'Alexia', 'L2nNR5hIcinaJkKR+j4baYaZjcHS0c3WX2gjYF6Tmgl1Bs+C9Qbr+69X8eQwXDvw0vp73PrcSeT0bGEW5+T2hA==','YcM=A$nsYzkyeDVjEUa7W9K', '1959-04-30', 'F', 'paupiette@mail.com', 'rue truc', '06', '0559000000', NULL, NULL, NULL, '1', '1', 'ROLE_USER');
-(NULL, '383783', 'adherent', 'Bonnet', 'Guillaume', 'Guillaume', 'L2nNR5hIcinaJkKR+j4baYaZjcHS0c3WX2gjYF6Tmgl1Bs+C9Qbr+69X8eQwXDvw0vp73PrcSeT0bGEW5+T2hA==','YcM=A$nsYzkyeDVjEUa7W9K', '1959-04-30', 'H', 'paupiette@mail.com', 'rue truc', '06', '0559000000', NULL, NULL, NULL, '1', '1', 'ROLE_USER');
-(NULL, '37837838', 'adherent', 'Mestres', 'Annabelle', 'Annabelle', 'L2nNR5hIcinaJkKR+j4baYaZjcHS0c3WX2gjYF6Tmgl1Bs+C9Qbr+69X8eQwXDvw0vp73PrcSeT0bGEW5+T2hA==','YcM=A$nsYzkyeDVjEUa7W9K', '1959-04-30', 'F', 'paupiette@mail.com', 'rue truc', '06', '0559000000', NULL, NULL, NULL, '1', '1', 'ROLE_USER');
-(NULL, '78383', 'adherent', 'Guisset', 'Anthony', 'Anthony', 'L2nNR5hIcinaJkKR+j4baYaZjcHS0c3WX2gjYF6Tmgl1Bs+C9Qbr+69X8eQwXDvw0vp73PrcSeT0bGEW5+T2hA==','YcM=A$nsYzkyeDVjEUa7W9K', '1959-04-30', 'H', 'paupiette@mail.com', 'rue truc', '06', '0559000000', NULL, NULL, NULL, '1', '1', 'ROLE_USER');
-(NULL, '933433', 'adherent', 'Fourcade', 'Laurie', 'Laurie', 'L2nNR5hIcinaJkKR+j4baYaZjcHS0c3WX2gjYF6Tmgl1Bs+C9Qbr+69X8eQwXDvw0vp73PrcSeT0bGEW5+T2hA==','YcM=A$nsYzkyeDVjEUa7W9K', '1959-04-30', 'F', 'paupiette@mail.com', 'rue truc', '06', '0559000000', NULL, NULL, NULL, '1', '1', 'ROLE_USER');
-(NULL, '38343943', 'adherent', 'Maury', 'Étienne', 'Étienne', 'L2nNR5hIcinaJkKR+j4baYaZjcHS0c3WX2gjYF6Tmgl1Bs+C9Qbr+69X8eQwXDvw0vp73PrcSeT0bGEW5+T2hA==','YcM=A$nsYzkyeDVjEUa7W9K', '1959-04-30', 'H', 'paupiette@mail.com', 'rue truc', '06', '0559000000', NULL, NULL, NULL, '1', '1', 'ROLE_USER');
-(NULL, '3434389', 'adherent', 'Roque', 'Marianne', 'Marianne', 'L2nNR5hIcinaJkKR+j4baYaZjcHS0c3WX2gjYF6Tmgl1Bs+C9Qbr+69X8eQwXDvw0vp73PrcSeT0bGEW5+T2hA==','YcM=A$nsYzkyeDVjEUa7W9K', '1959-04-30', 'F', 'paupiette@mail.com', 'rue truc', '06', '0559000000', NULL, NULL, NULL, '1', '1', 'ROLE_USER');
+(NULL, '9265478', 'adherent', 'trump', 'donald', 'donald',  'L2nNR5hIcinaJkKR+j4baYaZjcHS0c3WX2gjYF6Tmgl1Bs+C9Qbr+69X8eQwXDvw0vp73PrcSeT0bGEW5+T2hA==', 'YcM=A$nsYzkyeDVjEUa7W9K',  '1966-05-22', 'H', 'trump@mail.com', 'rue somwhere', '32', '0559000000', NULL, NULL, NULL, '1', '1', 'ROLE_USER'),
+(NULL, '9265478', 'encadrant', 'prolix', 'remi', 'remi',  'L2nNR5hIcinaJkKR+j4baYaZjcHS0c3WX2gjYF6Tmgl1Bs+C9Qbr+69X8eQwXDvw0vp73PrcSeT0bGEW5+T2hA==', 'YcM=A$nsYzkyeDVjEUa7W9K',  '1972-07-02', 'H', 'prolix@mail.com', 'rue bidule', '12', '0559000000', NULL, NULL, NULL, '1', '1', 'ROLE_USER'),
+(NULL, '1284832', 'adherent', 'Martin', 'Alexia', 'Alexia',  'L2nNR5hIcinaJkKR+j4baYaZjcHS0c3WX2gjYF6Tmgl1Bs+C9Qbr+69X8eQwXDvw0vp73PrcSeT0bGEW5+T2hA==', 'YcM=A$nsYzkyeDVjEUa7W9K',  '1959-04-30', 'F', 'paupiette@mail.com', 'rue truc', '06', '0559000000', NULL, NULL, NULL, '1', '1', 'ROLE_USER'),
+(NULL, '383783', 'adherent', 'Bonnet', 'Guillaume', 'Guillaume',  'L2nNR5hIcinaJkKR+j4baYaZjcHS0c3WX2gjYF6Tmgl1Bs+C9Qbr+69X8eQwXDvw0vp73PrcSeT0bGEW5+T2hA==', 'YcM=A$nsYzkyeDVjEUa7W9K',  '1959-04-30', 'H', 'paupiette@mail.com', 'rue truc', '06', '0559000000', NULL, NULL, NULL, '1', '1', 'ROLE_USER'),
+(NULL, '37837838', 'adherent', 'Mestres', 'Annabelle', 'Annabelle',  'L2nNR5hIcinaJkKR+j4baYaZjcHS0c3WX2gjYF6Tmgl1Bs+C9Qbr+69X8eQwXDvw0vp73PrcSeT0bGEW5+T2hA==', 'YcM=A$nsYzkyeDVjEUa7W9K',  '1959-04-30', 'F', 'paupiette@mail.com', 'rue truc', '06', '0559000000', NULL, NULL, NULL, '1', '1', 'ROLE_USER'),
+(NULL, '78383', 'adherent', 'Guisset', 'Anthony', 'Anthony',  'L2nNR5hIcinaJkKR+j4baYaZjcHS0c3WX2gjYF6Tmgl1Bs+C9Qbr+69X8eQwXDvw0vp73PrcSeT0bGEW5+T2hA==', 'YcM=A$nsYzkyeDVjEUa7W9K',  '1959-04-30', 'H', 'paupiette@mail.com', 'rue truc', '06', '0559000000', NULL, NULL, NULL, '1', '1', 'ROLE_USER'),
+(NULL, '933433', 'adherent', 'Fourcade', 'Laurie', 'Laurie',  'L2nNR5hIcinaJkKR+j4baYaZjcHS0c3WX2gjYF6Tmgl1Bs+C9Qbr+69X8eQwXDvw0vp73PrcSeT0bGEW5+T2hA==', 'YcM=A$nsYzkyeDVjEUa7W9K',  '1959-04-30', 'F', 'paupiette@mail.com', 'rue truc', '06', '0559000000', NULL, NULL, NULL, '1', '1', 'ROLE_USER'),
+(NULL, '38343943', 'adherent', 'Maury', 'Étienne', 'Étienne',  'L2nNR5hIcinaJkKR+j4baYaZjcHS0c3WX2gjYF6Tmgl1Bs+C9Qbr+69X8eQwXDvw0vp73PrcSeT0bGEW5+T2hA==', 'YcM=A$nsYzkyeDVjEUa7W9K',  '1959-04-30', 'H', 'paupiette@mail.com', 'rue truc', '06', '0559000000', NULL, NULL, NULL, '1', '1', 'ROLE_USER'),
+(NULL, '3434389', 'adherent', 'Roque', 'Marianne', 'Marianne',  'L2nNR5hIcinaJkKR+j4baYaZjcHS0c3WX2gjYF6Tmgl1Bs+C9Qbr+69X8eQwXDvw0vp73PrcSeT0bGEW5+T2hA==', 'YcM=A$nsYzkyeDVjEUa7W9K',  '1959-04-30', 'F', 'paupiette@mail.com', 'rue truc', '06', '0559000000', NULL, NULL, NULL, '1', '1', 'ROLE_USER');
 
 INSERT INTO `agenda`.`collectives` (`IDcollective`, `collTitre`, `collDateDebut`, `collDateFin`, `collDenivele`, `collDureeCourseEstim`, `collObservations`, `collPublie`, `collNbparticipantMax`, `collNblongueurs`, `collHeureDepartTerrain`, `collHeureRetourTerrain`, `collDureeCourse`, `collConditionMeteo`, `collInfoComplementaire`, `coll_incident_accident`, `collTypeRocher`, `collDureeApproche`, `collCondition_neige_rocher_glace`, `collEtatNeige`, `collConditionTerrain`, `collCR_Horodateur`, `IDtypeActivite`, `IDobjectif`, `IDadherent`) 
 VALUES 
-(NULL, 'Ma super excursion', '2015-11-11', NULL, '1200', '8', 'super ballade jusqu''au Lurien', '1', '8', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '1', '1');
-(NULL, 'arête passet', '2015-11-11', NULL, '600', '7', 'course très exigente', '1', '3', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', '7', '10');
+(NULL, 'Ma super excursion', '2015-11-11', NULL, '1200', '8', 'super ballade jusqu''au Lurien', '1', '8', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '1', '1'),
+(NULL, 'arête passet', '2015-11-11', NULL, '600', '7', 'course très exigente', '1', '3', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', '7', '9'),
 (NULL, 'La table des trois rois', '2015-11-02', NULL, '1300', '6', 'excursion jusqu''a la frontiere espagnole ', '1', '12', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '4', '1');
 
 INSERT INTO `agenda`.`encadrant` (`IDadherent`, `IDtypeActivite`) 
 VALUES 
 ('1', '1'),
-('10', '2');
+('9', '2');
 
 INSERT INTO `agenda`.`rdv` (`heureRDV`, `IDlieu`, `IDcollective`) 
 VALUES 
 ('06:45:00', '1', '3'),
 ('07:00:00', '2', '2'),
-('07:30:00', '1', '1');
+('07:30:00', '1', '1'),
 ('07:15:00', '3', '1');
 
 INSERT INTO `agenda`.`etats` (`IDetats`, `libelleEtat`) 

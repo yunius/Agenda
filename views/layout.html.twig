@@ -28,6 +28,20 @@ and open the template in the editor.
                     </div>
                     <div class="col-md-4 col-xs-6">
                         <ul class="nav navbar-nav boutonconnexion">
+                            {% if app.user and is_granted('IS_AUTHENTICATED_FULLY')%}
+                                <li class="dropdown">
+                                        <a data-toggle="dropdown" href="#">
+                                            <span class="glyphicon glyphicon-user"></span>
+                                            Bienvenue,{{app.user.username}} 
+                                        <p class="caret"></p>
+                                        </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{{ path('logout') }}">se déconnecter</a></li>
+                                        <li><a href="#">creer un compte</a></li>
+
+                                    </ul>
+                                </li>
+                            {% else %}    
                                 <li class="dropdown">
                                         <a data-toggle="dropdown" href="#">
                                             <span class="glyphicon glyphicon-user"></span>
@@ -35,11 +49,12 @@ and open the template in the editor.
                                         <p class="caret"></p>
                                         </a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="#">se connecter</a></li>
+                                        <li><a href="{{path('login')}}">se connecter</a></li>
                                         <li><a href="#">creer un compte</a></li>
 
                                     </ul>
-                                </li>                            
+                                </li> 
+                            {% endif %}
                         </ul>
                     </div>
                 </div>

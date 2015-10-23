@@ -6,20 +6,23 @@
  * and open the template in the editor.
  */
 namespace Agenda\Domain;
+
+use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * Description of Adherent
  *
  * @author inpiron
  */
-class Adherent extends Popo {
+class Adherent extends Popo implements UserInterface {
     
     private $IDadherent;
     private $numLicence;
     private $statut;
     private $nomAdherent;
     private $prenomAdherent;
-    private $pseudoAdherent;
+    private $userName;
     private $motDePasseAdherent;
+    private $salt;
     private $DateNaissAdherent;
     private $genreAdherent;
     private $MailAdherent;
@@ -31,7 +34,7 @@ class Adherent extends Popo {
     private $CompteActif;
     private $IDcommune;
     private $IDclub;
-    private $IDrole;
+    private $roleAdherent;
     
     
     public function getIDadherent() {
@@ -53,13 +56,21 @@ class Adherent extends Popo {
     public function getPrenomAdherent() {
         return $this->prenomAdherent;
     }
-
-    public function getPseudoAdherent() {
-        return $this->pseudoAdherent;
+    /**
+     * @inheritDoc
+     */
+    public function getUsername() {
+        return $this->userName;
     }
 
-    public function getMotDePasseAdherent() {
+    public function getPassword() {
         return $this->motDePasseAdherent;
+    }
+    /**
+     * @inheritDoc
+     */
+    public function getSalt() {
+        return $this->salt;
     }
 
     public function getDateNaissAdherent() {
@@ -105,9 +116,11 @@ class Adherent extends Popo {
     public function getIDclub() {
         return $this->IDclub;
     }
-
-    public function getIDrole() {
-        return $this->IDrole;
+    /**
+     * @inheritDoc
+     */
+    public function getRole() {
+        return $this->roleAdherent;
     }
 
     public function setIDadherent($IDadherent) {
@@ -130,12 +143,15 @@ class Adherent extends Popo {
         $this->prenomAdherent = $prenomAdherent;
     }
 
-    public function setPseudoAdherent($pseudoAdherent) {
-        $this->pseudoAdherent = $pseudoAdherent;
+    public function setUsername($Username) {
+        $this->userName = $Username;
     }
 
-    public function setMotDePasseAdherent($motDePasseAdherent) {
+    public function setPassword($motDePasseAdherent) {
         $this->motDePasseAdherent = $motDePasseAdherent;
+    }
+    public function setSalt($salt) {
+        $this->salt = $salt;
     }
 
     public function setDateNaissAdherent($DateNaissAdherent) {
@@ -182,8 +198,24 @@ class Adherent extends Popo {
         $this->IDclub = $IDclub;
     }
 
-    public function setIDrole($IDrole) {
-        $this->IDrole = $IDrole;
+    public function setRole($roleAdherent) {
+        $this->roleAdherent = $roleAdherent;
+    }
+    /**
+     * @inheritDoc
+     */
+    public function getRoles() {
+        return array($this->getRole());
+    }
+
+
+    
+    
+    /**
+     * @inheritDoc
+     */
+    public function eraseCredentials() {
+        
     }
 
 

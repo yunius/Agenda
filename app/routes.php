@@ -1,4 +1,17 @@
 <?php
+use Symfony\Component\HttpFoundation\Request;
+
+//envoi un formulaire d'authentification
+$app->get('/login', function(Request $request) use($app) {
+    $fil = 'page d\'authentification';
+    return $app['twig']->render('login.html.twig', array(
+        'error'         => $app['security.last_error']($request),
+        'last_username' => $app['session']->get('_security.last_username'),
+        'fil' => $fil
+    ));
+})->bind('login');
+
+
 //envoi l'accueil
 $app->get('/', function () use($app) {
     $collectives = $app['dao.collective']->findAll();

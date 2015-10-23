@@ -12,8 +12,24 @@ ExceptionHandler::register();
 $app->register(new Silex\Provider\DoctrineServiceProvider());
 ///recuperer le service de moteur de template Twig
 $app->register(new Silex\Provider\TwigServiceProvider(), array('twig.path' => __DIR__.'/../views'));
-
+///recuperer le service d'ecriture pour les lien / bind
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
+///recuperer les services du système d'authentification de symfony
+$app->register(new Silex\Provider\SessionServiceProvider());
+$app->register(new Silex\Provider\SecurityServiceProvider(), array(
+    'security.firewalls' => array(
+        'secured' => array(
+            'pattern' => '^/',
+            'anonymous' => true,
+            'logout' => true,
+            'form' => array('login_path' => '/login', 'check_path' => '/login_check'),
+            'users' => $app->share(function () use ($app) {
+                return new Agenda\DAO\AdherentDAO($app['db']);
+            }),
+        ),
+    ),
+));
+
 
 //recuperer les service
 $app['dao.collective'] = $app->share( function ($app) {
