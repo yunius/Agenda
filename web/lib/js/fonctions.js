@@ -7,4 +7,40 @@ $('.dropdown').on('hide.bs.dropdown', function(e){
 });
 
 
+//********************************************************************************************////
 
+$(function() {
+//  $('#testform').submit(function(e){
+//    e.preventDefault();
+//  });
+  
+  $('#collective_typeActivite').selectize({create: true});
+  $('#tags').selectize({    
+    delimiter: ',',
+    persist: true,
+    create: function(input) {
+      return {
+        value: input,
+        text: input
+      }
+    }
+  });
+});
+
+$(function() {
+//  $('#testform').submit(function(e){
+//    e.preventDefault();
+//  });
+  
+  $('#collective_objectif').selectize({create: true});
+  $('#tags').selectize({    
+    delimiter: ',',
+    persist: true,
+    create: function(input) {
+      return {
+        value: input,
+        text: input
+      }
+    }
+  });
+});

@@ -9,6 +9,7 @@ namespace Agenda\DAO;
 
 
 use Agenda\Domain\Collective;
+use Symfony\Component\Security\Acl\Exception\Exception;
 /**
  * Description of CollectivesDAO
  *
@@ -49,7 +50,7 @@ class CollectiveDAO extends DAO {
             return $this->buildDomainObject($row);
         }
         else {
-            throw new Exception("pas de collective n°" . $IDcollective);
+            throw new \Exception("pas de collective n°" . $IDcollective);
         }
     }
 
@@ -63,6 +64,52 @@ class CollectiveDAO extends DAO {
         $collectives[$IDcollective] = $this->buildDomainObject($row);            
     }
     return $collectives;
+        
+    }
+    
+    public function save(Collective $collective) {
+        $typeactivite = $collective->getTypeActivite();
+        $IDtypeactivite = $typeactivite->getIDtypeActivite();
+//        $originalDate = $collective->getCollDateDebut();
+//        $newDate = date("Y-m-d", strtotime($originalDate));
+        $collectiveData = array(
+            'collTitre' => $collective->getCollTitre(),
+            'collDateDebut' => $collective->getCollDateDebut(),
+            'collDatefin' => $collective->getCollDatefin(),
+            'collDenivele' => $collective->getCollDenivele(),
+            'collDureeCourseEstim' => $collective->getCollDureeCourseEstim(),
+            'collObservations' => $collective->getCollObservations(),
+            'collPublie' => $collective->getCollPublie(),
+            'collNbParticipantMax' => $collective->getCollNbParticipantMax(),
+            'collNbLongueurs' => $collective->getCollNbLongueurs(),
+            'collHeureDepartTerrain' => $collective->getCollHeureDepartTerrain(),
+            'collHeureRetourTerrain' => $collective->getCollHeureRetourTerrain(),
+            'collDureeCourse' => $collective->getCollDureeCourse(),
+            'collConditionMeteo' => $collective->getCollConditionMeteo(),
+            'collInfoComplementaire' => $collective->getCollInfoComplementaire(),
+            'coll_incident_accident' => $collective->getColl_incident_accident(),
+            'collTypeRocher' => $collective->getCollTypeRocher(),
+            'collDureeApproche' => $collective->getCollDureeApproche(),
+            'collCondition_neige_rocher_glace' => $collective->getCollCondition_neige_rocher_glace(),
+            'collEtatNeige' => $collective->getCollEtatNeige(),
+            'collConditionTerrain' => $collective->getCollConditionTerrain(),
+            'collCR_Horodateur' => $collective->getCollCR_Horodateur(),
+            'IDtypeActivite' => $IDtypeactivite,
+            'IDobjectif' => $collective->getObjectif()->getIDobjectif(),
+            'IDadherent' => $collective->getAdherent()->getIDadherent(),
+            );
+        
+        if($collective->getIDcollective()) {
+            $this->getDB()->update('collectives', $collectiveData, array( 
+                                                                        'IDcollective' => $collective->getIDcollective() 
+                                                                        )  
+                                  );
+        } else {
+            $this->getDB()->insert('collectives', $collectiveData);
+            $id = $this->getDB()->lastInsertId();
+            $collective->setIDcollective($id);
+           
+        }
         
     }
     

@@ -3,15 +3,25 @@
 use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\ExceptionHandler;
 
+
+
 //recuperer les erreurs et exceptions
 ErrorHandler::register();
 ExceptionHandler::register();
+
 
 //recuperer les services Silex/symfony
 ///recuperer le service de connexion
 $app->register(new Silex\Provider\DoctrineServiceProvider());
 ///recuperer le service de moteur de template Twig
 $app->register(new Silex\Provider\TwigServiceProvider(), array('twig.path' => __DIR__.'/../views'));
+///
+$app['twig'] = $app->share($app->extend('twig', function(Twig_Environment $twig, $app) {
+    $twig->addExtension(new Twig_Extensions_Extension_Text());
+    return $twig;
+}));
+///
+$app->register(new Silex\Provider\ValidatorServiceProvider());
 ///recuperer le service d'ecriture pour les lien / bind
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 ///recuperer les services du système d'authentification de symfony
@@ -28,6 +38,12 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
             }),
         ),
     ),
+    'security.role_hierarchy' => array(
+        'ROLE_REDACTEUR' => array('ROLE_USER')
+    ),
+    'security.access_rules' => array(
+        array('^/editionCollective', 'ROLE_REDACTEUR')
+    )
 ));
 ///recuperer les services pour les generation de formulaire           
 $app->register(new Silex\Provider\FormServiceProvider());
@@ -102,6 +118,13 @@ $app['dao.commentaire'] = $app->share ( function ($app) {
     $commentaireDAO = new Agenda\DAO\CommentaireDAO($app['db']);
     $commentaireDAO->setAdherentDAO($app['dao.adherent']);
     return $commentaireDAO;
+});
+
+$app['dao.encadrant'] = $app->share ( function ($app) {
+    $encadrantDAO = new Agenda\DAO\EncadrantDAO($app['db']);
+    $encadrantDAO->setAdherent($app['dao.adherent']);
+    $encadrantDAO->setTypeActivite($app['dao.typeactivite']);
+    return $encadrantDAO;
 });
 
 

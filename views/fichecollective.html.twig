@@ -136,7 +136,25 @@
                     <div class="col-md-1"></div>                
                 </div>
 
-                <div class="row">JE M'INSCRIS</div>
+                    <div class="row">
+                        
+                        {% if app.user != collective.adherent %}
+                            {% if participantSubmit %}
+                                {{ form_start(participantSubmit) }}
+                                    <div class="form-group">
+                                        {{ form_errors(participantSubmit.IDcollective) }}
+                                        {{ form_widget(participantSubmit.IDcollective) }}
+
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="submit" class="btn btn-primary" value="M'inscrire a cette collective" />
+                                    </div>
+                                {{ form_end(participantSubmit) }}
+                            {% else %}
+                                <a href="{{ path('login')}}">Connectez-vous</a> pour pouvoir vous incrire 
+                            {% endif %}
+                        {% endif %}
+                    </div>
             </div>
             <div class="col-md-1"></div>
         </div>

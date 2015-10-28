@@ -27,9 +27,9 @@ class ParticipantDAO extends DAO{
             'IDcollective' => $participant->getIDcollective(),
             'IDadherent' => $participant->getAdherent()->getIDadherent(),
         );
-        if(!$participant->getAdherent()) {
-            $this->getDB()->insert('participant', $participantData);
-        }
+        //if(!$participant->getAdherent()) {
+            $this->getDB()->insert('participants', $participantData);
+        //}
     }
     
     public function find($IDadherent) {

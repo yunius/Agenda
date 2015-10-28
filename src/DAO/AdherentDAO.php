@@ -30,7 +30,7 @@ class AdherentDAO extends DAO implements UserProviderInterface{
             return $this->buildDomainObject($row);
         }
         else {
-            throw new Exception("pas de d'adherent n°" . $IDadherent);
+            throw new \Exception("pas de d'adherent n°" . $IDadherent);
         }
     }
     

@@ -68,8 +68,9 @@ class Collective extends Popo {
     }
 
     public function getCollDateDebut() {
-        $date = $this->date2FullFr($this->collDateDebut);
-        return $date ;
+//        $date = $this->date2FullFr($this->collDateDebut);
+//        return $date ;
+        return $this->collDateDebut;
     }
     
     public function setCollDateDebut($collDateDebut) {
@@ -233,7 +234,7 @@ class Collective extends Popo {
         return $this->objectif;
     }
     
-    public function setObjectif(Objectif $objectif) {
+    public function setObjectif(Objectif $objectif = null) {
         $this->objectif = $objectif;
     }
 

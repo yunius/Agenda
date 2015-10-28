@@ -8,6 +8,9 @@
 namespace Agenda\DAO;
 
 use Doctrine\DBAL\Connection;
+use Symfony\Component\Config\Definition\Exception\Exception;
+
+
 /**
  * Description of DAO
  *
