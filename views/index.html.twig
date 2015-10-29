@@ -13,7 +13,7 @@
 
                 <div class="col-md-4 col-xs-7">  
                     <div class="row">{{collective.collDateDebut}}</div>
-                    <div class="row">{{collective.objectif.objectifLibelle}}</div>
+                    <div class="row">{{collective.collTitre}}</div>
                     <div class="row">{% for rdv in collective.rdv %} rdv {{loop.index}}: {{ rdv.heureRDV }} - {{ rdv.lieu.lieuLibelle }}<br />{% endfor %}</div>
                 </div>
 
@@ -27,7 +27,10 @@
                         <div class="col-md-6 col-xs-6">encadrant :{{collective.adherent.prenomAdherent}} {{collective.adherent.nomAdherent}}</div>
                         <div class="col-md-6 col-xs-6">inscription nb inscrit : {{participants[id]}} / {{collective.collNbParticipantMax}} 
                         il reste {{(collective.collNbParticipantMax)-(participants[id])}} place
-                        <h4><a href="{{ path('fichecollective',{'id': id} ) }}">S'inscrire à cette collective</a></h4>
+                        <h5><a href="{{ path('fichecollective',{'id': id} ) }}">S'inscrire à cette collective</a></h5>
+                        {% if app.user == collective.adherent %}
+                        <h5><a href="{{ path('modificationCollective',{'id': id} ) }}">modifier cette collective</a></h5>
+                        {% endif %}
                         </div> 
                     </div>
 

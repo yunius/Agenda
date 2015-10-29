@@ -17,12 +17,11 @@
     <div class="tab-content">
         <div class="tab-pane fade in active" id="description">
             <div class="container monContenu">
-                <div class="row">DESCRIPTION</div>
+                <div class="row">DESCRIPTION modification collective</div>
                 
                 <div class="row">
                     <div col class="col-md-2">
                         {{ form_start(activiteFormView) }}
-                        
                         {{ form_label(activiteFormView.typeActivite) }}
                         {{form_errors(activiteFormView.typeActivite)}}
                         {{form_widget(activiteFormView.typeActivite)}}
@@ -51,17 +50,47 @@
 
                     </div>
                     <div col class="col-md-5">
-                        <div class="row">
-                            {{form_label(activiteFormView.adherent)}} 
+                        <div class="row"> 
+                            {{form_label(activiteFormView.adherent)}}    
                             {{form_errors(activiteFormView.adherent)}}
                             {{form_widget(activiteFormView.adherent)}}
                         </div>
-                        
                         <div class="row">
                             {{form_label(activiteFormView.cotation)}} 
                             {{form_errors(activiteFormView.cotation)}}
                             {{form_widget(activiteFormView.cotation)}}
                             <input type="submit" class="btn btn-primary" value="Ajouter une cotation"/>
+                        </div>
+                        <div class="row">
+                            {% for cotation in cotations %}
+                                
+                            <div class="col-md-3">{{cotation.cotation.IDcotation}} - {{cotation.cotation.LibelleCotation}}<br />{{cotation.cotation.valeurCotation}}
+                                <button type="button" class="btn btn-danger btn-xs" title="Delete" data-toggle="modal" data-target="#SuppCotDialog{{ cotation.cotation.IDcotation }}"><span class="glyphicon glyphicon-remove"></span></button>
+                            </div>
+                            <div class="modal fade" id="SuppCotDialog{{ cotation.cotation.IDcotation }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            Voulez vous vraiment supprimer la cotation n° {{ cotation.cotation.IDcotation }}?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form id="deleteForm{{ cotation.cotation.IDcotation }}" method="post" action="{{path('CollectiveCotationAsuppr')}}">
+                                                <input type="hidden" name="cotationAsuppr" value="{{cotation.cotation.IDcotation}}" />
+                                                <input type="hidden" name="IDcollAsuppr" value="{{cotation.IDcollective}}" />
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            <button  form="deleteForm{{ cotation.cotation.IDcotation }}" type="submit" class="btn btn-danger">Confirmer</button>
+                                            </form>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
+                            {% endfor %}
+                            
+                            
                         </div>
                     </div>
                 </div>
@@ -69,7 +98,7 @@
                     <div class="row">
                         boutons
                     </div>
-                            <input type="submit" class="btn btn-primary" value="Enregistrer"/>
+                                <input type="submit" class="btn btn-primary" value="Enregistrer"/>
                         {{ form_end(activiteFormView) }}
             </div>            
         </div>
@@ -89,3 +118,4 @@
     </div><!-- tab-content -->
     
 {% endblock %}
+

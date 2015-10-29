@@ -29,7 +29,7 @@ class CotationDAO extends DAO{
     
     
     public function findAll() {
-        $sql = "SELECT * FROM cotation ORDER BY IDcotation";
+        $sql = "SELECT * FROM cotation ORDER BY libelleCotation, IDcotation";
         $result = $this->getDB()->fetchAll($sql);
         
         $cotations = array();

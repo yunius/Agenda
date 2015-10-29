@@ -42,6 +42,12 @@ class CollectiveDAO extends DAO {
         $this->rvdDAO =$rdvDAO;
     }
     
+    public function exists($IDcollective) {
+        $sql = "SELECT count(*) AS count FROM collectives WHERE IDcollective=?";
+        $req = $this->getDB()->fetchAssoc($sql, array($IDcollective));
+        return $req['count'];
+    }
+    
     public function find($IDcollective) {
         $sql = "SELECT * FROM collectives WHERE IDcollective=?";
         $row = $this->getDB()->fetchAssoc($sql, array($IDcollective));

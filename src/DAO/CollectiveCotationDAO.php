@@ -32,7 +32,14 @@ class CollectiveCotationDAO extends DAO {
 //            throw new Exception("pas de de rdv correspondant");
 //        }
 //    }
-    
+    public function save(CollectiveCotation $collectiveCotation) {
+        
+            $collectiveCotationData = array(
+                'IDcollective' => $collectiveCotation->getIDcollective(),
+                'IDcotation' => $collectiveCotation->getCotation()->getIDcotation()
+            );
+            $this->getDB()->insert('collcotations', $collectiveCotationData);
+    }
     
     public function findAll($IDcollective) {
         $sql = "SELECT * FROM collcotations WHERE IDcollective=? ORDER BY IDcotation";

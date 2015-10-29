@@ -7,8 +7,6 @@
  */
 
 namespace Agenda\Form\Type;
-use Agenda\DAO\TypeActiviteDAO;
-use Agenda\Domain\TypeActivite;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 /**
@@ -21,16 +19,16 @@ class CollectiveType extends AbstractType {
     protected $activites;
     protected $objectifs;
     protected $adherents;
+    protected $cotations;
     
-    public function __construct($activites, $objectifs, $adherents) {
+    public function __construct($activites, $objectifs, $adherents, $cotations) {
         $this->activites = $activites;
         $this->objectifs = $objectifs;
         $this->adherents = $adherents;
+        $this->cotations = $cotations;
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        
-        setlocale(LC_TIME, 'fr_CA.UTF-8');
         
         $builder
                 ->add('typeActivite', 'choice', array(
@@ -45,7 +43,8 @@ class CollectiveType extends AbstractType {
                 ))
                 ->add('collDateDebut', 'date', array(
                     'widget' => 'single_text',
-                    'format' => 'yyyy-MM-dd'
+                    'format' => 'yyyy-MM-dd',
+                    'input' => 'timestamp'
                 ))
                 
                 ->add('objectif', 'choice', array(
@@ -57,10 +56,22 @@ class CollectiveType extends AbstractType {
                 
                 ->add('adherent', 'choice', array(
                     'choices' => $this->adherents,
+                    'label' => 'désigner un responsable :',
                     'placeholder' => 'modifier l\'encadrant',
                     'expanded'=>false, 
                     'multiple'=>false
+                ))
+                
+                ->add('cotation', 'choice', array(
+                    'choices' => $this->cotations,
+                    'placeholder' => 'cotation',
+                    'label' => 'difficulté :',
+                    'expanded'=>false, 
+                    'multiple'=>false
                 ));
+        
+                
+                
                 
     }
     

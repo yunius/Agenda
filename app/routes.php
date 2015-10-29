@@ -3,9 +3,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Agenda\Domain\Commentaire;
 use Agenda\Domain\Participant;
 use Agenda\Domain\Collective;
+use Agenda\Domain\CollectiveCotation;
 use Agenda\Form\Type\CommentType;
 use Agenda\Form\Type\ParticipantSubmitType;
 use Agenda\Form\Type\CollectiveType;
+use Agenda\Form\Type\CollCotSupprType;
 
 
 $app->before(
@@ -119,42 +121,58 @@ $app->match('/fichecollective/{id}', function ($id, Request $request) use ($app)
 
 
 //envoi la page d'edition de collective
-$app->match('/editionCollective/{id}', function($id, Request $request) use ($app) {
+$app->match('/editionCollective/', function(Request $request) use ($app) {
     $collective = new Collective();
     //$collective = $app['dao.collective']->find($id);
+    
     
     $activites = $app['dao.typeactivite']->findAll();
     $activiteList = array();    
     foreach ($activites as $activite) {
-        $id = $activite->getIDtypeActivite();
-        $activiteList[$id] = $activite->getActiviteLibelle();         
+        $IDactivite = $activite->getIDtypeActivite();
+        $activiteList[$IDactivite] = $activite->getActiviteLibelle();         
     }
     
     $objectifs = $app['dao.objectif']->findAll();
     $objectifList = array();
     foreach ($objectifs as $objectif) {
-        $id = $objectif->getIDobjectif();
-        $objectifList[$id] = $objectif->getObjectifLibelle();
+        $IDobjectif = $objectif->getIDobjectif();
+        $objectifList[$IDobjectif] = $objectif->getObjectifLibelle();
     }
     
     $encadrants = $app['dao.encadrant']->findAll();
     $encadrantList = array();
     foreach ($encadrants as $encadrant) {
-        $id = $encadrant->getAdherent()->getIDadherent();
+        $IDadherent = $encadrant->getAdherent()->getIDadherent();
         $nom = $encadrant->getAdherent()->getNomAdherent();
         $prenom = $encadrant->getAdherent()->getPrenomAdherent();
-        $encadrantList[$id] = $prenom.' '.$nom;
+        $encadrantList[$IDadherent] = $prenom.' '.$nom;
     }
     
-    $activiteForm = $app['form.factory']->create(new CollectiveType($activiteList, $objectifList, $encadrantList), $collective, array('data' => array('collTitre' => 'mon super test',
-                                                                                                                                                       'typeActivite' => 1 ) ) );
+    $cotations = $app['dao.cotation']->findAll();
+    $cotationsList = array();
+    foreach ($cotations as $cotation) {
+        $IDcotation = $cotation->getIDcotation();
+        $libelle = $cotation->getLibelleCotation();
+        $valeur = $cotation->getValeurCotation();
+        $cotationsList[$IDcotation] =$libelle.' '.$valeur;
+    }
+    
+    $encadrantParDefaut = $app['user']->getIDadherent();
+    
+    
+    $activiteForm = $app['form.factory']->create(new CollectiveType($activiteList, $objectifList, $encadrantList, $cotationsList), $collective, array( 'data' => array ('adherent'=> $encadrantParDefaut  )) );
+    
+    
+    
     $activiteForm->handleRequest($request);
     
     if($activiteForm->isSubmitted()) {
-        
+        $collective = new Collective();
+        //var_dump($_POST);
         $IDactivite = $_POST['collective']['typeActivite'];
         $typeactivite = $app['dao.typeactivite']->find($IDactivite);
-        
+        //var_dump($typeactivite);
         $collTitre  = $_POST['collective']['collTitre'];
                
         $collDateDebut = $_POST['collective']['collDateDebut']; 
@@ -174,10 +192,130 @@ $app->match('/editionCollective/{id}', function($id, Request $request) use ($app
         //var_dump($collective);
         $app['dao.collective']->save($collective);
         $idcoll = $collective->getIDcollective();
-        return $app->redirect('/editionCollective/'.$idcoll);
+        
+        $collCotation = new CollectiveCotation();
+        $IDnewCotation = $_POST['collective']['cotation'];
+        $newCotation = $app['dao.cotation']->find($IDnewCotation);
+        $collCotation->setCotation($newCotation);
+        $collCotation->setIDcollective($idcoll);
+        $app['dao.collectivecotation']->save($collCotation);
+        
+        return $app->redirect('/modificationCollective/'.$idcoll);
     }
     
     $activiteFormView = $activiteForm->createView();
     $fil = ' / Creation d\'une nouvelle collective';
     return $app['twig']->render('editionCollective.html.twig', array('fil' => $fil, 'activiteFormView' => $activiteFormView));
 })->bind('editionCollective');
+
+
+
+
+/***************************************************************************************************************/
+
+
+//envoi la page de modification collective
+$app->match('/modificationCollective/{id}', function ($id, Request $request) use ($app) {
+    
+    $activites = $app['dao.typeactivite']->findAll();
+    $activiteList = array();    
+    foreach ($activites as $activite) {
+        $IDactivite = $activite->getIDtypeActivite();
+        $activiteList[$IDactivite] = $activite->getActiviteLibelle();         
+    }
+    
+    $objectifs = $app['dao.objectif']->findAll();
+    $objectifList = array();
+    foreach ($objectifs as $objectif) {
+        $IDobjectif = $objectif->getIDobjectif();
+        $objectifList[$IDobjectif] = $objectif->getObjectifLibelle();
+    }
+    
+    $encadrants = $app['dao.encadrant']->findAll();
+    $encadrantList = array();
+    foreach ($encadrants as $encadrant) {
+        $IDadherent = $encadrant->getAdherent()->getIDadherent();
+        $nom = $encadrant->getAdherent()->getNomAdherent();
+        $prenom = $encadrant->getAdherent()->getPrenomAdherent();
+        $encadrantList[$IDadherent] = $prenom.' '.$nom;
+    }
+    
+    $cotations = $app['dao.cotation']->findAll();
+    $cotationsList = array();
+    foreach ($cotations as $cotation) {
+        $IDcotation = $cotation->getIDcotation();
+        $libelle = $cotation->getLibelleCotation();
+        $valeur = $cotation->getValeurCotation();
+        $cotationsList[$IDcotation] =$libelle.' '.$valeur;
+    }
+    //$collective = new Collective();
+    $collective = $app['dao.collective']->find($id);
+    $collCotations = $app['dao.collectivecotation']->findAll($id);
+    //var_dump($collective);
+    $titre = $collective->getCollTitre();
+    $activite = $collective->getTypeActivite()->getIDtypeActivite();
+    $date = strtotime($collective->getCollDateDebut());//        
+    $objectif = $collective->getObjectif()->getIDobjectif();
+    $adherent = $collective->getAdherent()->getIDadherent();
+    
+    
+    $activiteForm = $app['form.factory']->create(new CollectiveType($activiteList, $objectifList, $encadrantList, $cotationsList), $collective, array('data' => array( 'collTitre' => $titre,
+                                                                                                                                                       'typeActivite' => $activite,
+                                                                                                                                                       'collDateDebut' => $date,
+                                                                                                                                                       'objectif' => $objectif ,
+                                                                                                                                                       'adherent' => $adherent
+                                                                                                                                                          ) ) );
+    $activiteForm->handleRequest($request);
+    
+    if($activiteForm->isSubmitted()) {
+        //$collective = new Collective();
+        
+        //var_dump($_POST);
+        $IDactivite = $_POST['collective']['typeActivite'];
+        $newtypeactivite = $app['dao.typeactivite']->find($IDactivite);
+        //var_dump($typeactivite);
+        $newcollTitre  = $_POST['collective']['collTitre'];
+               
+        $newcollDateDebut = $_POST['collective']['collDateDebut']; 
+        $IDobjectif = $_POST['collective']['objectif'];
+        $newobjectif = $app['dao.objectif']->find($IDobjectif);
+        
+        $IDadherent= $_POST['collective']['adherent'];
+        $newadherent = $app['dao.adherent']->find($IDadherent);
+        
+        
+        $collective->setCollTitre($newcollTitre);
+        $collective->setTypeActivite($newtypeactivite);
+        $collective->setCollDateDebut($newcollDateDebut);
+        $collective->setObjectif($newobjectif);
+        $collective->setAdherent($newadherent);
+        
+        //var_dump($collective);
+        $app['dao.collective']->save($collective);
+        
+        $collCotation = new CollectiveCotation();
+        $IDnewCotation = $_POST['collective']['cotation'];
+        $newCotation = $app['dao.cotation']->find($IDnewCotation);
+        $collCotation->setCotation($newCotation);
+        $collCotation->setIDcollective($id);
+        $app['dao.collectivecotation']->save($collCotation);
+        //$idcoll = $collective->getIDcollective();
+        return $app->redirect('/modificationCollective/'.$id);
+    }
+    $activiteFormView = $activiteForm->createView();
+    
+    $CotSupprSubmitForm = $app['form.factory']->create(new CollCotSupprType($app['url_generator']));
+    $CotSupprSubmitForm->handleRequest($request);
+    $CotSupprSubmitFormView = $CotSupprSubmitForm->createView();
+    
+    $fil = ' / Creation d\'une nouvelle collective';
+    return $app['twig']->render('modificationCollective.html.twig', array('fil' => $fil, 'activiteFormView' => $activiteFormView, 'cotations' => $collCotations, 'CotSupprSubmitFormView' =>$CotSupprSubmitFormView));
+})->bind('modificationCollective');
+
+
+
+
+$app->match('/CollectiveCotationAsuppr/', function(Request $request) use($app) {
+    var_dump($_POST);
+    return $app['twig']->render('CollectiveCotationAsuppr.html.twig');
+})->bind('CollectiveCotationAsuppr');

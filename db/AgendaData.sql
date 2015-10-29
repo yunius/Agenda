@@ -189,3 +189,4 @@ INSERT INTO `agenda`.`emprunt_location` (`IDadherent`, `IDtypeMat`, `IDcollectiv
 VALUES 
 ('1', '1', '1');
 
+

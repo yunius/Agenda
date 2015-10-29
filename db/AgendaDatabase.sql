@@ -213,7 +213,7 @@ CREATE TABLE etats(
 )ENGINE=InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 CREATE TABLE participants(
-        IDetats      Int NOT NULL ,
+        IDetats      Int NOT NULL DEFAULT 1 ,
         IDadherent   Int NOT NULL ,
         IDcollective Int NOT NULL ,
         PRIMARY KEY (IDadherent ,IDcollective)
