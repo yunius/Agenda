@@ -56,6 +56,12 @@ class CollectiveCotationDAO extends DAO {
         
     }
     
+    
+    public function delete($IDcollective, $IDcotation) {
+        $this->getDB()->delete('collcotations', array('IDcollective' => $IDcollective, 'IDcotation' => $IDcotation));
+    }
+    
+    
     protected function buildDomainObject($row) {
         $collectiveCotation = new CollectiveCotation();
         $collectiveCotation->setIDcollective($row['IDcollective']);

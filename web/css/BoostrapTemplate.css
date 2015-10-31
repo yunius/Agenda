@@ -141,14 +141,22 @@ body {
     z-index:99;
     //height: 13vw;
     border-radius: 15px;
+    color:white;
+    text-shadow: #000000 1px 1px, #000000 -1px 1px, #000000 -1px -1px, #000000 1px -1px;
 }
 
-.monContenu .row [class^="col-"] {
+.monContenu select, input, div.selectize-input, .selectize-dropdown {
+    color:black;
+    text-shadow:none;
+    
+}
+
+/*.monContenu .row [class^="col-"] {
     
     background-color: #cccccc;
     border-radius: 15px;
         
-} 
+} */
 
 .section {
     margin-bottom: 15px;
@@ -166,6 +174,45 @@ body {
 #overrideBootstrap .nav-tabs>li a:focus, .nav-tabs>li a:hover {
     background-color: #3366ff;
 }
+
+#overrideBootstrap .btn-danger, .btn-info {
+    border: 2px solid white;
+    border-radius: 20px;
+    height: 40px;
+    box-shadow: 2px 2px 2px #000000;
+}
+
+#overrideBootstrap .btn-default {
+    border: 2px solid #cccccc;
+    border-radius: 20px;
+    
+    box-shadow: 2px 2px 2px #000000;
+}
+
+#overrideBootstrap .xsDiv .btn-danger {
+    height: 25px;
+}
+
+@media only screen and (min-width:1200px) {
+    #overrideBootstrap .btn-danger, .btn-info {
+    border: 2px solid white;
+    border-radius: 25px;
+    height: 47px;
+    box-shadow: 2px 2px 2px #000000;
+    }
+
+    #overrideBootstrap .btn-default {
+        border: 2px solid #cccccc;
+        border-radius: 20px;
+        height: 47px;
+        box-shadow: 2px 2px 2px #000000;
+    }
+
+    #overrideBootstrap .xsDiv .btn-danger {
+        height: 25px;
+    }
+}
+
 
 
 /***SELECTIZE************************/
@@ -256,6 +303,111 @@ body {
 .button.large:active {
   top: 2px;
 }
+
+
+/******************
+/*************
+/****** activite Style *****************/
+/************************************************/
+
+/*****neutre*****/
+
+.actiCartouche_ {
+    margin-top: 5px;
+    background-color: grey;
+    width: 80%;
+    padding: 5px;
+    text-align: center;
+    border: 2px solid white;
+    border-radius: 10px;
+}
+
+
+
+/*****Rando*****/
+
+.actiIcon_1 {
+    width: 50px;
+    height: 50px;
+    background-image : url(/../img/icon/Randonnee.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.actiContainer_1 {
+    background-color: rgba(67, 156, 43, 0.8);
+}
+
+
+/*****alpi*****/
+
+.actiIcon_2 {
+    width: 50px;
+    height: 50px;
+    background-image : url(/../img/icon/Alpinisme.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.actiContainer_2 {
+    background-color: rgba(233, 98, 32, 0.75);
+}
+
+/*****escalade*****/
+
+.actiIcon_3 {
+    width: 50px;
+    height: 50px;
+    background-image : url(/../img/icon/Escalade.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.actiContainer_3 {
+    background-color: rgba(252, 198, 31, 0.75);
+}
+
+
+/*****Canyon*****/
+
+.actiIcon_4 {
+    width: 50px;
+    height: 50px;
+    background-image : url(/../img/icon/Canyon.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.actiContainer_4 {
+    background-color: #239c39;
+}
+
+
+/*****Speleologie*****/
+
+.actiIcon_5 {
+    width: 50px;
+    height: 50px;
+    background-image : url(/../img/icon/Speleologie.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.actiContainer_5 {
+    background-color: rgba();
+}
+
+/*****Velo-de-montagne*****/
+
+
+.actiIcon_6 {
+    width: 50px;
+    height: 50px;
+    background-image : url(/../img/icon/Velo-de-montagne.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.actiContainer_6 {
+    background-color: #239c39;
+}
+
+
 
 
 

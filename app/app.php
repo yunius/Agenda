@@ -17,9 +17,11 @@ $app->register(new Silex\Provider\DoctrineServiceProvider());
 $app->register(new Silex\Provider\TwigServiceProvider(), array('twig.path' => __DIR__.'/../views'));
 ///
 $app['twig'] = $app->share($app->extend('twig', function(Twig_Environment $twig, $app) {
-    $twig->addExtension(new Twig_Extensions_Extension_Text());
+    $twig->addExtension(new Twig_Extensions_Extension_Intl());
     return $twig;
 }));
+
+//$app['twig']->addExtension(new Twig_Extensions_Extension_Intl());
 ///
 $app->register(new Silex\Provider\ValidatorServiceProvider());
 ///recuperer le service d'ecriture pour les lien / bind

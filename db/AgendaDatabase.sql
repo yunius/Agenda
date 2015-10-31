@@ -240,7 +240,7 @@ CREATE TABLE co_encadrant(
 CREATE TABLE commentaire(
         ComCompteur   int NOT NULL,
         contenu       Text CHARACTER SET utf8 COLLATE utf8_general_ci ,
-        comHorodateur Time ,
+        comHorodateur TIMESTAMP DEFAULT CURRENT_TIME ,
         IDadherent    Int NOT NULL ,
         IDcollective  Int NOT NULL ,
         PRIMARY KEY (ComCompteur, IDadherent ,IDcollective )
@@ -288,21 +288,21 @@ ALTER TABLE Liste_de_materiel_type ADD CONSTRAINT FK_Liste_de_materiel_type_IDty
 ALTER TABLE liste_de_cotation ADD CONSTRAINT FK_liste_de_cotation_IDtypeActivite FOREIGN KEY (IDtypeActivite) REFERENCES Type_Activite(IDtypeActivite);
 ALTER TABLE liste_de_cotation ADD CONSTRAINT FK_liste_de_cotation_IDcotation FOREIGN KEY (IDcotation) REFERENCES cotation(IDcotation);
 ALTER TABLE RDV ADD CONSTRAINT FK_RDV_IDlieu FOREIGN KEY (IDlieu) REFERENCES lieu(IDlieu);
-ALTER TABLE RDV ADD CONSTRAINT FK_RDV_IDcollective FOREIGN KEY (IDcollective) REFERENCES Collectives(IDcollective);
+ALTER TABLE RDV ADD CONSTRAINT FK_RDV_IDcollective FOREIGN KEY (IDcollective) REFERENCES Collectives(IDcollective) ON DELETE CASCADE;
 ALTER TABLE participants ADD CONSTRAINT FK_participants_IDadherent FOREIGN KEY (IDadherent) REFERENCES Adherents(IDadherent);
 ALTER TABLE participants ADD CONSTRAINT FK_participants_IDetats FOREIGN KEY (IDetats) REFERENCES etats(IDetats);
-ALTER TABLE participants ADD CONSTRAINT FK_participants_IDcollective FOREIGN KEY (IDcollective) REFERENCES Collectives(IDcollective);
+ALTER TABLE participants ADD CONSTRAINT FK_participants_IDcollective FOREIGN KEY (IDcollective) REFERENCES Collectives(IDcollective) ON DELETE CASCADE;
 ALTER TABLE encadrantPro_liste ADD CONSTRAINT FK_encadrantPro_liste_IDencadrantPro FOREIGN KEY (IDencadrantPro) REFERENCES Encadrant_Professionnel(IDencadrantPro);
-ALTER TABLE encadrantPro_liste ADD CONSTRAINT FK_encadrantPro_liste_IDcollective FOREIGN KEY (IDcollective) REFERENCES Collectives(IDcollective);
+ALTER TABLE encadrantPro_liste ADD CONSTRAINT FK_encadrantPro_liste_IDcollective FOREIGN KEY (IDcollective) REFERENCES Collectives(IDcollective) ON DELETE CASCADE;
 ALTER TABLE co_encadrant ADD CONSTRAINT FK_co_encadrant_IDadherent FOREIGN KEY (IDadherent) REFERENCES Adherents(IDadherent);
-ALTER TABLE co_encadrant ADD CONSTRAINT FK_co_encadrant_IDcollective FOREIGN KEY (IDcollective) REFERENCES Collectives(IDcollective);
+ALTER TABLE co_encadrant ADD CONSTRAINT FK_co_encadrant_IDcollective FOREIGN KEY (IDcollective) REFERENCES Collectives(IDcollective) ON DELETE CASCADE;
 ALTER TABLE commentaire ADD CONSTRAINT FK_commentaire_IDadherent FOREIGN KEY (IDadherent) REFERENCES Adherents(IDadherent);
-ALTER TABLE commentaire ADD CONSTRAINT FK_commentaire_IDcollective FOREIGN KEY (IDcollective) REFERENCES Collectives(IDcollective);
+ALTER TABLE commentaire ADD CONSTRAINT FK_commentaire_IDcollective FOREIGN KEY (IDcollective) REFERENCES Collectives(IDcollective) ON DELETE CASCADE;
 ALTER TABLE emprunt_location ADD CONSTRAINT FK_emprunt_location_IDadherent FOREIGN KEY (IDadherent) REFERENCES Adherents(IDadherent);
 ALTER TABLE emprunt_location ADD CONSTRAINT FK_emprunt_location_IDtypeMat FOREIGN KEY (IDtypeMat) REFERENCES Type_de_materiel(IDtypeMat);
-ALTER TABLE emprunt_location ADD CONSTRAINT FK_emprunt_location_IDcollective FOREIGN KEY (IDcollective) REFERENCES Collectives(IDcollective);
+ALTER TABLE emprunt_location ADD CONSTRAINT FK_emprunt_location_IDcollective FOREIGN KEY (IDcollective) REFERENCES Collectives(IDcollective) ON DELETE CASCADE;
 ALTER TABLE liste_de_materiel_collective ADD CONSTRAINT FK_liste_de_materiel_collective_IDtypeMat FOREIGN KEY (IDtypeMat) REFERENCES Type_de_materiel(IDtypeMat);
-ALTER TABLE liste_de_materiel_collective ADD CONSTRAINT FK_liste_de_materiel_collective_IDcollective FOREIGN KEY (IDcollective) REFERENCES Collectives(IDcollective);
-ALTER TABLE CollCotations ADD CONSTRAINT FK_CollCotations_IDcollective FOREIGN KEY (IDcollective) REFERENCES Collectives(IDcollective);
+ALTER TABLE liste_de_materiel_collective ADD CONSTRAINT FK_liste_de_materiel_collective_IDcollective FOREIGN KEY (IDcollective) REFERENCES Collectives(IDcollective) ON DELETE CASCADE;
+ALTER TABLE CollCotations ADD CONSTRAINT FK_CollCotations_IDcollective FOREIGN KEY (IDcollective) REFERENCES Collectives(IDcollective) ON DELETE CASCADE;
 ALTER TABLE CollCotations ADD CONSTRAINT FK_CollCotations_IDcotation FOREIGN KEY (IDcotation) REFERENCES cotation(IDcotation);
 

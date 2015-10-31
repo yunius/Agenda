@@ -7,12 +7,20 @@
         
         {% set id = collective.idcollective %}
         
-        <div class="container monContenu">
+        <div class="container monContenu actiContainer_{{collective.typeActivite.IDtypeActivite}}">
             <div class="row">
-                <div class="col-md-2 col-xs-3">activité :{{ collective.typeActivite.activiteLibelle }}</div>
+                <div class="col-md-2 col-xs-3">
+                    <div class="row"><div class="actiIcon_{{collective.typeActivite.IDtypeActivite}}"></div></div>
+                    <div class="row">{{ collective.typeActivite.activiteLibelle }}</div></div>
+                    
 
                 <div class="col-md-4 col-xs-7">  
-                    <div class="row">{{collective.collDateDebut}}</div>
+                    <div class="row">
+                        <div class="actiCartouche_">
+                            {{collective.collDateDebut|localizeddate('full', 'none')}} {{collective.collDateFin}}
+                        </div>
+                        
+                    </div>
                     <div class="row">{{collective.collTitre}}</div>
                     <div class="row">{% for rdv in collective.rdv %} rdv {{loop.index}}: {{ rdv.heureRDV }} - {{ rdv.lieu.lieuLibelle }}<br />{% endfor %}</div>
                 </div>
@@ -27,10 +35,38 @@
                         <div class="col-md-6 col-xs-6">encadrant :{{collective.adherent.prenomAdherent}} {{collective.adherent.nomAdherent}}</div>
                         <div class="col-md-6 col-xs-6">inscription nb inscrit : {{participants[id]}} / {{collective.collNbParticipantMax}} 
                         il reste {{(collective.collNbParticipantMax)-(participants[id])}} place
-                        <h5><a href="{{ path('fichecollective',{'id': id} ) }}">S'inscrire à cette collective</a></h5>
-                        {% if app.user == collective.adherent %}
-                        <h5><a href="{{ path('modificationCollective',{'id': id} ) }}">modifier cette collective</a></h5>
-                        {% endif %}
+                            <div class="row">
+                                <h5><a href="{{ path('fichecollective',{'id': id} ) }}">S'inscrire à cette collective</a></h5>
+                            </div>
+                            <div class="row">
+                                {% if app.user == collective.adherent %}
+                                    <h5><a href="{{ path('modificationCollective',{'id': id} ) }}"><button class="btn btn-info col-md-3 col-md-offset-5" title="Modifier la collective"><span class="glyphicon glyphicon-pencil"></span></button></a></h5>
+                                    <button type="button" class="btn btn-danger col-md-3 col-md-offset-1" title="Supprimer la collective" data-toggle="modal" data-target="#SuppCollDialog{{ collective.idcollective }}"><span class="glyphicon glyphicon-remove"></span></button>
+                                        <!-- fenetre modal -->
+                                        <div class="modal fade" id="SuppCollDialog{{ collective.idcollective }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                        <h4 class="modal-title" id="myModalLabel">Confirmation de suppression</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Voulez vous vraiment supprimer la collective "{{ collective.collTitre }}" ?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <form id="deleteForm-{{ loop.index }}" method="post" action="{{path('CollectiveAsuppr')}}">
+                                                            <input type="hidden" name="IDcollAsuppr" value="{{collective.IDcollective}}" />
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                        <button  form="deleteForm-{{ loop.index }}" type="submit" class="btn btn-danger">Confirmer</button>
+                                                        </form>
+                                                    </div>
+                                                </div><!-- /.modal-content -->
+                                            </div><!-- /.modal-dialog -->
+                                        </div><!-- /.modal -->
+                                {% endif %}
+                            </div>
+                        
+                        
                         </div> 
                     </div>
 

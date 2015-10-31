@@ -10,6 +10,7 @@ use Agenda\Form\Type\CollectiveType;
 use Agenda\Form\Type\CollCotSupprType;
 
 
+
 $app->before(
     function (Request $request) use ($app) {
         $app['translator']->setLocale($request->getPreferredLanguage(['en', 'fr']));
@@ -31,6 +32,7 @@ $app->get('/login', function(Request $request) use($app) {
 
 //envoi l'accueil
 $app->get('/', function () use($app) {
+    
     $collectives = $app['dao.collective']->findAll();
     $participants = array();
     $cotations = array();
@@ -309,13 +311,37 @@ $app->match('/modificationCollective/{id}', function ($id, Request $request) use
     $CotSupprSubmitFormView = $CotSupprSubmitForm->createView();
     
     $fil = ' / Creation d\'une nouvelle collective';
-    return $app['twig']->render('modificationCollective.html.twig', array('fil' => $fil, 'activiteFormView' => $activiteFormView, 'cotations' => $collCotations, 'CotSupprSubmitFormView' =>$CotSupprSubmitFormView));
+    return $app['twig']->render('modificationCollective.html.twig', array('fil' => $fil, 
+                                                                           'activiteFormView' => $activiteFormView, 
+                                                                           'cotations' => $collCotations,
+                                                                           'CotSupprSubmitFormView' =>$CotSupprSubmitFormView, 
+                                                                           'collective' =>$collective,
+                                                                           ));
 })->bind('modificationCollective');
 
 
 
 
+/**********************************************************************************************************************/
+
+
+
+//reçoit une requete de suppression CollectiveCotation et renvoi vers la page de modification
 $app->match('/CollectiveCotationAsuppr/', function(Request $request) use($app) {
-    var_dump($_POST);
-    return $app['twig']->render('CollectiveCotationAsuppr.html.twig');
+    $IDcollective = $_POST['IDcollAsuppr'];
+    $IDcotation = $_POST['cotationAsuppr'];
+    $app['dao.collectivecotation']->delete($IDcollective, $IDcotation );
+    return $app->redirect('/modificationCollective/'.$IDcollective);
 })->bind('CollectiveCotationAsuppr');
+
+//reçoit une requete de suppression Collective et renvoi vers l'index
+$app->match('/CollectiveAsuppr/', function(Request $request) use($app) {
+    $IDcollective = $_POST['IDcollAsuppr'];
+    $app['dao.collective']->delete($IDcollective);
+    return $app->redirect('/');
+})->bind('CollectiveAsuppr');
+
+
+$app->match('/getcotation/', function(Request $request) use($app) {
+    
+})->bind('getcotation');

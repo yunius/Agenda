@@ -1,3 +1,4 @@
+//fonction pour l'animation des dropdown
 $('.dropdown').on('show.bs.dropdown', function(e){
                 $(this).find('.dropdown-menu').first().stop(true, true).slideDown();
             });
@@ -9,6 +10,7 @@ $('.dropdown').on('hide.bs.dropdown', function(e){
 
 //********************************************************************************************////
 
+//fonction pour activer l'autocompletion de certain select
 $(function() {
 //  $('#testform').submit(function(e){
 //    e.preventDefault();
@@ -44,3 +46,36 @@ $(function() {
     }
   });
 });
+
+
+//********************************************************************************************////
+
+
+$(document).ready(function()
+{
+	$(".selectActivite").change(function()
+	{
+		var idA=$(this).val();
+		var dataString = 'idA='+ idA;
+	
+		$.ajax
+		({
+			type: "POST",
+			url: "/getCotation.php",
+			data: dataString,
+			cache: false,
+			success: function(html)
+			{
+				$(".selectCotation").html(html);
+			} 
+		});
+	});
+	
+});
+
+
+
+
+//********************************************************************************************////
+
+

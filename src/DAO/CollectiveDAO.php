@@ -119,6 +119,10 @@ class CollectiveDAO extends DAO {
         
     }
     
+    public function delete($IDcollective) {
+        $this->getDB()->delete('collectives', array('IDcollective' => $IDcollective));
+    }
+    
     protected function buildDomainObject($row) {
         $collective = new Collective();
         $collective->setIDcollective($row['IDcollective']);
