@@ -240,7 +240,7 @@ CREATE TABLE co_encadrant(
 CREATE TABLE commentaire(
         ComCompteur   int NOT NULL,
         contenu       Text CHARACTER SET utf8 COLLATE utf8_general_ci ,
-        comHorodateur TIMESTAMP DEFAULT CURRENT_TIME ,
+        comHorodateur TIMESTAMP NOT NULL,
         IDadherent    Int NOT NULL ,
         IDcollective  Int NOT NULL ,
         PRIMARY KEY (ComCompteur, IDadherent ,IDcollective )

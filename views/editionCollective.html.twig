@@ -13,7 +13,7 @@
             </ul>
         </div>
     </div>
-    
+    {{ form_start(activiteFormView) }}
     <div class="tab-content">
         <div class="tab-pane fade in active" id="description">
             <div class="container monContenu">
@@ -21,16 +21,16 @@
                 
                 <div class="row">
                     <div col class="col-md-2">
-                    {{ form_start(activiteFormView) }}
+                    
                         
                         {{ form_label(activiteFormView.typeActivite) }}
                         {{form_errors(activiteFormView.typeActivite)}}
-                        {{form_widget(activiteFormView.typeActivite)}}
+                        {{form_widget(activiteFormView.typeActivite, { attr: { 'class' : 'selectActivite'} })}}
                                 
                         
                     </div>
                                 
-                    <div col class="col-md-5">
+                    <div col class="col-md-6">
                         <div class="row">
                             {{ form_label(activiteFormView.collTitre) }}
                             {{form_errors(activiteFormView.collTitre)}}
@@ -42,7 +42,8 @@
                             {{form_errors(activiteFormView.collDateDebut)}}
                             {{form_widget(activiteFormView.collDateDebut)}}
                         </div>
-                        <div class="row">                          
+                        <div class="row"> 
+                            {{ form_label(activiteFormView.objectif) }} 
                             {{form_errors(activiteFormView.objectif)}}
                             {{form_widget(activiteFormView.objectif)}}
                         </div>
@@ -50,7 +51,7 @@
                         
 
                     </div>
-                    <div col class="col-md-5">
+                    <div col class="col-md-4">
                         <div class="row">
                             {{form_label(activiteFormView.adherent)}} 
                             {{form_errors(activiteFormView.adherent)}}
@@ -60,7 +61,7 @@
                         <div class="row">
                             {{form_label(activiteFormView.cotation)}} 
                             {{form_errors(activiteFormView.cotation)}}
-                            {{form_widget(activiteFormView.cotation)}}
+                            {{form_widget(activiteFormView.cotation , { attr: { 'class' : 'selectCotation'} })}}
                             <input type="submit" class="btn btn-primary" value="Ajouter une cotation"/>
                         </div>
                     </div>
@@ -69,8 +70,8 @@
                     <div class="row">
                         boutons
                     </div>
-                            <input type="submit" class="btn btn-primary" value="Enregistrer"/>
-                    {{ form_end(activiteFormView) }}
+                            <input {#form="collective"#} type="submit" class="btn btn-primary" value="Enregistrer"/>
+                    
             </div>            
         </div>
         
@@ -87,5 +88,5 @@
         </div>
         
     </div><!-- tab-content -->
-    
+    {{ form_end(activiteFormView) }}
 {% endblock %}

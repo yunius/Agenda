@@ -25,15 +25,21 @@ class CotationListDAO extends DAO{
     
     public function findAllByTypeActivite($IDtypeActivite) {
         $sql = "SELECT * FROM liste_de_cotation WHERE IDtypeActivite=?";
-        
-                
+        $result = $this->getDB()->fetchAll($sql, array($IDtypeActivite));
+               
+        $cotations = array();
+        foreach ($result as $row) {
+            $IDcotation = $row['IDcotation'];
+            $cotations[$IDcotation] = $this->buildDomainObject($row);            
+        }
+        return $cotations;
     }
     
     protected function buildDomainObject($row) {
         $cotationList = new CotationList();
         $cotationList->setIDtypeActivite($row['IDtypeActivite']);
         if(array_key_exists('IDcotation', $row)) {
-            $IDcotation = $row['IDlieu'];
+            $IDcotation = $row['IDcotation'];
             $cotation = $this->cotationDAO->find($IDcotation);
             $cotationList->setCotation($cotation);
         }

@@ -28,15 +28,31 @@ VALUES
 INSERT INTO `agenda`.`cotation` (`IDcotation`, `LibelleCotation`, `ValeurCotation`) 
 VALUES 
 (NULL, 'alpinisme', 'F'),
+(NULL, 'alpinisme', 'PD'),
 (NULL, 'alpinisme', 'AD'),
 (NULL, 'alpinisme', 'TD'),
+(NULL, 'alpinisme', 'ED'),
+(NULL, 'Physique', '1'),
 (NULL, 'Physique', '2'),
 (NULL, 'Physique', '3'),
 (NULL, 'Physique', '4'),
+(NULL, 'technique', '1'),
 (NULL, 'technique', '2'),
 (NULL, 'technique', '3'),
 (NULL, 'technique', '4'),
-(NULL, 'alpinisme', 'PD');
+(NULL, 'escalade', '3a'),
+(NULL, 'escalade', '3b'),
+(NULL, 'escalade', '3c'),
+(NULL, 'escalade', '4a'),
+(NULL, 'escalade', '4b'),
+(NULL, 'escalade', '4c'),
+(NULL, 'escalade', '5a'),
+(NULL, 'escalade', '5b'),
+(NULL, 'escalade', '5c'),
+(NULL, 'escalade', '6a'),
+(NULL, 'escalade', '6b'),
+(NULL, 'escalade', '6c');
+
 
 INSERT INTO `agenda`.`pays` (`IDpays`, `nomPays`) 
 VALUES 
@@ -83,7 +99,22 @@ VALUES
 (NULL, 'Le Pic d''Er', '1'),
 (NULL, 'la table des trois rois', '3'),
 (NULL, 'le petit vignemale', '4'),
+(NULL, 'PIC BAREILLES', '1'),
+(NULL, 'pic permayou', '1'),
+(NULL, 'Col de louvie', '1'),
+(NULL, 'Pic de Serisse', '1'),
+(NULL, 'Pic Hourcat', '1'),
+(NULL, 'PIC DE LA GENTIANE', '1'),
+(NULL, 'Plaa dou Soum', '1'),
+(NULL, 'LE LAURIOLLE', '1'),
+(NULL, 'Pic du midi d''Ossau', '1'),
+(NULL, 'Pic de peyrelue', '1'),
+(NULL, 'pic de ger', '1'),
+(NULL, 'arguibelle', '1'),
+(NULL, 'Rocher d''aran', '1'),
+(NULL, 'Le Balaïtous', '1'),
 (NULL, 'Ossau face nord', '1');
+
 
 
 INSERT INTO `agenda`.`adherents` (`IDadherent`, `numLicence`, `statut`, `nomAdherent`, `prenomAdherent`, `pseudoAdherent`, `motDePasseAdherent`, `adherent_salt` , `DateNaissAdherent`, `genreAdherent`, `MailAdherent`, `adherentLibelleRue`, `adherentNumRue`, `adherentNumTel`, `Vehicule`, `co_voitureur`, `CompteActif`, `IDcommune`, `IDclub`, `roleAdherent`) 
@@ -169,12 +200,49 @@ VALUES
 
 INSERT INTO `agenda`.`liste_de_cotation` (`IDtypeActivite`, `IDcotation`) 
 VALUES 
-('1', '5'),
 ('1', '6'),
 ('1', '7'),
 ('1', '8'),
 ('1', '9'),
-('1', '10');
+('1', '10'),
+('1', '11'),
+('1', '12'),
+('1', '13'),
+('2', '1'),
+('2', '2'),
+('2', '3'),
+('2', '4'),
+('2', '5'),
+('3', '14'),
+('3', '15'),
+('3', '16'),
+('3', '17'),
+('3', '18'),
+('3', '19'),
+('3', '20'),
+('3', '21'),
+('3', '22'),
+('3', '23'),
+('3', '24'),
+('3', '25'),
+('4', '6'),
+('4', '7'),
+('4', '8'),
+('4', '9'),
+('4', '10'),
+('4', '11'),
+('4', '12'),
+('4', '13'),
+('5', '6'),
+('5', '7'),
+('5', '8'),
+('5', '9'),
+('5', '10'),
+('5', '11'),
+('5', '12'),
+('5', '13');
+
+
 
 INSERT INTO `agenda`.`collcotations` (`IDcollective`, `IDcotation`) 
 VALUES 

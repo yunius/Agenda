@@ -61,17 +61,36 @@ class CollectiveDAO extends DAO {
     }
 
     public function findAll() {
-    $sql = "SELECT * FROM collectives ORDER BY collDateDebut";
-    $result = $this->getDB()->fetchAll($sql);
+        $sql = "SELECT * FROM collectives ORDER BY collDateDebut";
+        $result = $this->getDB()->fetchAll($sql);
 
-    $collectives = array();
-    foreach ($result as $row) {
-        $IDcollective = $row['IDcollective'];
-        $collectives[$IDcollective] = $this->buildDomainObject($row);            
-    }
-    return $collectives;
+        $collectives = array();
+        foreach ($result as $row) {
+            $IDcollective = $row['IDcollective'];
+            $collectives[$IDcollective] = $this->buildDomainObject($row);            
+        }
+        return $collectives;
         
     }
+    
+    public function findAllByFilter($debut = NULL, $fin = NULL, $activite = NULL, $IDadherent = NULL) {
+        if (isset($debut) && isset($fin)) {
+            $where1 = 'WHERE collDateDebut BETWEEN ? AND ?';
+        }else {
+            $where1 = '';
+        }
+        $sql = "SELECT * FROM collectives ".$where1." ORDER BY collDateDebut ";
+        $result = $this->getDB()->fetchAll($sql, array($debut, $fin ));
+
+        $collectives = array();
+        foreach ($result as $row) {
+            $IDcollective = $row['IDcollective'];
+            $collectives[$IDcollective] = $this->buildDomainObject($row);            
+        }
+        return $collectives;
+        
+    }
+    
     
     public function save(Collective $collective) {
         $typeactivite = $collective->getTypeActivite();

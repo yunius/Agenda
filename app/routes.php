@@ -1,4 +1,6 @@
 <?php
+include_once 'utils.php';
+
 use Symfony\Component\HttpFoundation\Request;
 use Agenda\Domain\Commentaire;
 use Agenda\Domain\Participant;
@@ -8,6 +10,7 @@ use Agenda\Form\Type\CommentType;
 use Agenda\Form\Type\ParticipantSubmitType;
 use Agenda\Form\Type\CollectiveType;
 use Agenda\Form\Type\CollCotSupprType;
+use Agenda\Form\Type\filtreType;
 
 
 
@@ -31,9 +34,43 @@ $app->get('/login', function(Request $request) use($app) {
 
 
 //envoi l'accueil
-$app->get('/', function () use($app) {
+$app->match('/', function (Request $request) use($app) {
     
-    $collectives = $app['dao.collective']->findAll();
+    //recuperer les infos pour les filtre
+    $activites = $app['dao.typeactivite']->findAll();
+    $activiteList = array();    
+    foreach ($activites as $activite) {
+        $IDactivite = $activite->getIDtypeActivite();
+        $activiteList[$IDactivite] = $activite->getActiviteLibelle();         
+    }
+    
+    $encadrants = $app['dao.encadrant']->findAll();
+    $encadrantList = array();
+    foreach ($encadrants as $encadrant) {
+        $IDadherent = $encadrant->getAdherent()->getIDadherent();
+        $nom = $encadrant->getAdherent()->getNomAdherent();
+        $prenom = $encadrant->getAdherent()->getPrenomAdherent();
+        $encadrantList[$IDadherent] = $prenom.' '.$nom;
+    }
+    
+    $filtreForm = $app['form.factory']->create(new filtreType($activiteList, $encadrantList));
+    $filtreForm->handleRequest($request);
+    
+    if($filtreForm->isSubmitted()) {
+        var_dump($_POST);
+    }
+    $filtreFormView = $filtreForm->createView();
+    
+    $semaineActuelle = date('W');
+    $semaine = date('W');
+    $dates = afficheDateSemaine($semaineActuelle);
+    $lundi = $dates['lundiString'];
+    $dimanche = $dates['dimancheString'];
+    $debut = $dates['lundiIso']->format('Ymd');
+    $fin = $dates['dimancheIso']->format('Ymd') ;
+    $activite = '';
+    $adherent = '';
+    $collectives = $app['dao.collective']->findAllByFilter($debut, $fin, $activite, $adherent);
     $participants = array();
     $cotations = array();
     
@@ -48,9 +85,76 @@ $app->get('/', function () use($app) {
     return $app['twig']->render('index.html.twig', ['collectives' => $collectives, 
                                                     'participants' => $participants,
                                                     'cotations' => $cotations,
-                                                    'fil' => $fil
+                                                    'fil' => $fil,
+                                                    'lundi' => $lundi,
+                                                    'dimanche' => $dimanche,
+                                                    'semaine' => $semaine,
+                                                    'semaineActuelle' => $semaineActuelle,
+                                                    'filtreFormView' => $filtreFormView
                                                     ]);
 })->bind('Acceuil');
+
+//**********************************************************************************************************//
+
+//envoi l'accueil avec facteur temporel
+$app->match('/{semaine}', function ($semaine, Request $request) use($app) {
+    
+    //recuperer les infos pour les filtre
+    $activites = $app['dao.typeactivite']->findAll();
+    $activiteList = array();    
+    foreach ($activites as $activite) {
+        $IDactivite = $activite->getIDtypeActivite();
+        $activiteList[$IDactivite] = $activite->getActiviteLibelle();         
+    }
+    
+    $encadrants = $app['dao.encadrant']->findAll();
+    $encadrantList = array();
+    foreach ($encadrants as $encadrant) {
+        $IDadherent = $encadrant->getAdherent()->getIDadherent();
+        $nom = $encadrant->getAdherent()->getNomAdherent();
+        $prenom = $encadrant->getAdherent()->getPrenomAdherent();
+        $encadrantList[$IDadherent] = $prenom.' '.$nom;
+    }
+    
+    $filtreForm = $app['form.factory']->create(new filtreType($activiteList, $encadrantList));
+    $filtreForm->handleRequest($request);
+    
+    if($filtreForm->isSubmitted()) {
+        var_dump($_POST);
+    }
+    $filtreFormView = $filtreForm->createView();
+    
+    $semaineActuelle = date('W');
+    $dates = afficheDateSemaine($semaine);
+    $lundi = $dates['lundiString'];
+    $dimanche = $dates['dimancheString'];
+    $debut = $dates['lundiIso']->format('Ymd');
+    $fin = $dates['dimancheIso']->format('Ymd') ;
+    $activite = '';
+    $adherent = '';
+    $collectives = $app['dao.collective']->findAllByFilter($debut, $fin, $activite, $adherent);
+    $participants = array();
+    $cotations = array();
+    
+    foreach ($collectives as $collective) {
+        $id = $collective->getIDcollective();
+        $nb = $app['dao.participant']->countParticipant($collective);
+        $participants[$id] = $nb;
+        $cotations[$id] = $app['dao.collectivecotation']->findAll($id);
+    }
+    
+    $fil = '';
+    return $app['twig']->render('index.html.twig', ['collectives' => $collectives, 
+                                                    'participants' => $participants,
+                                                    'cotations' => $cotations,
+                                                    'fil' => $fil,
+                                                    'lundi' => $lundi,
+                                                    'dimanche' => $dimanche,
+                                                    'semaine' => $semaine,
+                                                    'semaineActuelle' => $semaineActuelle,
+                                                    'filtreFormView' => $filtreFormView
+                                                    ]);
+})->bind('accueilFiltre');
 
 
 //***************************************************************************************************************/
@@ -195,12 +299,14 @@ $app->match('/editionCollective/', function(Request $request) use ($app) {
         $app['dao.collective']->save($collective);
         $idcoll = $collective->getIDcollective();
         
-        $collCotation = new CollectiveCotation();
-        $IDnewCotation = $_POST['collective']['cotation'];
-        $newCotation = $app['dao.cotation']->find($IDnewCotation);
-        $collCotation->setCotation($newCotation);
-        $collCotation->setIDcollective($idcoll);
-        $app['dao.collectivecotation']->save($collCotation);
+        if(is_numeric($_POST['collective']['cotation'])) {
+            $collCotation = new CollectiveCotation();
+            $IDnewCotation = $_POST['collective']['cotation'];
+            $newCotation = $app['dao.cotation']->find($IDnewCotation);
+            $collCotation->setCotation($newCotation);
+            $collCotation->setIDcollective($idcoll);
+            $app['dao.collectivecotation']->save($collCotation);
+        }
         
         return $app->redirect('/modificationCollective/'.$idcoll);
     }
@@ -218,6 +324,8 @@ $app->match('/editionCollective/', function(Request $request) use ($app) {
 
 //envoi la page de modification collective
 $app->match('/modificationCollective/{id}', function ($id, Request $request) use ($app) {
+    
+    $collective = $app['dao.collective']->find($id);
     
     $activites = $app['dao.typeactivite']->findAll();
     $activiteList = array();    
@@ -241,17 +349,18 @@ $app->match('/modificationCollective/{id}', function ($id, Request $request) use
         $prenom = $encadrant->getAdherent()->getPrenomAdherent();
         $encadrantList[$IDadherent] = $prenom.' '.$nom;
     }
-    
-    $cotations = $app['dao.cotation']->findAll();
+     
+    $idA = $collective->getTypeActivite()->getIDtypeActivite();
+    $cotations = $app['dao.cotationList']->findAllByTypeActivite($idA);
     $cotationsList = array();
     foreach ($cotations as $cotation) {
-        $IDcotation = $cotation->getIDcotation();
-        $libelle = $cotation->getLibelleCotation();
-        $valeur = $cotation->getValeurCotation();
+        $IDcotation = $cotation->getCotation()->getIDcotation();
+        $libelle = $cotation->getCotation()->getLibelleCotation();
+        $valeur = $cotation->getCotation()->getValeurCotation();
         $cotationsList[$IDcotation] =$libelle.' '.$valeur;
     }
     //$collective = new Collective();
-    $collective = $app['dao.collective']->find($id);
+    
     $collCotations = $app['dao.collectivecotation']->findAll($id);
     //var_dump($collective);
     $titre = $collective->getCollTitre();
@@ -296,11 +405,15 @@ $app->match('/modificationCollective/{id}', function ($id, Request $request) use
         $app['dao.collective']->save($collective);
         
         $collCotation = new CollectiveCotation();
-        $IDnewCotation = $_POST['collective']['cotation'];
-        $newCotation = $app['dao.cotation']->find($IDnewCotation);
-        $collCotation->setCotation($newCotation);
-        $collCotation->setIDcollective($id);
-        $app['dao.collectivecotation']->save($collCotation);
+        
+        if(is_numeric($_POST['collective']['cotation'])) {
+            $IDnewCotation = $_POST['collective']['cotation'];
+            $newCotation = $app['dao.cotation']->find($IDnewCotation);
+            $collCotation->setCotation($newCotation);
+            $collCotation->setIDcollective($id);
+            $app['dao.collectivecotation']->save($collCotation);
+        }
+        
         //$idcoll = $collective->getIDcollective();
         return $app->redirect('/modificationCollective/'.$id);
     }
@@ -344,4 +457,18 @@ $app->match('/CollectiveAsuppr/', function(Request $request) use($app) {
 
 $app->match('/getcotation/', function(Request $request) use($app) {
     
+    if($_POST['idA']) {
+    $cotationlistDAO = new CotationListDAO;
+    $idtypeActivite=$_POST['idA'];
+    $cotations = $cotationlistDAO->findAllByTypeActivite($idtypeActivite);
+    //$cotationsList = array();
+    ?><option selected="selected">-cotation à ajouter-</option><?php
+    foreach ($cotations as $cotation) {
+        $IDcotation = $cotation->getCotation()->getIDcotation();
+        $libelle = $cotation->getCotation()->getLibelleCotation();
+        $valeur = $cotation->getCotation()->getValeurCotation();
+        //$cotationsList[$IDcotation] =$libelle.' '.$valeur;
+        ?><option value="<?php echo $IDcotation; ?>"><?php echo $libelle; ?> - <?php echo $valeur; ?></option><?php
+    }
+}
 })->bind('getcotation');

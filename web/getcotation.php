@@ -1,5 +1,4 @@
 <?php
-
 include('dbconfig.php');
 if($_POST['idA'])
 {
@@ -10,7 +9,7 @@ if($_POST['idA'])
                                   WHERE IDtypeActivite=:id
                                   ORDER BY LibelleCotation");
 	$stmt->execute(array(':id' => $id));
-	?><option selected="selected">selectionner cotation :</option><?php
+	?><option selected="selected">-cotation à ajouter-</option><?php
 	while($row=$stmt->fetch(PDO::FETCH_ASSOC))
 	{
 		?>
@@ -19,3 +18,20 @@ if($_POST['idA'])
 	}
 }
 
+//use Agenda\Domain\CotationList;
+//use Agenda\DAO\CotationListDAO;
+//
+//if($_POST['idA']) {
+//    $cotationlistDAO = new CotationListDAO;
+//    $idtypeActivite=$_POST['idA'];
+//    $cotations = $cotationlistDAO->findAllByTypeActivite($idtypeActivite);
+//    //$cotationsList = array();
+//    ?><!--<option selected="selected">-cotation à ajouter-</option><?php
+//    foreach ($cotations as $cotation) {
+//        $IDcotation = $cotation->getCotation()->getIDcotation();
+//        $libelle = $cotation->getCotation()->getLibelleCotation();
+//        $valeur = $cotation->getCotation()->getValeurCotation();
+//        //$cotationsList[$IDcotation] =$libelle.' '.$valeur;
+//        ?><option value="<?php //echo $IDcotation; ?>"><?php //echo $libelle; ?> - <?php //echo $valeur; ?></option><?php
+//    }
+//}

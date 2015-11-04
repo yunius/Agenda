@@ -133,6 +133,20 @@ body {
 /**
 /****
 /****** ****/
+.barreDate {
+    text-align: center;
+}
+#overrideBootstrap .btn-primary {
+    margin-top: 3px;
+}
+
+#mesfiltres {
+    display: none;
+}
+
+input::-webkit-calendar-picker-indicator {
+    display: none;
+}
 
 .monContenu {
     background-color: #ffffff;
@@ -151,6 +165,48 @@ body {
     
 }
 
+.ficheCollective {
+    font-size: 1.5em;
+}
+
+.accueilTitre {
+    margin-top: 15px;
+    font-weight: bolder;
+    font-size: 1.5em;
+    margin-left: 20px;
+}
+.accueilSecteur {
+    margin-top: 0;
+    font-size: 1.3em;
+    font-style: italic;
+    margin-left: 20px;
+}
+.acceuilRDV {
+    margin-top: 15px;
+}
+.observation {
+    font-style: oblique;
+}
+
+.encartMateriel {
+    text-align: left;
+}
+
+.cotationStylePhysique {
+    color: #FF8000;
+    font-weight: bold;
+    
+}
+.cotationStyletechnique {
+    color:#0101DF;
+    font-weight: bold;
+    text-shadow:none;
+    
+}
+
+#supprWrapper {
+    width: 30px;
+}
 /*.monContenu .row [class^="col-"] {
     
     background-color: #cccccc;
@@ -197,7 +253,7 @@ body {
     #overrideBootstrap .btn-danger, .btn-info {
     border: 2px solid white;
     border-radius: 25px;
-    height: 47px;
+    height: 44px;
     box-shadow: 2px 2px 2px #000000;
     }
 
@@ -212,6 +268,66 @@ body {
         height: 25px;
     }
 }
+/****Tooltip***************************/
+
+
+#overrideBootstrap .tooltip-inner{
+    width: 350px;
+    height: auto;
+    min-height: 70px;
+    font-size: 1.5em;
+    border-radius: 15px;
+    
+    
+}
+
+#overrideBootstrap .tooltip-arrow {
+    color: #337ab7;
+}
+/*.ui-tooltip, .arrow:after {
+    background: black;
+    border: 2px solid white;
+  }
+  .ui-tooltip {
+    padding: 10px 20px;
+    color: white;
+    border-radius: 20px;
+    font: bold 14px "Helvetica Neue", Sans-Serif;
+    text-transform: uppercase;
+    box-shadow: 0 0 7px black;
+  }
+  .arrow {
+    width: 70px;
+    height: 16px;
+    overflow: hidden;
+    position: absolute;
+    left: 50%;
+    margin-left: -35px;
+    bottom: -16px;
+  }
+  .arrow.top {
+    top: -16px;
+    bottom: auto;
+  }
+  .arrow.left {
+    left: 20%;
+  }
+  .arrow:after {
+    content: "";
+    position: absolute;
+    left: 20px;
+    top: -20px;
+    width: 25px;
+    height: 25px;
+    box-shadow: 6px 5px 9px -9px black;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+  .arrow.top:after {
+    bottom: -20px;
+    top: auto;
+  }*/
 
 
 
@@ -314,12 +430,12 @@ body {
 
 .actiCartouche_ {
     margin-top: 5px;
-    background-color: grey;
-    width: 80%;
+    width: 97%;
     padding: 5px;
     text-align: center;
     border: 2px solid white;
     border-radius: 10px;
+    box-shadow: 1px 1px 1px #000000;
 }
 
 
@@ -334,7 +450,16 @@ body {
     background-size: cover;
 }
 .actiContainer_1 {
-    background-color: rgba(67, 156, 43, 0.8);
+    background-color: rgba(67, 156, 43, 0.50);
+/*    background-image : url(/../img/randoCartouche.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;*/
+    
+}
+
+.actiCartouche_1 {
+    background-color: rgba(67, 156, 43, 0.50);
+    
 }
 
 
@@ -348,7 +473,13 @@ body {
     background-size: cover;
 }
 .actiContainer_2 {
-    background-color: rgba(233, 98, 32, 0.75);
+    background-color: rgba(233, 98, 32, 0.50);
+/*    background-image : url(/../img/rocher.cartouche.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;*/
+}
+.actiCartouche_2 {
+    background-color: rgba(233, 98, 32, 0.50);
 }
 
 /*****escalade*****/
@@ -361,7 +492,10 @@ body {
     background-size: cover;
 }
 .actiContainer_3 {
-    background-color: rgba(252, 198, 31, 0.75);
+    background-color: rgba(252, 198, 31, 0.50);
+}
+.actiCartouche_3 {
+    background-color: rgba(252, 198, 31, 0.50);
 }
 
 
@@ -375,8 +509,12 @@ body {
     background-size: cover;
 }
 .actiContainer_4 {
-    background-color: #239c39;
+    background-color: rgba(39, 133, 194, 0.50);
 }
+.actiCartouche_4 {
+    background-color: rgba(39, 133, 194, 0.50);
+}
+
 
 
 /*****Speleologie*****/
@@ -389,7 +527,10 @@ body {
     background-size: cover;
 }
 .actiContainer_5 {
-    background-color: rgba();
+    background-color: rgba(39, 133, 194, 0.75);
+}
+.actiCartouche_5 {
+    background-color: rgb(39, 133, 194);
 }
 
 /*****Velo-de-montagne*****/
@@ -404,7 +545,10 @@ body {
 }
 
 .actiContainer_6 {
-    background-color: #239c39;
+    background-color: rgba(30, 145, 46, 0.75);
+}
+.actiCartouche_6 {
+    background-color: rgb(30, 145, 46);
 }
 
 

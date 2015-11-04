@@ -12,6 +12,7 @@ and open the template in the editor.
         <link href="{{app.request.basepath}}/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="{{app.request.basepath}}/css/BoostrapTemplate.css" type="text/css" rel="stylesheet">
         <link href="{{app.request.basepath}}/css/selectize.css" type="text/css" rel="stylesheet">
+        <link href="{{app.request.basepath}}/css/jquery-ui.css" type="text/css" rel="stylesheet">
         
         <title>{% block title %}{% endblock %}</title>  
     </head>
@@ -62,11 +63,11 @@ and open the template in the editor.
             </div>
             
             
-            <div class="bandeau">                
+            {#<div class="bandeau">                
                 <H2>L'agenda des sorties collectives</H2>
                 
                 <div id="filAriane"><p><a href="{{ path('Acceuil')}}">Accueil</a><a href="">{{fil}}</a></p></div>                
-            </div>
+            </div>#}
             
         
         
@@ -106,11 +107,8 @@ and open the template in the editor.
                 </div> 
             </div>    
                     {% block content %}{% endblock %}
-                
-            
         
-        
-        
+        </script>
         <script type="text/javascript" src="{{app.request.basepath}}/lib/jquery/jquery.min.js"></script>
         <script type="text/javascript" src="{{app.request.basepath}}/lib/jquery/jquery-ui.js"></script>
         <script type="text/javascript" src="{{app.request.basepath}}/lib/jquery/selectize.min.js"></script>

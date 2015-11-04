@@ -39,19 +39,21 @@ class CollectiveType extends AbstractType {
                 ))
                 ->add('collTitre', 'text', array (
                     'attr' => array('placeholder' => 'Entrez un titre'),
-                    'label' => 'titre'
+                    'label' => 'Titre : '
                 ))
                 ->add('collDateDebut', 'date', array(
                     'widget' => 'single_text',
                     'format' => 'yyyy-MM-dd',
-                    'input' => 'timestamp'
+                    'input' => 'timestamp',
+                    'label' => 'Determinez la date de début : '
                 ))
                 
                 ->add('objectif', 'choice', array(
                     'choices' => $this->objectifs,
                     'placeholder' => 'Choisissez ou creez un objectif',
                     'expanded'=>false, 
-                    'multiple'=>false
+                    'multiple'=>false,
+                    'label' => 'Objectif :'
                 ))
                 
                 ->add('adherent', 'choice', array(
@@ -64,8 +66,9 @@ class CollectiveType extends AbstractType {
                 
                 ->add('cotation', 'choice', array(
                     'choices' => $this->cotations,
-                    'placeholder' => 'cotation',
+                    'placeholder' => '-cotation à ajouter-',
                     'label' => 'difficulté :',
+                    'required' => false,
                     'expanded'=>false, 
                     'multiple'=>false
                 ));

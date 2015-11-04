@@ -3,37 +3,60 @@
 {% block title %}Description de la Collective{% endblock %}
 
 {% block content %}
-    
-    <div class="container monContenu actiContainer_{{collective.typeActivite.IDtypeActivite}}">
+    {% set style = collective.typeActivite.IDtypeActivite %}
+    <div class="container monContenu ficheCollective actiContainer_{{collective.typeActivite.IDtypeActivite}} ficheCollective">
         <div class="row section">
-            <div class="col-md-2">{{ collective.typeActivite.activiteLibelle }}</div>
+            <div class="col-md-2">
+                <div class="row"><div class="actiIcon_{{style}}"></div></div>
+                <div class="row">{{ collective.typeActivite.activiteLibelle }}</div>
+            </div>
 
             <div class="col-md-6">
-                <div class="row">{{collective.collTitre}}</div>
-                <div class="row">{{collective.objectif.objectifLibelle}}</div>
-                <div class="row">{{collective.objectif.secteur.secteurLibelle}}</div>
+                <div class="row"><h1>{{collective.collTitre}}</h1></div>
+                <div class="row"><p>Objectif : {{collective.objectif.objectifLibelle}}</p></div>
+                <div class="row"><p>Secteur : {{collective.objectif.secteur.secteurLibelle}}</p></div>
                 
                 {% if collective.collDateFin is not null%}
-                    <div class="row">{{collective.collDateDebut}} - {{collective.collDateFin}}</div>
+                    <div class="row"><p>Date(s) de la collective: {{collective.collDateDebut}} - {{collective.collDateFin}}</p></div>
                 {% else %}
-                    <div class="row">{{collective.collDateDebut}}</div>
+                    <div class="row"><p>Date(s) de la collective: {{collective.collDateDebut}}</p></div>
                 {% endif %}
                 
-                <div class="row">Observation : <br />
+                <div class="row observation">Observation : <br />
                     <p>{{collective.collObservations}}</p>
                 </div>
 
             </div>
             <div class="col-md-4">
-                <div class="row"><h2>{{collective.adherent.prenomAdherent}} {{collective.adherent.nomAdherent}}</h2></div>
                 <div class="row">
+                    <div class="actiCartouche_ actiCartouche_{{style}}">
+                        encadrant :</br>
+                    <h2>{{collective.adherent.prenomAdherent}} {{collective.adherent.nomAdherent}}</h2>
+                    </div>
+                </div>
+                <div class="row actiCartouche_ actiCartouche_{{style}}">
+                    difficulté :</br>
                     {% for cotation in cotations %}
-                    <div class="col-md-3">difficulté {{cotation.cotation.LibelleCotation}}<br />{{cotation.cotation.valeurCotation}}</div>                    
+                    {% set cotationStyle = cotation.cotation.LibelleCotation %}    
+                    <div class="col-md-4 cotationStyle{{cotationStyle}}">
+                        <div class="row">{{cotation.cotation.LibelleCotation}}</div>
+                        <div class="row ">{{cotation.cotation.valeurCotation}}</div>
+                    </div>                    
                     {% endfor %}
                 </div>
-                <div class="row">Denivelé : {{collective.collDenivele}}m</div>
+                {% if collective.collDenivele is not null %}
+                <div class="row">
+                    <div class="row actiCartouche_ actiCartouche_{{style}}">
+                        Denivelé : {{collective.collDenivele}}m
+                    </div>
+                </div>    
+                {% endif %}
                 {% if collective.collNbLongueurs is not null %}
-                <div class="row">Nombre de longueur : {{collective.collNbLongueurs}}</div>
+                <div class="row">
+                    <div class="row actiCartouche_ actiCartouche_{{style}}">
+                        Nombre de longueur : {{collective.collNbLongueurs}}
+                    </div>
+                </div>
                 {% endif %}
             </div>
 
@@ -42,60 +65,62 @@
             <div class="col-md-2"></div>
 
             <div class="col-md-8">
-                <div class="row">MATERIEL</div>
-                <div class="row">
-                    <div class="col-md-2"></div>
-                    <div class="col-md-8">
-                        <div class="row">
-                            {% for materiel in listemateriel %}
-                            <div class="col-md-6">{{ materiel.TypeMateriel.typeMatLibelle }}</div>
-                            {% endfor %}
+                <div class="row actiCartouche_ actiCartouche_{{style}}">
+                    <div class="row">MATERIEL</div>
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-8 encartMateriel">
+                            <div class="row">
+                                {% for materiel in listemateriel %}
+                                <div class="col-md-6">{{ materiel.TypeMateriel.typeMatLibelle }}</div>
+                                {% endfor %}
+                            </div>
                         </div>
+                        <div class="col-md-2"></div>
+
+
                     </div>
-                    <div class="col-md-2"></div>
-                    
-                    
+                    <div class="row">materiel texte</div>
                 </div>
-                <div class="row">materiel texte</div>
             </div>
 
             <div class="col-md-2"></div>
 
         </div>
         <div class="row section">
-
+            
             <div class="col-md-1"></div>
 
             <div class="col-md-10">
-
-                <div class="row">
-                   <div class="col-md-4">resumé</div>
-                   <div class="col-md-4">PARTICIPANTS</div>
-                   <div class="col-md-4"></div> 
-                </div>
-
-                <div class="row">
-                   <div class="col-md-4">
-                       <div class="row">encadrants :</div>
-                       <div class="row">encadrant</div>
-                       <div class="row">coencadrant</div>
-                   </div>
-                    <div class="col-md-4">
-                       <div class="row">Participants validé :</div>
-                       {% for participant in participantValide %}
-                           <div class="row"> - {{ participant.adherent.prenomAdherent }} {{ participant.adherent.nomAdherent }}</div>
-                       {% endfor %}
-                           
+                <div class="row actiCartouche_ actiCartouche_{{style}}">
+                    <div class="row">
+                       <div class="col-md-4">resumé</div>
+                       <div class="col-md-4">PARTICIPANTS</div>
+                       <div class="col-md-4"></div> 
                     </div>
-                       
-                    <div class="col-md-4">
-                        <div class="row">Liste d'attente :</div>
-                        {% for participant in listeAttente %}
-                           <div class="row"> - {{ participant.adherent.prenomAdherent }} {{ participant.adherent.nomAdherent }}</div>
-                        {% endfor %}
-                    </div> 
-                </div>
 
+                    <div class="row">
+                       <div class="col-md-4">
+                           <div class="row">encadrants :</div>
+                           <div class="row">encadrant</div>
+                           <div class="row">coencadrant</div>
+                       </div>
+                        <div class="col-md-4">
+                           <div class="row">Participants validé :</div>
+                           {% for participant in participantValide %}
+                               <div class="row"> - {{ participant.adherent.prenomAdherent }} {{ participant.adherent.nomAdherent }}</div>
+                           {% endfor %}
+
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="row">Liste d'attente :</div>
+                            {% for participant in listeAttente %}
+                               <div class="row"> - {{ participant.adherent.prenomAdherent }} {{ participant.adherent.nomAdherent }}</div>
+                            {% endfor %}
+                        </div> 
+                    </div>
+                </div>
             </div>
 
             <div class="col-md-1"></div>
@@ -111,7 +136,9 @@
                     <div class="col-md-5">
                         <div class="row">rendez-vous :</div>
                         {% for rdv in collective.rdv %}  
-                        <div class="row">{{loop.index}}: {{ rdv.heureRDV }} - {{ rdv.lieu.lieuLibelle }}</div>
+                        <div class="row">
+                            <input type="radio" name="rdv" value="{{ rdv.heureRDV }}"> {{ rdv.heureRDV }} - {{ rdv.lieu.lieuLibelle }}
+                        </div>
                         {% endfor %}
                     </div>
                     <div class="col-md-5">Commentaire<br />
@@ -147,7 +174,7 @@
 
                                     </div>
                                     <div class="form-group">
-                                        <input type="submit" class="btn btn-primary" value="M'inscrire a cette collective" />
+                                        <input type="submit" class="btn btn-primary btn-lg" value="M'inscrire à cette collective" />
                                     </div>
                                 {{ form_end(participantSubmit) }}
                             {% else %}

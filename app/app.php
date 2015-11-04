@@ -129,6 +129,12 @@ $app['dao.encadrant'] = $app->share ( function ($app) {
     return $encadrantDAO;
 });
 
+$app['dao.cotationList'] = $app->share ( function ($app) {
+    $cotationListDAO = new Agenda\DAO\CotationListDAO($app['db']);
+    $cotationListDAO->setCotationDAO($app['dao.cotation']);
+    return $cotationListDAO;
+});
+
 
 
 
