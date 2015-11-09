@@ -182,7 +182,7 @@
                             {% elseif inscritAlaMemeDate == 1 %}
                                 Vous êtes déja inscrit à une autre collective prevu le même jour
                             {% else %}
-                                <a href="{{ path('login')}}">Connectez-vous</a> pour pouvoir vous incrire 
+                                <a href="{{ path('fichecollectiveInscription',{'id': collective.IDcollective})}}">Connectez-vous</a> pour pouvoir vous incrire 
                             {% endif %}
                         {% endif %}
                     </div>

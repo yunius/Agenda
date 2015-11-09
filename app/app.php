@@ -46,7 +46,7 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
     ),
     'security.access_rules' => array(
         array('^/editionCollective', 'ROLE_REDACTEUR'),
-//        array('/fichecollective', 'ROLE_USER')
+        array('/fichecollectiveInscription', 'ROLE_USER')
     )
 ));
             

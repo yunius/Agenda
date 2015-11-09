@@ -38,8 +38,12 @@ class AcceuilController {
      */
     public function accueilAction(Request $request, Application $app) {
         
-        //determiner les parametre de dates par defaut
         $semaineActuelle = date('W');
+        $action = $this->accueilSemaineAction($semaineActuelle, $request, $app);
+        return $action;
+        
+        //determiner les parametre de dates par defaut
+        /*$semaineActuelle = date('W');
         $semaine = date('W');
         $dates = afficheDateSemaine($semaineActuelle);
         $lundi = $dates['lundiString'];
@@ -126,7 +130,7 @@ class AcceuilController {
                                                         'FiltreEntete' => $FiltreEntete,
                                                         'filtreHidden' => $filtreHidden,
                                                         'filtreDateFinHidden' => $filtreDateFinHidden
-                                                        ]);
+                                                        ]);*/
     }
     
     /**
@@ -226,66 +230,5 @@ class AcceuilController {
                                                         'filtreHidden'=> $filtreHidden
                                                         ]);
     }
-    
-    
-//    public function accueilFiltreAction(Request $request, Application $app) {
-//        var_dump($_POST);
-//        //recuperer les infos pour les filtre par defaut (semaine presente)
-//        $activites = $app['dao.typeactivite']->findAll();
-//        $activiteList = array();    
-//        foreach ($activites as $activite) {
-//            $IDactivite = $activite->getIDtypeActivite();
-//            $activiteList[$IDactivite] = $activite->getActiviteLibelle();         
-//        }
-//
-//        $encadrants = $app['dao.encadrant']->findAll();
-//        $encadrantList = array();
-//        foreach ($encadrants as $encadrant) {
-//            $IDadherent = $encadrant->getAdherent()->getIDadherent();
-//            $nom = $encadrant->getAdherent()->getNomAdherent();
-//            $prenom = $encadrant->getAdherent()->getPrenomAdherent();
-//            $encadrantList[$IDadherent] = $prenom.' '.$nom;
-//        }
-//
-//        $filtreForm = $app['form.factory']->create(new filtreType($activiteList, $encadrantList));
-//        $filtreForm->handleRequest($request);
-//
-//        if($filtreForm->isSubmitted()) {
-//            var_dump($_POST);
-//        }
-//        $filtreFormView = $filtreForm->createView();
-//
-//        $semaineActuelle = date('W');
-//        $semaine = date('W');
-//        $dates = afficheDateSemaine($semaineActuelle);
-//        $lundi = $dates['lundiString'];
-//        $dimanche = $dates['dimancheString'];
-//        $debut = $dates['lundiIso']->format('Ymd');
-//        $fin = $dates['dimancheIso']->format('Ymd') ;
-//        $activite = '';
-//        $adherent = '';
-//        $collectives = $app['dao.collective']->findAllByFilter($debut, $fin, $activite);
-//        $participants = array();
-//        $cotations = array();
-//
-//        foreach ($collectives as $collective) {
-//            $id = $collective->getIDcollective();
-//            $nb = $app['dao.participant']->countParticipant($collective);
-//            $participants[$id] = $nb;
-//            $cotations[$id] = $app['dao.collectivecotation']->findAll($id);
-//        }
-//
-//        $fil = '';
-//        return $app['twig']->render('index.html.twig', ['collectives' => $collectives, 
-//                                                        'participants' => $participants,
-//                                                        'cotations' => $cotations,
-//                                                        'fil' => $fil,
-//                                                        'lundi' => $lundi,
-//                                                        'dimanche' => $dimanche,
-//                                                        'semaine' => $semaine,
-//                                                        'semaineActuelle' => $semaineActuelle,
-//                                                        'filtreFormView' => $filtreFormView
-//                                                        ]);
-//    }
     
 }
