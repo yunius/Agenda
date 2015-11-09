@@ -84,16 +84,42 @@ class ParticipantDAO extends DAO{
         return $participants;
     }
     
-    public function countParticipant(Collective $collective) {
+    public function countParticipantValide(Collective $collective) {
         $IDcollective = $collective->getIDcollective();
-        $sql = "SELECT count(*) AS nbParticipant FROM participants WHERE IDcollective=?";
+        $sql = "SELECT count(*) AS nbParticipant FROM participants WHERE IDcollective=? AND IDetats=2";
         $result = $this->getDB()->fetchAll($sql, array($IDcollective));
-        
         
         foreach ($result as $row) {
                $nb = $row['nbParticipant'];      
         }
         return $nb;
+    }
+    
+    public function countParticipantAttente(Collective $collective) {
+        $IDcollective = $collective->getIDcollective();
+        $sql = "SELECT count(*) AS nbParticipant FROM participants WHERE IDcollective=? AND IDetats=1";
+        $result = $this->getDB()->fetchAll($sql, array($IDcollective));
+        
+        foreach ($result as $row) {
+               $nb = $row['nbParticipant'];      
+        }
+        return $nb;
+    }
+    
+    public function exists($IDcollective, $IDadherent) {
+        $sql = "SELECT count(*) AS count FROM participants WHERE IDcollective=? AND IDadherent=?";
+        $req = $this->getDB()->fetchAssoc($sql, array($IDcollective, $IDadherent));
+        return (bool)$req['count'];
+    }
+    
+    public function existsByDate($date, $IDadherent) {
+        $sql = "SELECT count(*) AS count FROM participants
+                JOIN collectives ON participants.IDcollective = collectives.IDcollective
+                WHERE collDateDebut=?
+                AND participants.IDadherent=?
+               ";
+        $req = $this->getDB()->fetchAssoc($sql, array($date, $IDadherent));
+        return (bool)$req['count'];
     }
 
 

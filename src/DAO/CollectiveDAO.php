@@ -73,23 +73,53 @@ class CollectiveDAO extends DAO {
         
     }
     
-    public function findAllByFilter($debut = NULL, $fin = NULL, $activite = NULL, $IDadherent = NULL) {
-        if (isset($debut) && isset($fin)) {
-            $where1 = 'WHERE collDateDebut BETWEEN ? AND ?';
-        }else {
-            $where1 = '';
+    public function findAllByFilter($debut = NULL, $fin = NULL, $IDactivite = NULL) {
+        
+        
+        
+        if (!empty($debut) && empty($IDactivite)) {
+            
+            if(!empty($fin)) {
+                $sql = "SELECT * FROM collectives 
+                        WHERE collDateDebut BETWEEN ? AND ? 
+                        ORDER BY collDateDebut ";
+                
+                $result = $this->getDB()->fetchAll($sql, array($debut, $fin ));
+            } else {
+                $sql = "SELECT * FROM collectives 
+                        WHERE collDateDebut = ? 
+                        ORDER BY collDateDebut ";
+                
+                $result = $this->getDB()->fetchAll($sql, array($debut));
+            }    
         }
-        $sql = "SELECT * FROM collectives ".$where1." ORDER BY collDateDebut ";
-        $result = $this->getDB()->fetchAll($sql, array($debut, $fin ));
-
+        if (!empty($debut) && !empty($IDactivite)) {
+            
+            if(!empty($fin)) {
+                $sql = "SELECT * FROM collectives 
+                        WHERE collDateDebut BETWEEN ? AND ?
+                        AND IDtypeActivite = ?
+                        ORDER BY collDateDebut ";
+                
+                $result = $this->getDB()->fetchAll($sql, array($debut, $fin, $IDactivite ));
+            } else {
+                $sql = "SELECT * FROM collectives 
+                        WHERE collDateDebut = ?
+                        AND IDtypeActivite = ?
+                        ORDER BY collDateDebut ";
+                
+                $result = $this->getDB()->fetchAll($sql, array($debut, $IDactivite));
+            }
+        }
+        
         $collectives = array();
         foreach ($result as $row) {
             $IDcollective = $row['IDcollective'];
             $collectives[$IDcollective] = $this->buildDomainObject($row);            
         }
         return $collectives;
-        
     }
+    
     
     
     public function save(Collective $collective) {

@@ -19,150 +19,26 @@ $app->before(
         $app['translator']->setLocale($request->getPreferredLanguage(['en', 'fr']));
     }
 );
-//envoi un formulaire d'authentification
-$app->get('/login', function(Request $request) use($app) {
-    $fil = ' / page d\'authentification';
-    return $app['twig']->render('login.html.twig', array(
-        'error'         => $app['security.last_error']($request),
-        'last_username' => $app['session']->get('_security.last_username'),
-        'fil' => $fil
-    ));
-})->bind('login');
+
+
+//$app->get('/', "Agenda\Controller\AcceuilController::semaineAction");
+$app->match('login', "Agenda\Controller\loginController::loginAction")->bind('login');
+
+$app->match('/', "Agenda\Controller\AcceuilController::accueilAction")->bind('accueil');
+
+$app->match('/{semaine}', "Agenda\Controller\AcceuilController::accueilSemaineAction")->bind('accueilSemaine');
+
+
+
 
 //***************************************************************************************************************/
-
-
-
-//envoi l'accueil
-$app->match('/', function (Request $request) use($app) {
-    
-    //recuperer les infos pour les filtre
-    $activites = $app['dao.typeactivite']->findAll();
-    $activiteList = array();    
-    foreach ($activites as $activite) {
-        $IDactivite = $activite->getIDtypeActivite();
-        $activiteList[$IDactivite] = $activite->getActiviteLibelle();         
-    }
-    
-    $encadrants = $app['dao.encadrant']->findAll();
-    $encadrantList = array();
-    foreach ($encadrants as $encadrant) {
-        $IDadherent = $encadrant->getAdherent()->getIDadherent();
-        $nom = $encadrant->getAdherent()->getNomAdherent();
-        $prenom = $encadrant->getAdherent()->getPrenomAdherent();
-        $encadrantList[$IDadherent] = $prenom.' '.$nom;
-    }
-    
-    $filtreForm = $app['form.factory']->create(new filtreType($activiteList, $encadrantList));
-    $filtreForm->handleRequest($request);
-    
-    if($filtreForm->isSubmitted()) {
-        var_dump($_POST);
-    }
-    $filtreFormView = $filtreForm->createView();
-    
-    $semaineActuelle = date('W');
-    $semaine = date('W');
-    $dates = afficheDateSemaine($semaineActuelle);
-    $lundi = $dates['lundiString'];
-    $dimanche = $dates['dimancheString'];
-    $debut = $dates['lundiIso']->format('Ymd');
-    $fin = $dates['dimancheIso']->format('Ymd') ;
-    $activite = '';
-    $adherent = '';
-    $collectives = $app['dao.collective']->findAllByFilter($debut, $fin, $activite, $adherent);
-    $participants = array();
-    $cotations = array();
-    
-    foreach ($collectives as $collective) {
-        $id = $collective->getIDcollective();
-        $nb = $app['dao.participant']->countParticipant($collective);
-        $participants[$id] = $nb;
-        $cotations[$id] = $app['dao.collectivecotation']->findAll($id);
-    }
-    
-    $fil = '';
-    return $app['twig']->render('index.html.twig', ['collectives' => $collectives, 
-                                                    'participants' => $participants,
-                                                    'cotations' => $cotations,
-                                                    'fil' => $fil,
-                                                    'lundi' => $lundi,
-                                                    'dimanche' => $dimanche,
-                                                    'semaine' => $semaine,
-                                                    'semaineActuelle' => $semaineActuelle,
-                                                    'filtreFormView' => $filtreFormView
-                                                    ]);
-})->bind('Acceuil');
-
-//**********************************************************************************************************//
-
-//envoi l'accueil avec facteur temporel
-$app->match('/{semaine}', function ($semaine, Request $request) use($app) {
-    
-    //recuperer les infos pour les filtre
-    $activites = $app['dao.typeactivite']->findAll();
-    $activiteList = array();    
-    foreach ($activites as $activite) {
-        $IDactivite = $activite->getIDtypeActivite();
-        $activiteList[$IDactivite] = $activite->getActiviteLibelle();         
-    }
-    
-    $encadrants = $app['dao.encadrant']->findAll();
-    $encadrantList = array();
-    foreach ($encadrants as $encadrant) {
-        $IDadherent = $encadrant->getAdherent()->getIDadherent();
-        $nom = $encadrant->getAdherent()->getNomAdherent();
-        $prenom = $encadrant->getAdherent()->getPrenomAdherent();
-        $encadrantList[$IDadherent] = $prenom.' '.$nom;
-    }
-    
-    $filtreForm = $app['form.factory']->create(new filtreType($activiteList, $encadrantList));
-    $filtreForm->handleRequest($request);
-    
-    if($filtreForm->isSubmitted()) {
-        var_dump($_POST);
-    }
-    $filtreFormView = $filtreForm->createView();
-    
-    $semaineActuelle = date('W');
-    $dates = afficheDateSemaine($semaine);
-    $lundi = $dates['lundiString'];
-    $dimanche = $dates['dimancheString'];
-    $debut = $dates['lundiIso']->format('Ymd');
-    $fin = $dates['dimancheIso']->format('Ymd') ;
-    $activite = '';
-    $adherent = '';
-    $collectives = $app['dao.collective']->findAllByFilter($debut, $fin, $activite, $adherent);
-    $participants = array();
-    $cotations = array();
-    
-    foreach ($collectives as $collective) {
-        $id = $collective->getIDcollective();
-        $nb = $app['dao.participant']->countParticipant($collective);
-        $participants[$id] = $nb;
-        $cotations[$id] = $app['dao.collectivecotation']->findAll($id);
-    }
-    
-    $fil = '';
-    return $app['twig']->render('index.html.twig', ['collectives' => $collectives, 
-                                                    'participants' => $participants,
-                                                    'cotations' => $cotations,
-                                                    'fil' => $fil,
-                                                    'lundi' => $lundi,
-                                                    'dimanche' => $dimanche,
-                                                    'semaine' => $semaine,
-                                                    'semaineActuelle' => $semaineActuelle,
-                                                    'filtreFormView' => $filtreFormView
-                                                    ]);
-})->bind('accueilFiltre');
-
 
 //***************************************************************************************************************/
 
 
 //envoi la page détaillée sur une collective
 $app->match('/fichecollective/{id}', function ($id, Request $request) use ($app) {
-    
+    //Initialisation de toute les donnée conçernant la collective
     $collective = $app['dao.collective']->find($id);
     $titre = $collective->getCollTitre();
     $fil = ' / Fiche de sortie collective "'.$titre.'"';
@@ -171,12 +47,34 @@ $app->match('/fichecollective/{id}', function ($id, Request $request) use ($app)
     $participantValide = $app['dao.participant']->findAllValide($collective);
     $listeAttente = $app['dao.participant']->findAllAttente($collective);
     
+    //pour gerer les utilisateur déja inscrit a cette collective, ou à une collective de la même date
+    if($app['security.authorization_checker']->isGranted('IS_AUTHENTICATED_FULLY')) {
+        $user = $app['user'];
+        $IDuser = $user->getIDadherent();
+        if($app['dao.participant']->exists($id, $IDuser)) {
+            $inscrit = 1;
+        }else {
+            $inscrit = 0;
+        }
+        $dateverif = $collective->getCollDateDebut();
+        if($app['dao.participant']->existsByDate($dateverif, $IDuser)) {
+            $inscritAlaMemeDate = 1;
+        }else{
+            $inscritAlaMemeDate = 0;
+        }
+    }else {
+        $inscrit = '';
+        $inscritAlaMemeDate = '';
+    }
+    
+    
+    
+    
     $commentFormView = null;
     if($app['security.authorization_checker']->isGranted('IS_AUTHENTICATED_FULLY')) {
         
         $comment = new Commentaire();
         $comment->setIDcollective($id);
-        $user = $app['user'];
         $comment->setAdherent($user);
         $commentForm = $app['form.factory']->create(new CommentType(), $comment);
         $commentForm->handleRequest($request);
@@ -218,7 +116,9 @@ $app->match('/fichecollective/{id}', function ($id, Request $request) use ($app)
                                                               'listeAttente' => $listeAttente,
                                                               'commentaires' => $commentaires,
                                                               'commentForm'  => $commentFormView,
-                                                              'participantSubmit' => $ParticipantSubmitView
+                                                              'participantSubmit' => $ParticipantSubmitView,
+                                                              'inscrit' => $inscrit,
+                                                              'inscritAlaMemeDate' => $inscritAlaMemeDate
                                                              ]);
 })->bind('fichecollective');
 
@@ -455,20 +355,4 @@ $app->match('/CollectiveAsuppr/', function(Request $request) use($app) {
 })->bind('CollectiveAsuppr');
 
 
-$app->match('/getcotation/', function(Request $request) use($app) {
-    
-    if($_POST['idA']) {
-    $cotationlistDAO = new CotationListDAO;
-    $idtypeActivite=$_POST['idA'];
-    $cotations = $cotationlistDAO->findAllByTypeActivite($idtypeActivite);
-    //$cotationsList = array();
-    ?><option selected="selected">-cotation à ajouter-</option><?php
-    foreach ($cotations as $cotation) {
-        $IDcotation = $cotation->getCotation()->getIDcotation();
-        $libelle = $cotation->getCotation()->getLibelleCotation();
-        $valeur = $cotation->getCotation()->getValeurCotation();
-        //$cotationsList[$IDcotation] =$libelle.' '.$valeur;
-        ?><option value="<?php echo $IDcotation; ?>"><?php echo $libelle; ?> - <?php echo $valeur; ?></option><?php
-    }
-}
-})->bind('getcotation');
+$app->match('/cotation/', "Agenda\Controller\CotationListController::cotationListAction")->bind('cotation');

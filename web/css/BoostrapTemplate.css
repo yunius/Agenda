@@ -17,7 +17,9 @@ body {
     background-color: rgba(86,61,124,.15);
     border: 1px solid rgba(86,61,124,.2);
 }*/
-
+.zoneIcone .actiIcon_, p {
+    margin: 5px;
+}
 
 
 .col-md-4 img {
@@ -137,12 +139,28 @@ body {
     text-align: center;
 }
 #overrideBootstrap .btn-primary {
-    margin-top: 3px;
+    margin-top: 0px;
 }
 
 #mesfiltres {
+    padding-top: 25px;
+    padding-bottom: 20px;
+    border-top: solid #286090 3px;
+}
+
+.filtreHidden {
     display: none;
 }
+
+#filtre_choixFiltre input, label {
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.filtreDateFinHidden {
+    display:none;
+}
+
 
 input::-webkit-calendar-picker-indicator {
     display: none;

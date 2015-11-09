@@ -5,11 +5,12 @@
 {% block content %}
     
     <div class="container monContenu actiContainer_4">
+        <div class="row barreDate"><h4>{{FiltreEntete}} du</h4></div>
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-1">
                 {% if semaine > semaineActuelle %}
-                <a href="{{ path('accueilFiltre', {'semaine' : semaine-1} ) }}"><button class="btn btn-primary" ><span class="glyphicon glyphicon-arrow-left"></span></button></a>
+                <a href="{{ path('accueilSemaine', {'semaine' : semaine-1} ) }}"><button class="btn btn-primary" ><span class="glyphicon glyphicon-arrow-left"></span></button></a>
                 {% endif %}
             </div>
             <div class="col-md-6 barreDate">
@@ -17,27 +18,33 @@
                  
             </div>
             <div class="col-md-1">
-                <a href="{{ path('accueilFiltre', {'semaine' : semaine+1} ) }}"><button class="btn btn-primary" ><span class="glyphicon glyphicon-arrow-right"></span></button></a>
+                <a href="{{ path('accueilSemaine', {'semaine' : semaine+1} ) }}"><button class="btn btn-primary" ><span class="glyphicon glyphicon-arrow-right"></span></button></a>
             </div>
             <div class="col-md-2" data-toggle="tooltip" data-trigger="hover" title="Filtre les collectives par periodes ou par activités"><button id="buttonfiltre" class="btn btn-primary">Filtres avancé</button></button></div>
         </div>
                 
-        <div id="mesfiltres" class="row">
-            {{ form_start(filtreFormView) }}
-            <div class="col-md-3">
+        <div id="mesfiltres" class="row {{filtreHidden}}">
+            {{ form_start(filtreFormView)}}
+            <div class="col-md-2">
+                filtrer par activité :
                 {{form_errors(filtreFormView.typeActivite)}}
                 {{form_widget(filtreFormView.typeActivite)}}
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
+                filtrer un jour précis :
                 {{form_errors(filtreFormView.debutPeriode)}}
                 {{form_widget(filtreFormView.debutPeriode)}}                
             </div>
-            <div class="col-md-3">
+            <div  id="filtreDateFinHidden" class="col-md-2">
+                definissez une periode :
                 {{form_errors(filtreFormView.finPeriode)}}
                 {{form_widget(filtreFormView.finPeriode)}}
             </div>
             <div class="col-md-3">
                 <input type="submit" class="btn btn-primary" value="appliquez vos filtre"/>
+            </div>
+            <div class="col-md-3">
+                
             </div>
             {{ form_end(filtreFormView) }}
            
@@ -52,9 +59,9 @@
         {% set style = collective.typeActivite.IDtypeActivite %}
         <div class="container monContenu actiContainer_{{style}}">
             <div class="row">
-                <div class="col-md-1 col-xs-3">
-                    <div class="row"><div class="actiIcon_{{style}}"></div></div>
-                    <div class="row">{{ collective.typeActivite.activiteLibelle }}</div>
+                <div class="col-md-1 col-xs-3 zoneIcone">
+                    <div class="row"><div class="actiIcon_ actiIcon_{{style}}"></div></div>
+                    <div class="row"><p>{{ collective.typeActivite.activiteLibelle }}</p></div>
                 </div>
                     
 
@@ -102,7 +109,9 @@
                         
                         <div class="col-md-6 col-xs-6">
                             <div class="row">
-                            place restantes : {{collective.collNbParticipantMax - participants[id]}} / {{collective.collNbParticipantMax}} 
+                                Nombre d'inscrit : {{participantsValide[id]}}</br >
+                            Place restante : {{collective.collNbParticipantMax - participantsValide[id]}}</br >
+                            en file d'attente : {{participantsAttente[id]}}</br >
                             </div>
                             <div class="row">
                                 <h5><a href="{{ path('fichecollective',{'id': id} ) }}"><button class="btn btn-info">JE M'INSCRIS</button></a></h5>

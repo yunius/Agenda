@@ -9,6 +9,8 @@ and open the template in the editor.
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="favicon.ico"
+        <link rel="shortcut icon" href="{{app.request.basepath}}/img/icon/favicon.ico" type="image/x-icon" />
         <link href="{{app.request.basepath}}/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="{{app.request.basepath}}/css/BoostrapTemplate.css" type="text/css" rel="stylesheet">
         <link href="{{app.request.basepath}}/css/selectize.css" type="text/css" rel="stylesheet">
@@ -40,7 +42,6 @@ and open the template in the editor.
                                     <ul class="dropdown-menu">
                                         <li><a href="{{ path('logout') }}">se déconnecter</a></li>
                                         <li><a href="#">creer un compte</a></li>
-
                                     </ul>
                                 </li>
                             {% else %}    
@@ -51,7 +52,7 @@ and open the template in the editor.
                                         <p class="caret"></p>
                                         </a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="{{path('login')}}">se connecter</a></li>
+                                        <li><a href="{{ path('login') }}">se connecter</a></li>
                                         <li><a href="#">creer un compte</a></li>
 
                                     </ul>
@@ -97,7 +98,7 @@ and open the template in the editor.
                             </ul>
                         </li>
                         {% endif %}
-                        <li><a href="{{path('Acceuil')}}"><span class="glyphicon glyphicon-home" > </span><span> Agenda </span></a></li> 
+                        <li><a href="{{path('accueil')}}"><span class="glyphicon glyphicon-home" > </span><span> Agenda </span></a></li> 
                         <li><a href="#">Calendrier</a></li>                    
                         <li><a href="#">Newsletter</a></li>
                         <li><a href="#">Petites Annonces</a></li>

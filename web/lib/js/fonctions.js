@@ -6,54 +6,43 @@ $('.dropdown').on('show.bs.dropdown', function(e){
 $('.dropdown').on('hide.bs.dropdown', function(e){
     $(this).find('.dropdown-menu').first().stop(true, true).slideUp();
 });
-//fonction toggle pour barre de filtre
 
+
+//fonctions toggles pour barre de filtre
 $(function() {
     // run the currently selected effect
     function runEffect() {
-      // get effect type from
-      var selectedEffect = $( "blind" ).val();
- 
-      // most effect types need no options passed by default
-      var options = {};
-      // some effects have required parameters
-      if ( selectedEffect === "scale" ) {
-        options = { percent: 0 };
-      } else if ( selectedEffect === "size" ) {
-        options = { to: { width: 200, height: 60 } };
-      }
- 
       // run the effect
-      $( "#mesfiltres" ).toggle( selectedEffect, options, 500 );
+      $( "#mesfiltres" ).toggle( 'blind', 'linear', 500 );
+      $( "#mesfiltres").removeClass(".filtreHidden")
     };
  
     // set effect from select menu value
     $( "#buttonfiltre" ).click(function() {
       runEffect();
     });
-  });
+});
+
+//$(document).ready(function()
+//{
+//	$("#filtre_choixFiltre").change(function() { 
+//            var value= $("#filtre_choixFiltre input[type='radio']:checked").val();
+//            
+//            if(value == 0) {
+//                $( "#filtre_finPeriode" ).hide();
+//            }
+//            if(value == 1) {
+//                $( "#filtre_finPeriode" ).removeClass('.filtreDateFinHidden')
+//                $( "#filtre_finPeriode" ).show();
+//            }
+//            
+//            
+//	});
+//	
+//});
 
 
 //fonction pour les Tooltips
-
-//$(function() {
-//    
-//    $( document ).tooltip({
-//      position: {
-//        my: "center bottom-20",
-//        at: "center top",
-//        using: function( position, feedback ) {
-//          $( this ).css( position );
-//          $( "<div>" )
-//            .addClass( "arrow" )
-//            .addClass( feedback.vertical )
-//            .addClass( feedback.horizontal )
-//            .appendTo( this );
-//        }
-//      }
-//    });
-//  });
-
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip(); 
 });
@@ -61,8 +50,47 @@ $(document).ready(function(){
 //**********************************************************************************************///
 //mise en place des datePicker
 
+(function( factory ) {
+	if ( typeof define === "function" && define.amd ) {
+
+		// AMD. Register as an anonymous module.
+		define([ "../jquery.ui.datepicker" ], factory );
+	} else {
+
+		// Browser globals
+		factory( jQuery.datepicker );
+	}
+}(function( datepicker ) {
+	datepicker.regional['fr'] = {
+		closeText: 'Fermer',
+		prevText: 'Précédent',
+		nextText: 'Suivant',
+		currentText: 'Aujourd\'hui',
+		monthNames: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin',
+			'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
+		monthNamesShort: ['janv.', 'févr.', 'mars', 'avril', 'mai', 'juin',
+			'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'],
+		dayNames: ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'],
+		dayNamesShort: ['dim.', 'lun.', 'mar.', 'mer.', 'jeu.', 'ven.', 'sam.'],
+		dayNamesMin: ['D','L','M','M','J','V','S'],
+		weekHeader: 'Sem.',
+		dateFormat: 'dd-mm-yy',
+		firstDay: 1,
+		isRTL: false,
+		showMonthAfterYear: false,
+		yearSuffix: ''};
+	datepicker.setDefaults(datepicker.regional['fr']);
+
+	return datepicker.regional['fr'];
+
+}));
+
 $(function() {
-    $( "#filtre_debutPeriode" ).datepicker();
+    
+    //$.datepicker.setDefaults( $.datepicker.regional[ "" ] );
+    $( "#filtre_debutPeriode" ).datepicker($.datepicker.regional["fr"]);
+    $( "#filtre_finPeriode" ).datepicker($.datepicker.regional["fr"]);
+    
   });
 
 
@@ -115,11 +143,11 @@ $(document).ready(function()
 	{
 		var idA=$(this).val();
 		var dataString = 'idA='+ idA;
-	
+//                var path = $("#abc").attr("data-path");
 		$.ajax
 		({
 			type: "POST",
-			url: "../../../app/routes.php/getCotation",
+			url: '/cotation/',
 			data: dataString,
 			cache: false,
 			success: function(html)

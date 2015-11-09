@@ -4,7 +4,7 @@ CREATE DATABASE if not exists Agenda CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 USE Agenda;
 
-CREATE TABLE Type_de_materiel(
+CREATE TABLE type_de_materiel(
         IDtypeMat      Int NOT NULL auto_increment ,
         typeMatLibelle Varchar (45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
         PRIMARY KEY (IDtypeMat )
@@ -13,7 +13,7 @@ CREATE TABLE Type_de_materiel(
 
 
 
-CREATE TABLE Type_Activite(
+CREATE TABLE type_activite(
         IDtypeActivite   Int NOT NULL auto_increment,
         activiteLibelle  Varchar (25) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
         IDactiviteParente Int,
@@ -32,7 +32,7 @@ CREATE TABLE cotation(
 
 
 
-CREATE TABLE Adherents(
+CREATE TABLE adherents(
         IDadherent         Int NOT NULL auto_increment,
         numLicence         Int (14) NOT NULL,
         statut             Varchar (25) CHARACTER SET utf8 COLLATE utf8_general_ci ,
@@ -88,7 +88,7 @@ CREATE TABLE club(
 
 
 
-CREATE TABLE Encadrant_Professionnel(
+CREATE TABLE encadrant_professionnel(
         IDencadrantPro   Int NOT NULL auto_increment,
         encProNom        Varchar (50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
         encProPrenom     Varchar (50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
@@ -114,7 +114,7 @@ CREATE TABLE secteur(
 
 
 
-CREATE TABLE Objectif(
+CREATE TABLE objectif(
         IDobjectif      Int NOT NULL auto_increment,
         objectifLibelle Varchar (50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
         IDsecteur       Int NOT NULL ,
@@ -133,7 +133,7 @@ CREATE TABLE lieu(
 
 
 
-CREATE TABLE Collectives(
+CREATE TABLE collectives(
         IDcollective                     Int NOT NULL auto_increment,
         collTitre                        Varchar (50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
         collDateDebut                    Date NOT NULL ,
@@ -183,7 +183,7 @@ CREATE TABLE encadrant(
 
 
 
-CREATE TABLE Liste_de_materiel_type(
+CREATE TABLE liste_de_materiel_type(
         IDtypeMat      Int NOT NULL ,
         IDtypeActivite Int NOT NULL ,
         PRIMARY KEY (IDtypeMat ,IDtypeActivite )
@@ -199,7 +199,7 @@ CREATE TABLE liste_de_cotation(
 
 
 
-CREATE TABLE RDV(
+CREATE TABLE rdv(
         heureRDV     Time NOT NULL ,
         IDlieu       Int NOT NULL ,
         IDcollective Int NOT NULL ,
@@ -220,7 +220,7 @@ CREATE TABLE participants(
 )ENGINE=InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 
-CREATE TABLE encadrantPro_liste(
+CREATE TABLE encadrantpro_liste(
         IDencadrantPro Int NOT NULL ,
         IDcollective   Int NOT NULL ,
         PRIMARY KEY (IDencadrantPro ,IDcollective )
@@ -264,45 +264,45 @@ CREATE TABLE liste_de_materiel_collective(
 
 
 
-CREATE TABLE CollCotations(
+CREATE TABLE collcotations(
         IDcollective Int NOT NULL ,
         IDcotation   Int NOT NULL ,
         PRIMARY KEY (IDcollective ,IDcotation )
 )ENGINE=InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-ALTER TABLE Type_Activite ADD CONSTRAINT FK_Type_Activite_IDactiviteParente FOREIGN KEY (IDactiviteParente) REFERENCES Type_Activite(IDtypeActivite);
-ALTER TABLE Adherents ADD CONSTRAINT FK_Adherents_IDcommune FOREIGN KEY (IDcommune) REFERENCES commune(IDcommune);
-ALTER TABLE Adherents ADD CONSTRAINT FK_Adherents_IDclub FOREIGN KEY (IDclub) REFERENCES club(IDclub);
+ALTER TABLE type_activite ADD CONSTRAINT FK_type_activite_IDactiviteParente FOREIGN KEY (IDactiviteParente) REFERENCES type_activite(IDtypeActivite);
+ALTER TABLE adherents ADD CONSTRAINT FK_adherents_IDcommune FOREIGN KEY (IDcommune) REFERENCES commune(IDcommune);
+ALTER TABLE adherents ADD CONSTRAINT FK_adherents_IDclub FOREIGN KEY (IDclub) REFERENCES club(IDclub);
 ALTER TABLE commune ADD CONSTRAINT FK_commune_IDpays FOREIGN KEY (IDpays) REFERENCES pays(IDpays);
 ALTER TABLE club ADD CONSTRAINT FK_club_IDcommune FOREIGN KEY (IDcommune) REFERENCES commune(IDcommune);
-ALTER TABLE Encadrant_Professionnel ADD CONSTRAINT FK_Encadrant_Professionnel_IDcommune FOREIGN KEY (IDcommune) REFERENCES commune(IDcommune);
+ALTER TABLE encadrant_professionnel ADD CONSTRAINT FK_encadrant_professionnel_IDcommune FOREIGN KEY (IDcommune) REFERENCES commune(IDcommune);
 ALTER TABLE secteur ADD CONSTRAINT FK_secteur_IDcommune FOREIGN KEY (IDcommune) REFERENCES commune(IDcommune);
-ALTER TABLE Objectif ADD CONSTRAINT FK_Objectif_IDsecteur FOREIGN KEY (IDsecteur) REFERENCES secteur(IDsecteur);
-ALTER TABLE Collectives ADD CONSTRAINT FK_Collectives_IDtypeActivite FOREIGN KEY (IDtypeActivite) REFERENCES Type_Activite(IDtypeActivite);
-ALTER TABLE Collectives ADD CONSTRAINT FK_Collectives_IDobjectif FOREIGN KEY (IDobjectif) REFERENCES Objectif(IDobjectif);
-ALTER TABLE Collectives ADD CONSTRAINT FK_Collectives_IDadherent FOREIGN KEY (IDadherent) REFERENCES Adherents(IDadherent);
-ALTER TABLE encadrant ADD CONSTRAINT FK_encadrant_IDadherent FOREIGN KEY (IDadherent) REFERENCES Adherents(IDadherent);
-ALTER TABLE encadrant ADD CONSTRAINT FK_encadrant_IDtypeActivite FOREIGN KEY (IDtypeActivite) REFERENCES Type_Activite(IDtypeActivite);
-ALTER TABLE Liste_de_materiel_type ADD CONSTRAINT FK_Liste_de_materiel_type_IDtypeMat FOREIGN KEY (IDtypeMat) REFERENCES Type_de_materiel(IDtypeMat);
-ALTER TABLE Liste_de_materiel_type ADD CONSTRAINT FK_Liste_de_materiel_type_IDtypeActivite FOREIGN KEY (IDtypeActivite) REFERENCES Type_Activite(IDtypeActivite);
-ALTER TABLE liste_de_cotation ADD CONSTRAINT FK_liste_de_cotation_IDtypeActivite FOREIGN KEY (IDtypeActivite) REFERENCES Type_Activite(IDtypeActivite);
+ALTER TABLE objectif ADD CONSTRAINT FK_objectif_IDsecteur FOREIGN KEY (IDsecteur) REFERENCES secteur(IDsecteur);
+ALTER TABLE collectives ADD CONSTRAINT FK_collectives_IDtypeActivite FOREIGN KEY (IDtypeActivite) REFERENCES type_activite(IDtypeActivite);
+ALTER TABLE collectives ADD CONSTRAINT FK_collectives_IDobjectif FOREIGN KEY (IDobjectif) REFERENCES objectif(IDobjectif);
+ALTER TABLE collectives ADD CONSTRAINT FK_collectives_IDadherent FOREIGN KEY (IDadherent) REFERENCES adherents(IDadherent);
+ALTER TABLE encadrant ADD CONSTRAINT FK_encadrant_IDadherent FOREIGN KEY (IDadherent) REFERENCES adherents(IDadherent);
+ALTER TABLE encadrant ADD CONSTRAINT FK_encadrant_IDtypeActivite FOREIGN KEY (IDtypeActivite) REFERENCES type_activite(IDtypeActivite);
+ALTER TABLE liste_de_materiel_type ADD CONSTRAINT FK_liste_de_materiel_type_IDtypeMat FOREIGN KEY (IDtypeMat) REFERENCES type_de_materiel(IDtypeMat);
+ALTER TABLE liste_de_materiel_type ADD CONSTRAINT FK_liste_de_materiel_type_IDtypeActivite FOREIGN KEY (IDtypeActivite) REFERENCES type_activite(IDtypeActivite);
+ALTER TABLE liste_de_cotation ADD CONSTRAINT FK_liste_de_cotation_IDtypeActivite FOREIGN KEY (IDtypeActivite) REFERENCES type_activite(IDtypeActivite);
 ALTER TABLE liste_de_cotation ADD CONSTRAINT FK_liste_de_cotation_IDcotation FOREIGN KEY (IDcotation) REFERENCES cotation(IDcotation);
-ALTER TABLE RDV ADD CONSTRAINT FK_RDV_IDlieu FOREIGN KEY (IDlieu) REFERENCES lieu(IDlieu);
-ALTER TABLE RDV ADD CONSTRAINT FK_RDV_IDcollective FOREIGN KEY (IDcollective) REFERENCES Collectives(IDcollective) ON DELETE CASCADE;
-ALTER TABLE participants ADD CONSTRAINT FK_participants_IDadherent FOREIGN KEY (IDadherent) REFERENCES Adherents(IDadherent);
+ALTER TABLE rdv ADD CONSTRAINT FK_rdv_IDlieu FOREIGN KEY (IDlieu) REFERENCES lieu(IDlieu);
+ALTER TABLE rdv ADD CONSTRAINT FK_rdv_IDcollective FOREIGN KEY (IDcollective) REFERENCES collectives(IDcollective) ON DELETE CASCADE;
+ALTER TABLE participants ADD CONSTRAINT FK_participants_IDadherent FOREIGN KEY (IDadherent) REFERENCES adherents(IDadherent);
 ALTER TABLE participants ADD CONSTRAINT FK_participants_IDetats FOREIGN KEY (IDetats) REFERENCES etats(IDetats);
-ALTER TABLE participants ADD CONSTRAINT FK_participants_IDcollective FOREIGN KEY (IDcollective) REFERENCES Collectives(IDcollective) ON DELETE CASCADE;
-ALTER TABLE encadrantPro_liste ADD CONSTRAINT FK_encadrantPro_liste_IDencadrantPro FOREIGN KEY (IDencadrantPro) REFERENCES Encadrant_Professionnel(IDencadrantPro);
-ALTER TABLE encadrantPro_liste ADD CONSTRAINT FK_encadrantPro_liste_IDcollective FOREIGN KEY (IDcollective) REFERENCES Collectives(IDcollective) ON DELETE CASCADE;
-ALTER TABLE co_encadrant ADD CONSTRAINT FK_co_encadrant_IDadherent FOREIGN KEY (IDadherent) REFERENCES Adherents(IDadherent);
-ALTER TABLE co_encadrant ADD CONSTRAINT FK_co_encadrant_IDcollective FOREIGN KEY (IDcollective) REFERENCES Collectives(IDcollective) ON DELETE CASCADE;
-ALTER TABLE commentaire ADD CONSTRAINT FK_commentaire_IDadherent FOREIGN KEY (IDadherent) REFERENCES Adherents(IDadherent);
-ALTER TABLE commentaire ADD CONSTRAINT FK_commentaire_IDcollective FOREIGN KEY (IDcollective) REFERENCES Collectives(IDcollective) ON DELETE CASCADE;
-ALTER TABLE emprunt_location ADD CONSTRAINT FK_emprunt_location_IDadherent FOREIGN KEY (IDadherent) REFERENCES Adherents(IDadherent);
-ALTER TABLE emprunt_location ADD CONSTRAINT FK_emprunt_location_IDtypeMat FOREIGN KEY (IDtypeMat) REFERENCES Type_de_materiel(IDtypeMat);
-ALTER TABLE emprunt_location ADD CONSTRAINT FK_emprunt_location_IDcollective FOREIGN KEY (IDcollective) REFERENCES Collectives(IDcollective) ON DELETE CASCADE;
-ALTER TABLE liste_de_materiel_collective ADD CONSTRAINT FK_liste_de_materiel_collective_IDtypeMat FOREIGN KEY (IDtypeMat) REFERENCES Type_de_materiel(IDtypeMat);
-ALTER TABLE liste_de_materiel_collective ADD CONSTRAINT FK_liste_de_materiel_collective_IDcollective FOREIGN KEY (IDcollective) REFERENCES Collectives(IDcollective) ON DELETE CASCADE;
-ALTER TABLE CollCotations ADD CONSTRAINT FK_CollCotations_IDcollective FOREIGN KEY (IDcollective) REFERENCES Collectives(IDcollective) ON DELETE CASCADE;
-ALTER TABLE CollCotations ADD CONSTRAINT FK_CollCotations_IDcotation FOREIGN KEY (IDcotation) REFERENCES cotation(IDcotation);
+ALTER TABLE participants ADD CONSTRAINT FK_participants_IDcollective FOREIGN KEY (IDcollective) REFERENCES collectives(IDcollective) ON DELETE CASCADE;
+ALTER TABLE encadrantpro_liste ADD CONSTRAINT FK_encadrantpro_liste_IDencadrantPro FOREIGN KEY (IDencadrantPro) REFERENCES encadrant_professionnel(IDencadrantPro);
+ALTER TABLE encadrantpro_liste ADD CONSTRAINT FK_encadrantpro_liste_IDcollective FOREIGN KEY (IDcollective) REFERENCES collectives(IDcollective) ON DELETE CASCADE;
+ALTER TABLE co_encadrant ADD CONSTRAINT FK_co_encadrant_IDadherent FOREIGN KEY (IDadherent) REFERENCES adherents(IDadherent);
+ALTER TABLE co_encadrant ADD CONSTRAINT FK_co_encadrant_IDcollective FOREIGN KEY (IDcollective) REFERENCES collectives(IDcollective) ON DELETE CASCADE;
+ALTER TABLE commentaire ADD CONSTRAINT FK_commentaire_IDadherent FOREIGN KEY (IDadherent) REFERENCES adherents(IDadherent);
+ALTER TABLE commentaire ADD CONSTRAINT FK_commentaire_IDcollective FOREIGN KEY (IDcollective) REFERENCES collectives(IDcollective) ON DELETE CASCADE;
+ALTER TABLE emprunt_location ADD CONSTRAINT FK_emprunt_location_IDadherent FOREIGN KEY (IDadherent) REFERENCES adherents(IDadherent);
+ALTER TABLE emprunt_location ADD CONSTRAINT FK_emprunt_location_IDtypeMat FOREIGN KEY (IDtypeMat) REFERENCES type_de_materiel(IDtypeMat);
+ALTER TABLE emprunt_location ADD CONSTRAINT FK_emprunt_location_IDcollective FOREIGN KEY (IDcollective) REFERENCES collectives(IDcollective) ON DELETE CASCADE;
+ALTER TABLE liste_de_materiel_collective ADD CONSTRAINT FK_liste_de_materiel_collective_IDtypeMat FOREIGN KEY (IDtypeMat) REFERENCES type_de_materiel(IDtypeMat);
+ALTER TABLE liste_de_materiel_collective ADD CONSTRAINT FK_liste_de_materiel_collective_IDcollective FOREIGN KEY (IDcollective) REFERENCES collectives(IDcollective) ON DELETE CASCADE;
+ALTER TABLE collcotations ADD CONSTRAINT FK_collcotations_IDcollective FOREIGN KEY (IDcollective) REFERENCES collectives(IDcollective) ON DELETE CASCADE;
+ALTER TABLE collcotations ADD CONSTRAINT FK_collcotations_IDcotation FOREIGN KEY (IDcotation) REFERENCES cotation(IDcotation);
 

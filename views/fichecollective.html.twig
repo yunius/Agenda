@@ -6,9 +6,9 @@
     {% set style = collective.typeActivite.IDtypeActivite %}
     <div class="container monContenu ficheCollective actiContainer_{{collective.typeActivite.IDtypeActivite}} ficheCollective">
         <div class="row section">
-            <div class="col-md-2">
-                <div class="row"><div class="actiIcon_{{style}}"></div></div>
-                <div class="row">{{ collective.typeActivite.activiteLibelle }}</div>
+            <div class="col-md-2 zoneIcone">
+                <div class="row"><div class="actiIcon_ actiIcon_{{style}}"></div></div>
+                <div class="row"><p>{{ collective.typeActivite.activiteLibelle }}</p></div>
             </div>
 
             <div class="col-md-6">
@@ -28,11 +28,11 @@
 
             </div>
             <div class="col-md-4">
-                <div class="row">
-                    <div class="actiCartouche_ actiCartouche_{{style}}">
+                <div class="row actiCartouche_ actiCartouche_{{style}}">
+                    
                         encadrant :</br>
                     <h2>{{collective.adherent.prenomAdherent}} {{collective.adherent.nomAdherent}}</h2>
-                    </div>
+                    
                 </div>
                 <div class="row actiCartouche_ actiCartouche_{{style}}">
                     difficulté :</br>
@@ -89,9 +89,9 @@
         </div>
         <div class="row section">
             
-            <div class="col-md-1"></div>
+            <div class="col-md-2"></div>
 
-            <div class="col-md-10">
+            <div class="col-md-8">
                 <div class="row actiCartouche_ actiCartouche_{{style}}">
                     <div class="row">
                        <div class="col-md-4">resumé</div>
@@ -123,7 +123,7 @@
                 </div>
             </div>
 
-            <div class="col-md-1"></div>
+            <div class="col-md-2"></div>
 
         </div>
         <div class="row section">
@@ -166,7 +166,7 @@
                     <div class="row">
                         
                         {% if app.user != collective.adherent %}
-                            {% if participantSubmit %}
+                            {% if participantSubmit and inscrit == 0 and inscritAlaMemeDate == 0 %}
                                 {{ form_start(participantSubmit) }}
                                     <div class="form-group">
                                         {{ form_errors(participantSubmit.IDcollective) }}
@@ -177,6 +177,10 @@
                                         <input type="submit" class="btn btn-primary btn-lg" value="M'inscrire à cette collective" />
                                     </div>
                                 {{ form_end(participantSubmit) }}
+                            {% elseif inscrit == 1 %}
+                                Vous êtes déja inscrit a cette collective
+                            {% elseif inscritAlaMemeDate == 1 %}
+                                Vous êtes déja inscrit à une autre collective prevu le même jour
                             {% else %}
                                 <a href="{{ path('login')}}">Connectez-vous</a> pour pouvoir vous incrire 
                             {% endif %}

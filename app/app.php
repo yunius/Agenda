@@ -21,6 +21,7 @@ $app['twig'] = $app->share($app->extend('twig', function(Twig_Environment $twig,
     return $twig;
 }));
 
+
 //$app['twig']->addExtension(new Twig_Extensions_Extension_Intl());
 ///
 $app->register(new Silex\Provider\ValidatorServiceProvider());
@@ -44,9 +45,18 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
         'ROLE_REDACTEUR' => array('ROLE_USER')
     ),
     'security.access_rules' => array(
-        array('^/editionCollective', 'ROLE_REDACTEUR')
+        array('^/editionCollective', 'ROLE_REDACTEUR'),
+//        array('/fichecollective', 'ROLE_USER')
     )
 ));
+            
+            
+$app['security.authentication.success_handler.admin'] = 
+  $app->share(function() use ($app) {
+      $httpUtil = new Symfony\Component\Security\Http\HttpUtils;
+      return new CustomAuthenticationSuccessHandler($httpUtil, array(), $app);
+  });
+  
 ///recuperer les services pour les generation de formulaire           
 $app->register(new Silex\Provider\FormServiceProvider());
 $app->register(new Silex\Provider\TranslationServiceProvider());

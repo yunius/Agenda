@@ -24,13 +24,28 @@ class filtreType extends AbstractType {
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options) {
+        
+        $choix = array();
+        $choix[0] = 'Un jour precis';
+        $choix[1] = 'Une periode';
+               
+        
         $builder
                 ->add('typeActivite', 'choice', array(
                     'choices' => $this->typeActivites,
                     'placeholder' => 'Activités',
                     'expanded'=>false, 
-                    'multiple'=>false
+                    'multiple'=>false,
+                    'required' => false
                 ))
+//                ->add('choixFiltre', 'choice', array(
+//                    'choices' =>$choix,
+//                    'expanded'=>true, 
+//                    'multiple'=>false,
+//                    'empty_value' => false,
+//                    'required' => false,
+//                    'data' => 0
+//                ))
 //                ->add('adherent', 'choice', array(
 //                    'choices' => $this->adherents,
 //                    'label' => 'désigner un responsable :',
@@ -39,13 +54,18 @@ class filtreType extends AbstractType {
 //                    'multiple'=>false
                 ->add('debutPeriode', 'date', array(
                     'widget' => 'single_text',
-                    'format' => 'yyyy-MM-dd',
-                    'input' => 'timestamp'
+                    'attr' => array( 'placeholder' => 'Choisir une date' ),
+                    'format' => 'dd-MM-yyyy',
+                    'input' => 'timestamp',
+                    'required' => false
                 ))
                 ->add('finPeriode', 'date', array(
                     'widget' => 'single_text',
-                    'format' => 'yyyy-MM-dd',
-                    'input' => 'timestamp'
+                    'attr' => array( 'placeholder' => 'Choisir une date' ),
+                    'format' => 'dd-MM-yyyy',
+                    'input' => 'timestamp',
+                    'required' => false,
+//                    'attr' => array('class' => 'filtreDateFinHidden'  )
                 ));
     }
     
