@@ -80,7 +80,6 @@ $(document).ready(function(){
 		showMonthAfterYear: false,
 		yearSuffix: ''};
 	datepicker.setDefaults(datepicker.regional['fr']);
-
 	return datepicker.regional['fr'];
 
 }));
@@ -88,8 +87,13 @@ $(document).ready(function(){
 $(function() {
     
     //$.datepicker.setDefaults( $.datepicker.regional[ "" ] );
-    $( "#filtre_debutPeriode" ).datepicker($.datepicker.regional["fr"]);
-    $( "#filtre_finPeriode" ).datepicker($.datepicker.regional["fr"]);
+    $( "#filtre_debutPeriode" ).datepicker({ 
+        minDate: '0', 
+        onClose : function(selectedDate) {
+            $("#filtre_finPeriode").datepicker("option", "minDate", selectedDate);
+        }
+    });
+    $( "#filtre_finPeriode" ).datepicker();
     
   });
 

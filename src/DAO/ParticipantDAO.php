@@ -26,15 +26,17 @@ class ParticipantDAO extends DAO{
         $participantData = array(
             'IDcollective' => $participant->getIDcollective(),
             'IDadherent' => $participant->getAdherent()->getIDadherent(),
+            'IDlieu' => $participant->getIDlieu(),
+            'heureRDV' => $participant->getHeureRDV()
         );
         //if(!$participant->getAdherent()) {
             $this->getDB()->insert('participants', $participantData);
         //}
     }
     
-    public function find($IDadherent) {
-        $sql = "SELECT * FROM participants WHERE IDadherent=?";
-        $row = $this->getDB()->fetchAssoc($sql, array($IDadherent));
+    public function find($IDadherent, $IDcollective) {
+        $sql = "SELECT * FROM participants WHERE IDadherent=? AND IDcollective=?";
+        $row = $this->getDB()->fetchAssoc($sql, array($IDadherent, $IDcollective));
         
         if($row) {
             return $this->buildDomainObject($row);
@@ -127,6 +129,8 @@ class ParticipantDAO extends DAO{
         $participant = new Participant();
         $participant->setIDcollective($row['IDcollective']);
         $participant->setIDetats($row['IDetats']);
+        $participant->setIDlieu($row['IDlieu']);
+        $participant->setHeureRDV($row['heureRDV']);
         
         if(array_key_exists('IDadherent', $row)) {
             $IDadherent = $row['IDadherent'];

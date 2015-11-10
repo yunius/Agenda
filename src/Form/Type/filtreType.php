@@ -33,7 +33,7 @@ class filtreType extends AbstractType {
         $builder
                 ->add('typeActivite', 'choice', array(
                     'choices' => $this->typeActivites,
-                    'placeholder' => 'Activités',
+                    'placeholder' => 'Toute activités',
                     'expanded'=>false, 
                     'multiple'=>false,
                     'required' => false

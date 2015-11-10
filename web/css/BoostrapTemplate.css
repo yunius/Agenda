@@ -160,6 +160,9 @@ body {
 .filtreDateFinHidden {
     display:none;
 }
+#overrideBootstrap .ValiderFiltre {
+    margin-top: 14px;
+}
 
 
 input::-webkit-calendar-picker-indicator {
@@ -184,7 +187,18 @@ input::-webkit-calendar-picker-indicator {
 }
 
 .ficheCollective {
-    font-size: 1.5em;
+    font-size: 1.2em;
+    padding-top: 15px;
+}
+.ficheCollective .actiCartouche_ .col-md-6 {
+    text-align: left;
+}
+.ficheCollective .participantEncart .col-md-4 {
+    text-align: left;
+}
+
+.ficheCollective .participantEncart .col-md-4 .row {
+    margin-left: 10px;
 }
 
 .accueilTitre {
@@ -202,8 +216,12 @@ input::-webkit-calendar-picker-indicator {
 .acceuilRDV {
     margin-top: 15px;
 }
-.observation {
+#overrideBootstrap .observation p {
     font-style: oblique;
+    font-weight: normal;
+    margin-left: 20px;
+    background-color: rgba(50, 50, 50, 0.5);
+    width: 90%;
 }
 
 .encartMateriel {
@@ -220,6 +238,22 @@ input::-webkit-calendar-picker-indicator {
     font-weight: bold;
     text-shadow:none;
     
+}
+
+.encartInscription p, a {
+    padding: 5px;
+    margin: 20px;
+     
+}
+.encartInscription p {
+    margin-top: 25px;
+    border-radius: 15px;
+}
+.etat1 p {
+    background-color: rgba(50, 50, 50, 0.5);
+}
+.etat2 p {
+    background-color: rgba(127, 191, 63, 0.5);
 }
 
 #supprWrapper {
@@ -446,6 +480,7 @@ input::-webkit-calendar-picker-indicator {
 
 /*****neutre*****/
 
+
 .actiCartouche_ {
     margin-top: 5px;
     width: 97%;
@@ -454,6 +489,25 @@ input::-webkit-calendar-picker-indicator {
     border: 2px solid white;
     border-radius: 10px;
     box-shadow: 1px 1px 1px #000000;
+}
+
+.ficheCollectiveDesc p {
+    font-weight: 600;
+    display: inline;
+    
+}
+
+.actiCartouche_ span {
+   margin-left: 20px; 
+}
+
+#overrideBootstrap .ficheCollectiveDesc {
+    text-align: left;
+    
+}
+#overrideBootstrap .ficheCollectiveDesc h1 {
+    text-align: center;
+    
 }
 
 
@@ -571,6 +625,8 @@ input::-webkit-calendar-picker-indicator {
 
 
 
+
+//***************************************************************************************************//
 
 
 

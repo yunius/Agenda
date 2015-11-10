@@ -22,8 +22,25 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class ParticipantSubmitType extends AbstractType {
     
+    private $rdvs;
+    
+    public function __construct($rdvs) {
+        $this->rdvs = $rdvs;
+    }
+    
+    
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder->add('IDcollective', 'hidden');
+        $builder
+                ->add('IDcollective', 'hidden');
+//                ->add('rdv', 'choice', array(
+//                      'choices' => $this->rdvs,
+//                      'expanded'=>true, 
+//                      'multiple'=>false,
+//                      'empty_value' => false,
+//                      'required' => false,
+//                      'data' => 0
+//                  ));
+            
 //        $builder->add('adherent', 'hidden', array(
 //            'data_class' => 'Agenda\Domain\Adherent'
 //        ));

@@ -12,20 +12,21 @@
             </div>
 
             <div class="col-md-6">
-                <div class="row"><h1>{{collective.collTitre}}</h1></div>
-                <div class="row"><p>Objectif : {{collective.objectif.objectifLibelle}}</p></div>
-                <div class="row"><p>Secteur : {{collective.objectif.secteur.secteurLibelle}}</p></div>
-                
-                {% if collective.collDateFin is not null%}
-                    <div class="row"><p>Date(s) de la collective: {{collective.collDateDebut}} - {{collective.collDateFin}}</p></div>
-                {% else %}
-                    <div class="row"><p>Date(s) de la collective: {{collective.collDateDebut}}</p></div>
-                {% endif %}
-                
-                <div class="row observation">Observation : <br />
-                    <p>{{collective.collObservations}}</p>
-                </div>
+                <div class="row ficheCollectiveDesc actiCartouche_ actiCartouche_{{style}}">
+                    <div class="row"><h1>{{collective.collTitre}}</h1></div>
+                    <div class="row"><span>Objectif :</span> <p>{{collective.objectif.objectifLibelle}}</p></div>
+                    <div class="row"><span>Secteur :</span> <p>{{collective.objectif.secteur.secteurLibelle}}</p></div>
 
+                    {% if collective.collDateFin is not null%}
+                        <div class="row"><span>Date(s) de la collective:</span> <p>{{collective.collDateDebut}} - {{collective.collDateFin}}</p></div>
+                    {% else %}
+                        <div class="row"><span>Date(s) de la collective:</span> <p>{{collective.collDateDebut|localizeddate('full', 'none')}}</p></div>
+                    {% endif %}
+
+                    <div class="row observation"><span>Observation :</span> <br />
+                        <p>{{collective.collObservations}}</p>
+                    </div>
+                </div>        
             </div>
             <div class="col-md-4">
                 <div class="row actiCartouche_ actiCartouche_{{style}}">
@@ -45,10 +46,8 @@
                     {% endfor %}
                 </div>
                 {% if collective.collDenivele is not null %}
-                <div class="row">
-                    <div class="row actiCartouche_ actiCartouche_{{style}}">
+                <div class="row row actiCartouche_ actiCartouche_{{style}}">
                         Denivelé : {{collective.collDenivele}}m
-                    </div>
                 </div>    
                 {% endif %}
                 {% if collective.collNbLongueurs is not null %}
@@ -92,7 +91,7 @@
             <div class="col-md-2"></div>
 
             <div class="col-md-8">
-                <div class="row actiCartouche_ actiCartouche_{{style}}">
+                <div class="row participantEncart actiCartouche_ actiCartouche_{{style}}">
                     <div class="row">
                        <div class="col-md-4">resumé</div>
                        <div class="col-md-4">PARTICIPANTS</div>
@@ -114,7 +113,7 @@
                         </div>
 
                         <div class="col-md-4">
-                            <div class="row">Liste d'attente :</div>
+                            <div class="row">File d'attente :</div>
                             {% for participant in listeAttente %}
                                <div class="row"> - {{ participant.adherent.prenomAdherent }} {{ participant.adherent.nomAdherent }}</div>
                             {% endfor %}
@@ -127,67 +126,93 @@
 
         </div>
         <div class="row section">
-            <div class="col-md-1"></div>
-            <div class="col-md-10">
-                <div class="row">INSCRIPTION</div>
-
-                <div class="row">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-5">
-                        <div class="row">rendez-vous :</div>
-                        {% for rdv in collective.rdv %}  
-                        <div class="row">
-                            <input type="radio" name="rdv" value="{{ rdv.heureRDV }}"> {{ rdv.heureRDV }} - {{ rdv.lieu.lieuLibelle }}
-                        </div>
-                        {% endfor %}
-                    </div>
-                    <div class="col-md-5">Commentaire<br />
-                        {% if commentForm %}
-                            {{ form_start(commentForm) }}
-                                <div class="form-group">
-                                    {{ form_errors(commentForm.contenu) }}
-                                    {{ form_widget(commentForm.contenu, { 'attr':  {
-                                        'rows': '4',
-                                        'class': 'form-control',
-                                        'placeholder': 'entrez un commentaire'
-                                    }}) }}
-                                </div>
-                                <div class="form-group">
-                                    <input type="submit" class="btn btn-primary" value="envoyer" />
-                                </div>
-                            {{ form_end(commentForm) }}
-                        {% else %}
-                            <a href="{{ path('login')}}">Connectez-vous</a> pour ajouter un commentaire 
-                        {% endif %}
-                    </div>
-                    <div class="col-md-1"></div>                
-                </div>
-
-                    <div class="row">
-                        
-                        {% if app.user != collective.adherent %}
-                            {% if participantSubmit and inscrit == 0 and inscritAlaMemeDate == 0 %}
-                                {{ form_start(participantSubmit) }}
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <div class="row actiCartouche_ actiCartouche_{{style}}">
+                            
+                            <div class="col-md-6">Commentaire : <br />
+                            {% if commentForm %}
+                                {{ form_start(commentForm) }}
                                     <div class="form-group">
-                                        {{ form_errors(participantSubmit.IDcollective) }}
-                                        {{ form_widget(participantSubmit.IDcollective) }}
-
+                                        {{ form_errors(commentForm.contenu) }}
+                                        {{ form_widget(commentForm.contenu, { 'attr':  {
+                                            'rows': '4',
+                                            'class': 'form-control',
+                                            'placeholder': 'entrez un commentaire'
+                                        }}) }}
                                     </div>
                                     <div class="form-group">
-                                        <input type="submit" class="btn btn-primary btn-lg" value="M'inscrire à cette collective" />
+                                        <input type="submit" class="btn btn-primary" value="envoyer" />
                                     </div>
-                                {{ form_end(participantSubmit) }}
-                            {% elseif inscrit == 1 %}
-                                Vous êtes déja inscrit a cette collective
-                            {% elseif inscritAlaMemeDate == 1 %}
-                                Vous êtes déja inscrit à une autre collective prevu le même jour
+                                {{ form_end(commentForm) }}
                             {% else %}
-                                <a href="{{ path('fichecollectiveInscription',{'id': collective.IDcollective})}}">Connectez-vous</a> pour pouvoir vous incrire 
+                                <a href="{{ path('login')}}">Connectez-vous</a> pour ajouter un commentaire 
                             {% endif %}
-                        {% endif %}
+                            </div>
+
+                            <div class="col-md-6">
+                                {{ form_start(participantSubmit) }}
+                                {% if inscrit == 0 %}
+                                    <div class="row">Rendez-vous :</div>
+                                    {% for rdv in collective.rdv %}  
+                                    <div class="row">
+                                        <input type="radio" name="rdv" value="{{ rdv.lieu.IDlieu}}" {% if loop.index == 1 %}checked="checked"{% endif %}> {{ rdv.heureRDV }} - {{ rdv.lieu.lieuLibelle }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                                <div class="row">
+
+                                {% if app.user != collective.adherent %}
+                                    {% if participantSubmit and inscrit == 0 and inscritAlaMemeDate == 0 %}
+                                        
+                                            <div class="form-group">
+                                                {{ form_errors(participantSubmit.IDcollective) }}
+                                                {{ form_widget(participantSubmit.IDcollective) }}
+
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="submit" class="btn btn-primary btn-lg" value="M'inscrire à cette collective" />
+                                            </div>
+                                        
+                                    {% elseif inscrit == 1 %}
+                                        {% if participantActuel.IDetats == 1 %}
+                                            <div class="row encartInscription etat{{participantActuel.IDetats}}">
+                                                <p>Vous êtes bien inscrit à cette collective, l'encadrant doit encore
+                                                valider votre candidature.</p>
+                                            </div>
+                                            <div class="row encartInscription">
+                                                <a href="#">Me désinscrire</a>
+                                            </div>
+                                            
+                                        {% else %}
+                                            <div class="row encartInscription etat{{participantActuel.IDetats}}">
+                                                <p>Vous êtes bien inscrit à cette collective et l'encadrant a validé
+                                                votre candidature</p>
+                                            </div>
+                                            <div class="row encartInscription">
+                                                <a href="#">Me désinscrire</a>
+                                            </div>
+                                            
+                                        {% endif %}
+                                    {% elseif inscritAlaMemeDate == 1 %}
+                                        Vous êtes déja inscrit à une autre collective prevue le même jour
+                                    {% else %}
+                                        <a href="{{ path('fichecollectiveInscription',{'id': collective.IDcollective})}}">Connectez-vous</a> pour pouvoir vous incrire 
+                                    {% endif %}
+                                {% endif %}
+                                </div>
+                                {{ form_end(participantSubmit) }}
+                            </div>
+                        </div>
                     </div>
-            </div>
-            <div class="col-md-1"></div>
+                    <div class="col-md-2"></div>
+                    
+                        
+        
+                    
+                    
+</div>
+            
         </div>
     </div>
                     

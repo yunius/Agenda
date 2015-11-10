@@ -77,6 +77,7 @@ class CollectiveDAO extends DAO {
         
         
         
+        
         if (!empty($debut) && empty($IDactivite)) {
             
             if(!empty($fin)) {
@@ -93,7 +94,7 @@ class CollectiveDAO extends DAO {
                 $result = $this->getDB()->fetchAll($sql, array($debut));
             }    
         }
-        if (!empty($debut) && !empty($IDactivite)) {
+        elseif (!empty($debut) && !empty($IDactivite)) {
             
             if(!empty($fin)) {
                 $sql = "SELECT * FROM collectives 

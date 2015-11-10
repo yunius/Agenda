@@ -42,6 +42,7 @@ class FicheCollectiveController {
             $user = $app['user'];
             $IDuser = $user->getIDadherent();
             if($app['dao.participant']->exists($id, $IDuser)) {
+                $participantActuel = $app['dao.participant']->find($IDuser, $id);
                 $inscrit = 1;
             }else {
                 $inscrit = 0;
@@ -83,10 +84,23 @@ class FicheCollectiveController {
             $participant->setIDcollective($id);
             $user = $app['user'];
             $participant->setAdherent($user);
+            $rdvList;
+            $rdvs = $app['dao.rdv']->findAll($id);
+            foreach ($rdvs as $rdv) {
+                $idlieu = $rdv->getLieu()->getIdlieu();
+                $rdvList[$idlieu]['lieu'] = $rdv->getLieu()->getLieuLibelle();
+                $rdvList[$idlieu]['heure'] = $rdv->getHeureRDV();
+            }
+            
 
-            $ParticipantSubmitForm = $app['form.factory']->create(new ParticipantSubmitType(), $participant);
+            $ParticipantSubmitForm = $app['form.factory']->create(new ParticipantSubmitType($rdvList), $participant);
             $ParticipantSubmitForm->handleRequest($request);
             if($ParticipantSubmitForm->isSubmitted() && $ParticipantSubmitForm->isValid()) {
+                $IDlieu = $_POST['rdv'];
+                $rdv = $app['dao.rdv']->find($IDlieu, $id);
+                $heureRDV = $rdv->getHeureRDV();
+                $participant->setHeureRDV($heureRDV);
+                $participant->setIDlieu($IDlieu);                
                 $app['dao.participant']->save($participant);
                 return $app->redirect('/fichecollective/'.$id);
 
@@ -108,7 +122,8 @@ class FicheCollectiveController {
                                                                   'commentForm'  => $commentFormView,
                                                                   'participantSubmit' => $ParticipantSubmitView,
                                                                   'inscrit' => $inscrit,
-                                                                  'inscritAlaMemeDate' => $inscritAlaMemeDate
+                                                                  'inscritAlaMemeDate' => $inscritAlaMemeDate,
+                                                                  'participantActuel' => $participantActuel
                                                                  ]);
     }
     

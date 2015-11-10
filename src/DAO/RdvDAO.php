@@ -41,8 +41,8 @@ class RdvDAO extends DAO {
         
         $rdvs = array();
         foreach ($result as $row) {
-            $heureRDV = $row['heureRDV'];
-            $rdvs[$heureRDV] = $this->buildDomainObject($row);            
+            $IDlieu = $row['IDlieu'];
+            $rdvs[$IDlieu] = $this->buildDomainObject($row);            
         }
         return $rdvs;
         
