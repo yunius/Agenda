@@ -26,12 +26,22 @@ class ParticipantDAO extends DAO{
         $participantData = array(
             'IDcollective' => $participant->getIDcollective(),
             'IDadherent' => $participant->getAdherent()->getIDadherent(),
-            'IDlieu' => $participant->getIDlieu(),
+            'lieuLibelle' => $participant->getLieuLibelle(),
             'heureRDV' => $participant->getHeureRDV()
         );
-        //if(!$participant->getAdherent()) {
+        
             $this->getDB()->insert('participants', $participantData);
-        //}
+        
+    }
+    public function updateEtat($value, $IDcollective, $IDadherent) {
+        $participantData = array ( 'IDetats' => $value );
+        $this->getDB()->update('participants', $participantData, array( 'IDcollective' => $IDcollective,
+                                                                        'IDadherent' => $IDadherent
+                                                                        ));
+    }
+    
+    public function delete($IDadherent, $IDcollective) {
+        $this->getDB()->delete('participants', array('IDadherent' => $IDadherent, 'IDcollective' => $IDcollective));
     }
     
     public function find($IDadherent, $IDcollective) {
@@ -129,7 +139,7 @@ class ParticipantDAO extends DAO{
         $participant = new Participant();
         $participant->setIDcollective($row['IDcollective']);
         $participant->setIDetats($row['IDetats']);
-        $participant->setIDlieu($row['IDlieu']);
+        $participant->setLieuLibelle($row['lieuLibelle']);
         $participant->setHeureRDV($row['heureRDV']);
         
         if(array_key_exists('IDadherent', $row)) {

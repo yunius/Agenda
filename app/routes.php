@@ -264,5 +264,19 @@ $app->match('/CollectiveAsuppr/', function(Request $request) use($app) {
     return $app->redirect('/');
 })->bind('CollectiveAsuppr');
 
+$app->match('/desinscription/', function(Request $request) use($app) {
+    $IDcollective = $_POST['IDcollective'];
+    $IDadherent = $_POST['IDadherent'];
+    $app['dao.participant']->delete($IDadherent, $IDcollective);
+    return $app->redirect('/fichecollective/'.$IDcollective);
+})->bind('desinscription');
+
+$app->match('/validerInscription/', function(Request $request) use($app) {
+    $IDadherent = $_POST['IDadherentValide'];
+    $IDcollective = $_POST['IDcollectiveValide'];
+    $app['dao.participant']->updateEtat(2, $IDcollective, $IDadherent);
+    return $app->redirect('/fichecollective/'.$IDcollective);
+})->bind('validerInscription');
+
 
 $app->match('/cotation/', "Agenda\Controller\CotationListController::cotationListAction")->bind('cotation');

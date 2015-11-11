@@ -27,7 +27,7 @@ use Agenda\Form\Type\filtreType;
 class FicheCollectiveController {
     
     public function ficheCollectiveAction($id, Request $request, Application $app) {
-        
+        //var_dump($_POST);
         //Initialisation de toute les donnée conçernant la collective
         $collective = $app['dao.collective']->find($id);
         $titre = $collective->getCollTitre();
@@ -38,9 +38,11 @@ class FicheCollectiveController {
         $listeAttente = $app['dao.participant']->findAllAttente($collective);
 
         //pour gerer les utilisateur déja inscrit a cette collective, ou à une collective de la même date
+        $participantActuel = '';
         if($app['security.authorization_checker']->isGranted('IS_AUTHENTICATED_FULLY')) {
             $user = $app['user'];
             $IDuser = $user->getIDadherent();
+            
             if($app['dao.participant']->exists($id, $IDuser)) {
                 $participantActuel = $app['dao.participant']->find($IDuser, $id);
                 $inscrit = 1;
@@ -84,24 +86,35 @@ class FicheCollectiveController {
             $participant->setIDcollective($id);
             $user = $app['user'];
             $participant->setAdherent($user);
-            $rdvList;
-            $rdvs = $app['dao.rdv']->findAll($id);
-            foreach ($rdvs as $rdv) {
-                $idlieu = $rdv->getLieu()->getIdlieu();
-                $rdvList[$idlieu]['lieu'] = $rdv->getLieu()->getLieuLibelle();
-                $rdvList[$idlieu]['heure'] = $rdv->getHeureRDV();
-            }
+//            $rdvList = array();
+//            $rdvs = $app['dao.rdv']->findAll($id);
+//            foreach ($rdvs as $rdv) {
+//                $idlieu = $rdv->getLieu()->getIdlieu();
+//                $rdvList[$idlieu]['lieu'] = $rdv->getLieu()->getLieuLibelle();
+//                $rdvList[$idlieu]['heure'] = $rdv->getHeureRDV();
+//            }
             
 
-            $ParticipantSubmitForm = $app['form.factory']->create(new ParticipantSubmitType($rdvList), $participant);
+            $ParticipantSubmitForm = $app['form.factory']->create(new ParticipantSubmitType(), $participant);
             $ParticipantSubmitForm->handleRequest($request);
             if($ParticipantSubmitForm->isSubmitted() && $ParticipantSubmitForm->isValid()) {
-                $IDlieu = $_POST['rdv'];
-                $rdv = $app['dao.rdv']->find($IDlieu, $id);
-                $heureRDV = $rdv->getHeureRDV();
-                $participant->setHeureRDV($heureRDV);
-                $participant->setIDlieu($IDlieu);                
+                if(isset($_POST['rdv'])) {
+                    $IDlieu = $_POST['rdv'];
+                    $rdv = $app['dao.rdv']->find($IDlieu, $id);
+                    $heureRDV = $rdv->getHeureRDV();
+                    $lieuLibelle = $rdv->getLieu()->getLieuLibelle();
+                    $participant->setHeureRDV($heureRDV);
+                    $participant->setLieuLibelle($lieuLibelle);
+                }
+                                
                 $app['dao.participant']->save($participant);
+                $message = \Swift_Message::newInstance()
+                        ->setSubject('Agenda : Nouveau Participant')
+                        ->setFrom(array('noreply@agenda.com'))
+                        ->setTo(array('yunius@msn.com'))
+                        ->setBody('bonjour, il y a un nouveau participant en attente de validation sur votre collective <a href="http://agenda/fichecollective/'.$id.'">"'.$titre.'"</a>', 'text/html');
+                        
+                $app['mailer']->send($message);
                 return $app->redirect('/fichecollective/'.$id);
 
             }
@@ -131,4 +144,6 @@ class FicheCollectiveController {
         
         $this->ficheCollectiveAction($id, $request, $app);
     }
+    
+    
 }

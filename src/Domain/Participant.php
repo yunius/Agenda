@@ -16,7 +16,7 @@ class Participant extends Popo {
     private $IDetats;
     private $adherent;
     private $IDcollective;
-    private $IDlieu;
+    private $lieuLibelle;
     private $heureRDV;
     
     public function getIDetats() {
@@ -43,16 +43,16 @@ class Participant extends Popo {
         $this->IDcollective = $IDcollective;
     }
     
-    public function getIDlieu() {
-        return $this->IDlieu;
+    public function getLieuLibelle() {
+        return $this->lieuLibelle;
     }
 
     public function getHeureRDV() {
         return $this->heureRDV;
     }
 
-    public function setIDlieu($IDlieu) {
-        $this->IDlieu = $IDlieu;
+    public function setLieuLibelle($lieuLibelle) {
+        $this->lieuLibelle = $lieuLibelle;
     }
 
     public function setHeureRDV($heureRDV) {

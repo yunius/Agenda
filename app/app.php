@@ -21,7 +21,16 @@ $app['twig'] = $app->share($app->extend('twig', function(Twig_Environment $twig,
     return $twig;
 }));
 
-
+//recuperer le service de mailing
+$app->register(new Silex\Provider\SwiftmailerServiceProvider);
+$app['swiftmailer.options'] = array(
+	'host' => 'smtp.gmail.com',
+	'port' => 465,
+	'username' => 'gilou2501@gmail.com',
+	'password' => '*gilou2501*',
+	'encryption' => 'ssl',
+	'auth_mode' => 'login'
+);
 //$app['twig']->addExtension(new Twig_Extensions_Extension_Intl());
 ///
 $app->register(new Silex\Provider\ValidatorServiceProvider());
@@ -50,12 +59,7 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
     )
 ));
             
-            
-$app['security.authentication.success_handler.admin'] = 
-  $app->share(function() use ($app) {
-      $httpUtil = new Symfony\Component\Security\Http\HttpUtils;
-      return new CustomAuthenticationSuccessHandler($httpUtil, array(), $app);
-  });
+
   
 ///recuperer les services pour les generation de formulaire           
 $app->register(new Silex\Provider\FormServiceProvider());

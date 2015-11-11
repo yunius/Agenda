@@ -22,11 +22,11 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class ParticipantSubmitType extends AbstractType {
     
-    private $rdvs;
-    
-    public function __construct($rdvs) {
-        $this->rdvs = $rdvs;
-    }
+//    private $rdvs;
+//    
+//    public function __construct($rdvs) {
+//        $this->rdvs = $rdvs;
+//    }
     
     
     public function buildForm(FormBuilderInterface $builder, array $options) {

@@ -240,7 +240,7 @@ input::-webkit-calendar-picker-indicator {
     
 }
 
-.encartInscription p, a {
+.encartInscription p, .encartInscription button {
     padding: 5px;
     margin: 20px;
      
@@ -300,7 +300,25 @@ input::-webkit-calendar-picker-indicator {
 #overrideBootstrap .xsDiv .btn-danger {
     height: 25px;
 }
+#overrideBootstrap .ficheCollective .monBoutonRejet {
+    height: 24px;
+}
+#overrideBootstrap .participantEncart .btn {
+    margin-right : 10px;
+}
 
+#overrideBootstrap .ficheCollective .btn-success {
+    border: 2px solid white;
+    border-radius: 25px;
+    height: 24px;
+    box-shadow: 2px 2px 2px #000000;
+}
+#overrideBootstrap .participantEncart .modal .btn-success {
+    height: 44px;
+}
+.ficheCollective .liste .row {
+    margin-bottom: 3px;
+}
 @media only screen and (min-width:1200px) {
     #overrideBootstrap .btn-danger, .btn-info {
     border: 2px solid white;

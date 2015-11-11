@@ -5,7 +5,7 @@
 {% block content %}
     {% set style = collective.typeActivite.IDtypeActivite %}
     <div class="container monContenu ficheCollective actiContainer_{{collective.typeActivite.IDtypeActivite}} ficheCollective">
-        <div class="row section">
+        <div class="row section description">
             <div class="col-md-2 zoneIcone">
                 <div class="row"><div class="actiIcon_ actiIcon_{{style}}"></div></div>
                 <div class="row"><p>{{ collective.typeActivite.activiteLibelle }}</p></div>
@@ -60,7 +60,7 @@
             </div>
 
         </div>
-        <div class="row section">
+        <div class="row section materiel">
             <div class="col-md-2"></div>
 
             <div class="col-md-8">
@@ -86,7 +86,7 @@
             <div class="col-md-2"></div>
 
         </div>
-        <div class="row section">
+        <div class="row section participants">
             
             <div class="col-md-2"></div>
 
@@ -104,18 +104,99 @@
                            <div class="row">encadrant</div>
                            <div class="row">coencadrant</div>
                        </div>
-                        <div class="col-md-4">
-                           <div class="row">Participants validé :</div>
-                           {% for participant in participantValide %}
-                               <div class="row"> - {{ participant.adherent.prenomAdherent }} {{ participant.adherent.nomAdherent }}</div>
+                        <div class="col-md-4 liste">
+                            <div class="row">Participants validé :</div>
+                            {% for participant in participantValide %}
+                                <div class="row">- {{ participant.adherent.prenomAdherent }} {{ participant.adherent.nomAdherent }}
+                                {% if app.user == collective.adherent %}
+                                    <button type="button" class="btn btn btn-danger btn-xs monBoutonRejet pull-right" data-toggle="modal" data-target="#rejetDialogValide{{loop.index}}"><div class="glyphicon glyphicon-remove"></div></button>
+
+                                    <div class="modal fade" id="rejetDialogValide{{loop.index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Voulez vous vraiment invalider la participation de l'adherent suivant : {{participant.adherent.prenomAdherent}} {{participant.adherent.nomAdherent}} ?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <form></form>
+                                                    <form id="rejetForm" method="post" action="{{path('desinscription')}}">
+                                                        <input type="hidden" name="IDadherent" value="{{participant.adherent.IDadherent}}"  />
+                                                        <input type="hidden" name="IDcollective" value="{{collective.IDcollective}}"  />
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                    <button  form="rejetForm" type="submit" class="btn btn-danger">Confirmer</button>
+                                                    </form>
+                                                </div>
+                                            </div><!-- /.modal-content -->
+                                        </div><!-- /.modal-dialog -->
+                                    </div><!-- /.modal -->
+
+                                    
+                                {% endif %}
+                                </div>
                            {% endfor %}
 
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-4 liste">
                             <div class="row">File d'attente :</div>
                             {% for participant in listeAttente %}
-                               <div class="row"> - {{ participant.adherent.prenomAdherent }} {{ participant.adherent.nomAdherent }}</div>
+                                <div class="row"> - {{ participant.adherent.prenomAdherent }} {{ participant.adherent.nomAdherent }}
+                                {% if app.user == collective.adherent %}
+                                    <button type="button" class="btn btn btn-danger btn-xs monBoutonRejet pull-right" data-toggle="modal" data-target="#rejetDialogAttente{{loop.index}}"><div class="glyphicon glyphicon-remove"></div></button>    
+                                    <button type="button" class="btn btn btn-success btn-xs pull-right" data-toggle="modal" data-target="#ValidationDialogAttente{{loop.index}}"><div class="glyphicon glyphicon-ok"></div></button>
+
+
+                                    <div class="modal fade" id="ValidationDialogAttente{{loop.index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Vous allez valider l'inscription de l'adherent suivant : {{participant.adherent.prenomAdherent}} {{participant.adherent.nomAdherent}}.
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <form></form>
+                                                    <form id="valideForm" method="post" action="{{path('validerInscription')}}">
+                                                        <input type="hidden" name="IDadherentValide" value="{{participant.adherent.IDadherent}}"  />
+                                                        <input type="hidden" name="IDcollectiveValide" value="{{collective.IDcollective}}"  />
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                    <button  form="valideForm" type="submit" class="btn btn-success">Confirmer</button>
+                                                    </form>
+                                                </div>
+                                            </div><!-- /.modal-content -->
+                                        </div><!-- /.modal-dialog -->
+                                    </div><!-- /.modal -->
+
+                                    <div class="modal fade" id="rejetDialogAttente{{loop.index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Voulez vous vraiment invalider la participation de l'adherent suivant : {{participant.adherent.prenomAdherent}} {{participant.adherent.nomAdherent}} ?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <form></form>
+                                                    <form id="rejetForm" method="post" action="{{path('desinscription')}}">
+                                                        <input type="hidden" name="IDadherent" value="{{participant.adherent.IDadherent}}"  />
+                                                        <input type="hidden" name="IDcollective" value="{{collective.IDcollective}}"  />
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                    <button  form="rejetForm" type="submit" class="btn btn-danger">Confirmer</button>
+                                                    </form>
+                                                </div>
+                                            </div><!-- /.modal-content -->
+                                        </div><!-- /.modal-dialog -->
+                                    </div><!-- /.modal -->
+                                {% endif %}
+                                </div>
                             {% endfor %}
                         </div> 
                     </div>
@@ -125,7 +206,7 @@
             <div class="col-md-2"></div>
 
         </div>
-        <div class="row section">
+        <div class="row section inscription">
                     <div class="col-md-2"></div>
                     <div class="col-md-8">
                         <div class="row actiCartouche_ actiCartouche_{{style}}">
@@ -151,72 +232,128 @@
                             </div>
 
                             <div class="col-md-6">
-                                {{ form_start(participantSubmit) }}
-                                {% if inscrit == 0 %}
-                                    <div class="row">Rendez-vous :</div>
-                                    {% for rdv in collective.rdv %}  
+                                {% if participantSubmit %}
+                                    {{ form_start(participantSubmit) }}
+                                    {% if inscrit == 0 %}
+                                        <div class="row">Rendez-vous :</div>
+                                        {% for rdv in collective.rdv %}  
+                                        <div class="row">
+                                            <input type="radio" name="rdv" value="{{ rdv.lieu.IDlieu}}" {% if loop.index == 1 %}checked="checked"{% endif %}> {{ rdv.heureRDV }} - {{ rdv.lieu.lieuLibelle }}
+                                        </div>
+                                        {% endfor %}
+                                    {% endif %}
                                     <div class="row">
-                                        <input type="radio" name="rdv" value="{{ rdv.lieu.IDlieu}}" {% if loop.index == 1 %}checked="checked"{% endif %}> {{ rdv.heureRDV }} - {{ rdv.lieu.lieuLibelle }}
-                                    </div>
-                                    {% endfor %}
-                                {% endif %}
-                                <div class="row">
 
-                                {% if app.user != collective.adherent %}
-                                    {% if participantSubmit and inscrit == 0 and inscritAlaMemeDate == 0 %}
-                                        
-                                            <div class="form-group">
-                                                {{ form_errors(participantSubmit.IDcollective) }}
-                                                {{ form_widget(participantSubmit.IDcollective) }}
+                                    {% if app.user != collective.adherent %}
+                                        {% if inscrit == 0 and inscritAlaMemeDate == 0 %}
 
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="submit" class="btn btn-primary btn-lg" value="M'inscrire à cette collective" />
-                                            </div>
+                                                <div class="form-group">
+                                                    {{ form_errors(participantSubmit.IDcollective) }}
+                                                    {{ form_widget(participantSubmit.IDcollective) }}
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="submit" class="btn btn-primary btn-lg" value="M'inscrire à cette collective" />
+                                                </div>
+
+                                        {% elseif inscrit == 1 %}
+                                            {% if participantActuel.IDetats == 1 %}
+                                                <div class="row encartInscription etat{{participantActuel.IDetats}}">
+                                                    <p>Vous êtes bien inscrit à cette collective, l'encadrant doit encore
+                                                        valider votre candidature.</br>
+                                                        Pour rappel, en cas de validation, 
+                                                        vous aurez rendez vous le {{collective.collDateDebut|localizeddate('short', 'none')}} 
+                                                        à {{participantActuel.heureRDV}} 
+                                                        au lieu suivant : {{participantActuel.lieuLibelle}}
+                                                    </p>
+                                                    
+                                                </div>
+                                                
+                                                <div class="row encartInscription">
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#desinscriptionDialog">Me désinscrire de cette collective</button>
+                                                </div>
+                                                    
+                                                <div class="modal fade" id="desinscriptionDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                                <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Voulez vous vraiment vous désinscrire de la sortie collective "{{collective.collTitre}}"?
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <form></form>
+                                                                <form id="deleteForm" method="post" action="{{path('desinscription')}}">
+                                                                    <input type="hidden" name="IDadherent" value="{{app.user.IDadherent}}" />
+                                                                    <input type="hidden" name="IDcollective" value="{{collective.IDcollective}}" />
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                                <button  form="deleteForm" type="submit" class="btn btn-danger">Confirmer</button>
+                                                                </form>
+                                                            </div>
+                                                        </div><!-- /.modal-content -->
+                                                    </div><!-- /.modal-dialog -->
+                                                </div><!-- /.modal -->
+                                            {% else %}
+                                                <div class="row encartInscription etat{{participantActuel.IDetats}}">
+                                                    <p>Vous êtes bien inscrit à cette collective et l'encadrant a validé
+                                                        votre candidature.</br>
+                                                        Nous vous donnons rendez vous le {{collective.collDateDebut|localizeddate('short', 'none')}} 
+                                                        à {{participantActuel.heureRDV}} 
+                                                        au lieu suivant : {{participantActuel.lieuLibelle}}
+                                                        N'oubliez pas votre materiel !
+                                                    </p>
+                                                </div>
+                                                <div class="row encartInscription">
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#desinscriptionDialog">Me désinscrire de cette collective</button>
+                                                </div>
+                                                    
+                                                <div class="modal fade" id="desinscriptionDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                                <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Voulez vous vraiment vous désinscrire de la sortie collective "{{collective.collTitre}}"?
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <form></form>
+                                                                <form id="deleteForm" method="post" action="{{path('desinscription')}}">
+                                                                    <input type="hidden" name="IDadherent" value="{{app.user.IDadherent}}" />
+                                                                    <input type="hidden" name="IDcollective" value="{{collective.IDcollective}}" />
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                                <button  form="deleteForm" type="submit" class="btn btn-danger">Confirmer</button>
+                                                                </form>
+                                                            </div>
+                                                        </div><!-- /.modal-content -->
+                                                    </div><!-- /.modal-dialog -->
+                                                </div><!-- /.modal -->
+
+                                            {% endif %}
+                                        {% elseif inscritAlaMemeDate == 1 %}
+                                            Vous êtes déja inscrit à une autre collective prevue le même jour
                                         
-                                    {% elseif inscrit == 1 %}
-                                        {% if participantActuel.IDetats == 1 %}
-                                            <div class="row encartInscription etat{{participantActuel.IDetats}}">
-                                                <p>Vous êtes bien inscrit à cette collective, l'encadrant doit encore
-                                                valider votre candidature.</p>
-                                            </div>
-                                            <div class="row encartInscription">
-                                                <a href="#">Me désinscrire</a>
-                                            </div>
-                                            
-                                        {% else %}
-                                            <div class="row encartInscription etat{{participantActuel.IDetats}}">
-                                                <p>Vous êtes bien inscrit à cette collective et l'encadrant a validé
-                                                votre candidature</p>
-                                            </div>
-                                            <div class="row encartInscription">
-                                                <a href="#">Me désinscrire</a>
-                                            </div>
                                             
                                         {% endif %}
-                                    {% elseif inscritAlaMemeDate == 1 %}
-                                        Vous êtes déja inscrit à une autre collective prevue le même jour
-                                    {% else %}
-                                        <a href="{{ path('fichecollectiveInscription',{'id': collective.IDcollective})}}">Connectez-vous</a> pour pouvoir vous incrire 
                                     {% endif %}
+                                    </div>
+                                    {{ form_end(participantSubmit) }}
+                                {% else %}
+                                    <a href="{{ path('fichecollectiveInscription',{'id': collective.IDcollective})}}">Connectez-vous</a> pour pouvoir vous incrire 
                                 {% endif %}
-                                </div>
-                                {{ form_end(participantSubmit) }}
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-2"></div>
-                    
-                        
-        
-                    
-                    
-</div>
-            
+                    <div class="col-md-2"></div>    
         </div>
+            
     </div>
+    
                     
-    <div class="container monContenu">
+    {#<div class="container monContenu">
         <div class="row">Les commentaires</div>
         {% for commentaire in commentaires %}
         <div class="row">
@@ -225,6 +362,6 @@
             <div class="col-md-2">{{ commentaire.comhorodateur}}</div>            
         </div>
         {% endfor %}
-    </div>
+    </div>#}
     
 {% endblock %}
