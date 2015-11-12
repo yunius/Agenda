@@ -20,12 +20,14 @@ class CollectiveType extends AbstractType {
     protected $objectifs;
     protected $adherents;
     protected $cotations;
+    protected $secteur;
     
-    public function __construct($activites, $objectifs, $adherents, $cotations) {
+    public function __construct($activites, $objectifs, $adherents, $cotations, $secteur) {
         $this->activites = $activites;
         $this->objectifs = $objectifs;
         $this->adherents = $adherents;
         $this->cotations = $cotations;
+        $this->secteur = $secteur;
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options) {
@@ -55,6 +57,13 @@ class CollectiveType extends AbstractType {
                     'multiple'=>false,
                     'label' => 'Objectif :'
                 ))
+//                ->add('secteur', 'choice',array(
+//                    'choices' => $this->secteur,
+//                    'placeholder' => 'Choisissez ou creez un secteur',
+//                    'expanded'=>false, 
+//                    'multiple'=>false,
+//                    'label' => 'secteur :'
+//                ))
                 
                 ->add('adherent', 'choice', array(
                     'choices' => $this->adherents,
@@ -71,7 +80,9 @@ class CollectiveType extends AbstractType {
                     'required' => false,
                     'expanded'=>false, 
                     'multiple'=>false
-                ));
+                ))
+                
+                ->add('collDenivele', 'text');
         
                 
                 

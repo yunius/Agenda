@@ -46,6 +46,17 @@ $(function() {
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip(); 
 });
+//fonction pour les spinner
+
+$(function() {
+    $( "#collective_collDenivele" ).spinner({
+      step: 100,
+      numberFormat: "n"
+    });
+  });
+
+
+
 
 //**********************************************************************************************///
 //mise en place des datePicker
@@ -125,6 +136,24 @@ $(function() {
 //  });
   
   $('#collective_objectif').selectize({create: true});
+  $('#tags').selectize({    
+    delimiter: ',',
+    persist: true,
+    create: function(input) {
+      return {
+        value: input,
+        text: input
+      };
+    }
+  });
+});
+
+$(function() {
+//  $('#testform').submit(function(e){
+//    e.preventDefault();
+//  });
+  
+  $('#collective_secteur').selectize({create: true});
   $('#tags').selectize({    
     delimiter: ',',
     persist: true,

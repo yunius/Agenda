@@ -41,9 +41,28 @@
                     {% set cotationStyle = cotation.cotation.LibelleCotation %}    
                     <div class="col-md-4 cotationStyle{{cotationStyle}}">
                         <div class="row">{{cotation.cotation.LibelleCotation}}</div>
-                        <div class="row ">{{cotation.cotation.valeurCotation}}</div>
+                        <div class="row">{{cotation.cotation.valeurCotation}}</div>
                     </div>                    
                     {% endfor %}
+                    <div data-toggle="tooltip" data-trigger="hover" title="afficher le tableau des cotation" >
+                        <button class="lienTableau" data-toggle="modal" data-target="#tableauCotation">?</button>
+                    </div>
+                    <div class="modal fade" id="tableauCotation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title" id="myModalLabel">Tableau des cotations</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <img src="{{app.request.basepath}}/img/Cotations-activités-Club-Alpin-de-Pau5.jpg" />
+                                </div>
+                                <div class="modal-footer">
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+                    
                 </div>
                 {% if collective.collDenivele is not null %}
                 <div class="row row actiCartouche_ actiCartouche_{{style}}">
@@ -65,13 +84,13 @@
 
             <div class="col-md-8">
                 <div class="row actiCartouche_ actiCartouche_{{style}}">
-                    <div class="row">MATERIEL</div>
+                    <div class="row"><p><strong><u>Materiel requis</u></strong> pour cette collective</p></div>
                     <div class="row">
                         <div class="col-md-2"></div>
                         <div class="col-md-8 encartMateriel">
                             <div class="row">
                                 {% for materiel in listemateriel %}
-                                <div class="col-md-6">{{ materiel.TypeMateriel.typeMatLibelle }}</div>
+                                <div class="col-md-6 cartouchePieceMat"> - {{ materiel.TypeMateriel.typeMatLibelle }}</div>
                                 {% endfor %}
                             </div>
                         </div>
@@ -79,7 +98,12 @@
 
 
                     </div>
-                    <div class="row">materiel texte</div>
+                    <div class="row">
+                        <p class="warning1">Pour la sécurité de tous, toute personne n'ayant le matériel requis ne pourra participer à la sortie</p>
+                        <p>Le club met du matériel à votre disposition dans le cadre des sorties collectives et des stages qu'il organise. 
+                            Le matériel du club n'est pas destiné à une pratique individuelle. Il est à retirer et à rendre par vos soins 
+                            aux heures de permanence matériel. plus d’info <a href="http://cafdepau.ffcam.fr/infos.html#materiel">par ici</a>.</p>
+                    </div>
                 </div>
             </div>
 
@@ -94,23 +118,27 @@
                 <div class="row participantEncart actiCartouche_ actiCartouche_{{style}}">
                     <div class="row">
                        <div class="col-md-4">resumé</div>
-                       <div class="col-md-4">PARTICIPANTS</div>
+                       <div class="col-md-4"><h4>Participants</h4></div>
                        <div class="col-md-4"></div> 
                     </div>
 
                     <div class="row">
-                       <div class="col-md-4">
-                           <div class="row">encadrants :</div>
-                           <div class="row">encadrant</div>
-                           <div class="row">coencadrant</div>
+                       <div class="col-md-3">
+                           <div class="row"><u>encadrants</u> :</div>
+                           <div class="row">{{collective.adherent.prenomAdherent}} {{collective.adherent.nomAdherent}}</br>
+                               {{collective.adherent.adherentNumTel}}</br>
+                               {{collective.adherent.MailAdherent}}
+                           </div>
+                           <div class="row"><u>coencadrant</u></div>
                        </div>
                         <div class="col-md-4 liste">
-                            <div class="row">Participants validé :</div>
+                            <div class="row"><u>Participants validé</u> :</div>
                             {% for participant in participantValide %}
-                                <div class="row">- {{ participant.adherent.prenomAdherent }} {{ participant.adherent.nomAdherent }}
+                                <div class="row CartoucheParticipants">- {{ participant.adherent.prenomAdherent }} {{ participant.adherent.nomAdherent }}
                                 {% if app.user == collective.adherent %}
-                                    <button type="button" class="btn btn btn-danger btn-xs monBoutonRejet pull-right" data-toggle="modal" data-target="#rejetDialogValide{{loop.index}}"><div class="glyphicon glyphicon-remove"></div></button>
-
+                                    <span data-toggle="tooltip" data-trigger="hover" title="Invalider l'inscription">
+                                        <button type="button" class="btn btn btn-danger btn-xs monBoutonRejet pull-right" data-toggle="modal" data-target="#rejetDialogValide{{loop.index}}"><div class="glyphicon glyphicon-remove"></div></button>
+                                    </span>
                                     <div class="modal fade" id="rejetDialogValide{{loop.index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
@@ -141,14 +169,17 @@
 
                         </div>
 
-                        <div class="col-md-4 liste">
-                            <div class="row">File d'attente :</div>
+                        <div class="col-md-5 liste">
+                            <div class="row"><u>File d'attente</u> :</div>
                             {% for participant in listeAttente %}
-                                <div class="row"> - {{ participant.adherent.prenomAdherent }} {{ participant.adherent.nomAdherent }}
+                                <div class="row CartoucheParticipants"> - {{ participant.adherent.prenomAdherent }} {{ participant.adherent.nomAdherent }}
                                 {% if app.user == collective.adherent %}
-                                    <button type="button" class="btn btn btn-danger btn-xs monBoutonRejet pull-right" data-toggle="modal" data-target="#rejetDialogAttente{{loop.index}}"><div class="glyphicon glyphicon-remove"></div></button>    
-                                    <button type="button" class="btn btn btn-success btn-xs pull-right" data-toggle="modal" data-target="#ValidationDialogAttente{{loop.index}}"><div class="glyphicon glyphicon-ok"></div></button>
-
+                                    <span data-toggle="tooltip" data-trigger="hover" title="Invalider l'inscription">
+                                        <button type="button" class="btn btn btn-danger btn-xs monBoutonRejet pull-right" data-toggle="modal" data-target="#rejetDialogAttente{{loop.index}}"><div class="glyphicon glyphicon-remove"></div></button>    
+                                    </span>
+                                    <span data-toggle="tooltip" title="Valider l'inscription">#}
+                                        <button type="button" class="btn btn btn-success btn-xs pull-right" data-toggle="modal" data-target="#ValidationDialogAttente{{loop.index}}"><div class="glyphicon glyphicon-ok"></div></button>
+                                    </span>
 
                                     <div class="modal fade" id="ValidationDialogAttente{{loop.index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
@@ -200,6 +231,12 @@
                             {% endfor %}
                         </div> 
                     </div>
+                    
+                    <div class="row warning2">
+                        <p>Rappel : Les inscrits sont classé par ordre alphabetique et Une premiere place en liste
+                        d'attente ne vous octroie pas automatiquement une validation de la part de l'encadrant.
+                        </p>
+                    </div>
                 </div>
             </div>
 
@@ -210,7 +247,7 @@
                     <div class="col-md-2"></div>
                     <div class="col-md-8">
                         <div class="row actiCartouche_ actiCartouche_{{style}}">
-                            
+                            <div  class="row"><p class="warning3">Début des inscriptions à 19h00, une semaine avant la sortie </br> ( sauf deux jours de sortie ou plus)</p></div>
                             <div class="col-md-6">Commentaire : <br />
                             {% if commentForm %}
                                 {{ form_start(commentForm) }}

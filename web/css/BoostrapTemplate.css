@@ -193,12 +193,22 @@ input::-webkit-calendar-picker-indicator {
 .ficheCollective .actiCartouche_ .col-md-6 {
     text-align: left;
 }
-.ficheCollective .participantEncart .col-md-4 {
+.ficheCollective .participantEncart .col-md-5 {
     text-align: left;
 }
 
+.ficheCollective .participantEncart .col-md-5 .row {
+    margin-left: 5px;
+    text-align: left;
+}
 .ficheCollective .participantEncart .col-md-4 .row {
-    margin-left: 10px;
+    margin-left: 5px;
+    text-align: left;
+}
+
+.ficheCollective .participantEncart .col-md-3 .row {
+    margin-left: 5px;
+    text-align: left;
 }
 
 .accueilTitre {
@@ -238,6 +248,28 @@ input::-webkit-calendar-picker-indicator {
     font-weight: bold;
     text-shadow:none;
     
+    
+}
+.ficheCollective .mesBoutonCotation {
+    background-color: rgba(60, 60, 60, 0.3);
+    border:none;
+    border-radius: 10px;
+    
+}
+.ficheCollective .mesBoutonCotation p {
+    text-align: center;
+}
+.cotValue {
+    text-align: center;
+}
+.lienTableau {
+    background-color: rgba(0,0,0,0);
+    border-radius: 50px;
+    height: 25px;
+    width: 25px;
+}
+#overrideBootstrap #tableauCotation .modal-dialog{
+    width: 90%;
 }
 
 .encartInscription p, .encartInscription button {
@@ -318,6 +350,38 @@ input::-webkit-calendar-picker-indicator {
 }
 .ficheCollective .liste .row {
     margin-bottom: 3px;
+}
+
+.cartouchePieceMat {
+    padding: 2px;
+    margin: 1px;
+    border-radius: 10px;
+    width: 48%;
+    background-color: rgba(50, 50, 50, 0.40); 
+    text-align: center;
+}
+.CartoucheParticipants {
+    padding: 2px;
+    margin: 1px;
+    border-radius: 10px;
+    background-color: rgba(50, 50, 50, 0.40); 
+    text-align: center;
+}
+
+.warning1 {
+    color: red;
+    font-weight: bold;
+}
+.warning2 p {
+    margin: 15px;
+}
+.warning3 {
+    color: green;
+    font-weight: bold;
+}
+
+.materiel p {
+    padding: 15px;
 }
 @media only screen and (min-width:1200px) {
     #overrideBootstrap .btn-danger, .btn-info {

@@ -47,6 +47,11 @@
                             {{form_errors(activiteFormView.objectif)}}
                             {{form_widget(activiteFormView.objectif)}}
                         </div>
+                        {#<div class="row"> 
+                            {{ form_label(activiteFormView.secteur) }} 
+                            {{form_errors(activiteFormView.secteur)}}
+                            {{form_widget(activiteFormView.secteur)}}
+                        </div>#}
                         
                         
 
@@ -63,6 +68,11 @@
                             {{form_errors(activiteFormView.cotation)}}
                             {{form_widget(activiteFormView.cotation , { attr: { 'class' : 'selectCotation'} })}}
                             <input type="submit" class="btn btn-primary" value="Ajouter une cotation"/>
+                        </div>
+                        <div class="row">
+                            {{form_label(activiteFormView.collDenivele)}} 
+                            {{form_errors(activiteFormView.collDenivele)}}
+                            {{form_widget(activiteFormView.collDenivele, { attr: { 'placeholder' : 'estimer le dénivelé'} })}}
                         </div>
                     </div>
                 </div>
