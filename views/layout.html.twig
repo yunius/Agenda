@@ -92,18 +92,18 @@ and open the template in the editor.
                         <li class="dropdown">
                             <a data-toggle="dropdown" href="#">Mes Collectives<p class="caret"></p></a>
                             <ul class="dropdown-menu">
-                                <li><a href="{{ path('editionCollective') }}">CREER UNE NOUVELLE COLLECTIVE</a></li>
-                                <li><a href="#">MODIFIER UNE COLLECTIVE</a></li>
+                                <li><a href="{{ path('editionCollective',{'id': 0}) }}">CREER UNE NOUVELLE COLLECTIVE</a></li>
+                                <li><a href="#">AFFICHER MES COLLECTIVES</a></li>
                                 <li><a href="#">SUPPRIMER UNE COLLECTIVE</a></li>
                             </ul>
                         </li>
                         {% endif %}
                         <li><a href="{{path('accueil')}}"><span class="glyphicon glyphicon-home" > </span><span> Agenda </span></a></li> 
-                        <li><a href="#">Calendrier</a></li>                    
+                        {#<li><a href="#">Calendrier</a></li>                    
                         <li><a href="#">Newsletter</a></li>
                         <li><a href="#">Petites Annonces</a></li>
                         <li><a href="#">Météo</a></li>
-                        <li><a href="#">Aide</a></li>
+                        <li><a href="#">Aide</a></li>#}
                     </ul>    
                 </div> 
             </div>    

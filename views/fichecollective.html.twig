@@ -272,7 +272,11 @@
                                 {% if participantSubmit %}
                                     {{ form_start(participantSubmit) }}
                                     {% if inscrit == 0 %}
-                                        <div class="row">Rendez-vous :</div>
+                                        {% if NBrdv > 1 %}
+                                            <div class="row">Choisissez un lieu de rendez-vous :</div>
+                                        {% else %}
+                                            <div class="row">Rendez-vous :</div>
+                                        {% endif %}
                                         {% for rdv in collective.rdv %}  
                                         <div class="row">
                                             <input type="radio" name="rdv" value="{{ rdv.lieu.IDlieu}}" {% if loop.index == 1 %}checked="checked"{% endif %}> {{ rdv.heureRDV }} - {{ rdv.lieu.lieuLibelle }}
@@ -390,7 +394,7 @@
     </div>
     
                     
-    {#<div class="container monContenu">
+    <div class="container monContenu actiContainer_">
         <div class="row">Les commentaires</div>
         {% for commentaire in commentaires %}
         <div class="row">
@@ -399,6 +403,6 @@
             <div class="col-md-2">{{ commentaire.comhorodateur}}</div>            
         </div>
         {% endfor %}
-    </div>#}
+    </div>
     
 {% endblock %}

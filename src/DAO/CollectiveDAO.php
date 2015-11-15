@@ -73,25 +73,75 @@ class CollectiveDAO extends DAO {
         
     }
     
-    public function findAllByFilter($debut = NULL, $fin = NULL, $IDactivite = NULL) {
+    public function findAllByEncadrant($IDadherent) {
+        
+        $sql = "SELECT * FROM collectives 
+                        WHERE IDadherent=? 
+                        ORDER BY collDateDebut ";
+                
+        $result = $this->getDB()->fetchAll($sql, array($IDadherent));
+        
+        $collectives = array();
+        foreach ($result as $row) {
+            $IDcollective = $row['IDcollective'];
+            $collectives[$IDcollective] = $this->buildDomainObject($row);            
+        }
+        return $collectives;
+    }
+    
+    public function findAllByFilter($debut, $fin, $IDactivite, $encadrant, $noPeriode) {
+        
+        if(!empty($encadrant)) {
+            $AND = 'AND IDadherent='.$encadrant.'';
+        }else {
+            $AND = '';
+        }
         
         
-        
+        if ($noPeriode == true) {
+            
+            if(empty($IDactivite)) {
+                $sql = "SELECT * FROM collectives 
+                        WHERE collDateDebut >= ?
+                        ".$AND."
+                        ORDER BY collDateDebut";
+                $result = $this->getDB()->fetchAll($sql, array($debut));
+            }
+            if(!empty($IDactivite)) {
+                $sql = "SELECT * FROM collectives 
+                        WHERE IDtypeActivite=?
+                        ".$AND."
+                        AND collDateDebut >= ?
+                        ORDER BY collDateDebut";
+                $result = $this->getDB()->fetchAll($sql, array($IDactivite, $debut));
+            }
+            
+            $collectives = array();
+            foreach ($result as $row) {
+                $IDcollective = $row['IDcollective'];
+                $collectives[$IDcollective] = $this->buildDomainObject($row);            
+            }
+            return $collectives;
+            
+        } 
         
         if (!empty($debut) && empty($IDactivite)) {
             
-            if(!empty($fin)) {
+            if(empty($fin)) {
                 $sql = "SELECT * FROM collectives 
-                        WHERE collDateDebut BETWEEN ? AND ? 
-                        ORDER BY collDateDebut ";
-                
-                $result = $this->getDB()->fetchAll($sql, array($debut, $fin ));
-            } else {
-                $sql = "SELECT * FROM collectives 
-                        WHERE collDateDebut = ? 
+                        WHERE collDateDebut=? 
+                        ".$AND."
                         ORDER BY collDateDebut ";
                 
                 $result = $this->getDB()->fetchAll($sql, array($debut));
+            } else {
+                $sql = "SELECT * FROM collectives 
+                        WHERE collDateDebut BETWEEN ? AND ?
+                        ".$AND."
+                        ORDER BY collDateDebut ";
+                
+                $result = $this->getDB()->fetchAll($sql, array($debut, $fin ));
+                
             }    
         }
         elseif (!empty($debut) && !empty($IDactivite)) {
@@ -99,6 +149,7 @@ class CollectiveDAO extends DAO {
             if(!empty($fin)) {
                 $sql = "SELECT * FROM collectives 
                         WHERE collDateDebut BETWEEN ? AND ?
+                        ".$AND."
                         AND IDtypeActivite = ?
                         ORDER BY collDateDebut ";
                 
@@ -106,6 +157,7 @@ class CollectiveDAO extends DAO {
             } else {
                 $sql = "SELECT * FROM collectives 
                         WHERE collDateDebut = ?
+                        ".$AND."
                         AND IDtypeActivite = ?
                         ORDER BY collDateDebut ";
                 

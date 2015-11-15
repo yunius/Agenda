@@ -46,12 +46,14 @@ class filtreType extends AbstractType {
 //                    'required' => false,
 //                    'data' => 0
 //                ))
-//                ->add('adherent', 'choice', array(
-//                    'choices' => $this->adherents,
-//                    'label' => 'désigner un responsable :',
-//                    'placeholder' => 'modifier l\'encadrant',
-//                    'expanded'=>false, 
-//                    'multiple'=>false
+                ->add('adherent', 'choice', array(
+                    'choices' => $this->encadrants,
+                    'label' => 'désigner un responsable :',
+                    'placeholder' => 'modifier l\'encadrant',
+                    'expanded'=>false, 
+                    'multiple'=>false,
+                    'required' => false
+                ))
                 ->add('debutPeriode', 'date', array(
                     'widget' => 'single_text',
                     'attr' => array( 'placeholder' => 'Choisir une date' ),

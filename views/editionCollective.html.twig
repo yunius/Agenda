@@ -4,7 +4,7 @@
 
 {% block content %}
     
-    <div class="row">
+    {#<div class="row">
         <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
             <ul class="nav nav-tabs nav-justified">
                 <li class="active"><a href="#description" data-toggle="tab">Description</a></li>
@@ -12,25 +12,26 @@
                 <li><a href="#inscription" data-toggle="tab">Inscription</a></li>
             </ul>
         </div>
-    </div>
+    </div>#}
     {{ form_start(activiteFormView) }}
+    {% if collective.typeActivite %}
+        {% set style = collective.typeActivite.IDtypeActivite %}
+    {% else %}
+        {% set style = '' %}
+    {%  endif %}
     <div class="tab-content">
         <div class="tab-pane fade in active" id="description">
-            <div class="container monContenu">
-                <div class="row">DESCRIPTION</div>
+            <div class="container monContenu actiContainer_{{style}}">
+                <div class="row"><h4>DESCRIPTION</h4></div>
                 
                 <div class="row">
-                    <div col class="col-md-2">
-                    
-                        
+                    <div class="col-md-2">
                         {{ form_label(activiteFormView.typeActivite) }}
                         {{form_errors(activiteFormView.typeActivite)}}
-                        {{form_widget(activiteFormView.typeActivite, { attr: { 'class' : 'selectActivite'} })}}
-                                
-                        
+                        {{form_widget(activiteFormView.typeActivite, { attr: { 'class' : 'selectActivite'} })}} 
                     </div>
                                 
-                    <div col class="col-md-6">
+                    <div class="col-md-6 {#actiCartouche_ actiCartouche_{{style}}#}">
                         <div class="row">
                             {{ form_label(activiteFormView.collTitre) }}
                             {{form_errors(activiteFormView.collTitre)}}
@@ -38,9 +39,14 @@
                         </div>
 
                         <div class="row">
-                            {{ form_label(activiteFormView.collDateDebut) }}   
+                              
                             {{form_errors(activiteFormView.collDateDebut)}}
                             {{form_widget(activiteFormView.collDateDebut)}}
+                        </div>
+                        <div class="row">
+                               
+                            {{form_errors(activiteFormView.collDateFin)}}
+                            {{form_widget(activiteFormView.collDateFin)}} ( si la collective dure plus d'un jour )
                         </div>
                         <div class="row"> 
                             {{ form_label(activiteFormView.objectif) }} 
@@ -52,11 +58,9 @@
                             {{form_errors(activiteFormView.secteur)}}
                             {{form_widget(activiteFormView.secteur)}}
                         </div>#}
-                        
-                        
-
                     </div>
-                    <div col class="col-md-4">
+                    
+                    <div class="col-md-4">
                         <div class="row">
                             {{form_label(activiteFormView.adherent)}} 
                             {{form_errors(activiteFormView.adherent)}}
@@ -68,6 +72,52 @@
                             {{form_errors(activiteFormView.cotation)}}
                             {{form_widget(activiteFormView.cotation , { attr: { 'class' : 'selectCotation'} })}}
                             <input type="submit" class="btn btn-primary" value="Ajouter une cotation"/>
+                            
+                            {% if cotations != '' %}
+                                <div class="row actiCartouche_ actiCartouche_{{style}}">
+                            
+                                    {% for cotation in cotations %}
+
+                                    <div class="col-md-3 xsDiv">
+
+                                            <div class="row">
+                                                {{cotation.cotation.LibelleCotation}}
+                                            </div>
+                                            <div class="row">
+                                                {{cotation.cotation.valeurCotation}}
+                                            </div>
+
+                                            <div data-toggle="tooltip" data-trigger="hover" title="Supprimer la cotation">
+                                                <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#SuppCotDialog{{ cotation.cotation.IDcotation }}"><span class="glyphicon glyphicon-remove"></span></button>
+                                            </div>
+
+                                    </div>
+                                    <div class="modal fade" id="SuppCotDialog{{ cotation.cotation.IDcotation }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Voulez vous vraiment supprimer la cotation n° {{ cotation.cotation.IDcotation }}?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <form></form>
+                                                    <form id="deleteForm-{{ loop.index }}" method="post" action="{{path('CollectiveCotationAsuppr')}}">
+                                                        <input type="hidden" name="cotationAsuppr" value="{{cotation.cotation.IDcotation}}" />
+                                                        <input type="hidden" name="IDcollAsuppr" value="{{cotation.IDcollective}}" />
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                    <button  form="deleteForm-{{ loop.index }}" type="submit" class="btn btn-danger">Confirmer</button>
+                                                    </form>
+                                                </div>
+                                            </div><!-- /.modal-content -->
+                                        </div><!-- /.modal-dialog -->
+                                    </div><!-- /.modal -->
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            
                         </div>
                         <div class="row">
                             {{form_label(activiteFormView.collDenivele)}} 
@@ -77,25 +127,62 @@
                     </div>
                 </div>
                 
-                    <div class="row">
-                        boutons
-                    </div>
-                            <input {#form="collective"#} type="submit" class="btn btn-primary" value="Enregistrer"/>
+                <div class="row">
+                    <input {#form="collective"#} type="submit" class="btn btn-primary pull-right" value="Enregistrer"/>
+                </div>
+                            
                     
-            </div>            
+            </div>  
+                
+            <div class="container monContenu actiContainer_{{style}}">
+                <div class="row"><h4>MATERIEL</h4></div>
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6 editMateriel">
+                                {{form_errors(activiteFormView.MaterielCollective)}}
+                                {{form_widget(activiteFormView.MaterielCollective)}}
+                            </div>
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-primary" >Ajouter une piece de materiel</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3"></div>
+                    
+                </div>
+                        
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        {% if materielCollective %}
+                            <div class="row">
+                            {% for materiel in materielCollective %}
+                        
+                            <div class="col-md-6 cartouchePieceMat">{{ materiel.TypeMateriel.typeMatLibelle }}</div>
+                        
+                            {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-3"></div>
+                    
+                </div>
+            </div>
         </div>
         
-        <div class="tab-pane fade in" id="materiel">
-            <div class="container monContenu">
+        {#<div class="tab-pane fade in" id="materiel">
+            <div class="container monContenu actiContainer_{{style}}">
                 MATERIEL
             </div>            
         </div>
         
         <div class="tab-pane fade in" id="inscription">
-            <div class="container monContenu">
+            <div class="container monContenu actiContainer_{{style}}">
                 INSCRIPTION
             </div>            
-        </div>
+        </div>#}
         
     </div><!-- tab-content -->
     {{ form_end(activiteFormView) }}

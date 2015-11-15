@@ -12,13 +12,8 @@ use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Agenda\Domain\Commentaire;
 use Agenda\Domain\Participant;
-use Agenda\Domain\Collective;
-use Agenda\Domain\CollectiveCotation;
 use Agenda\Form\Type\CommentType;
 use Agenda\Form\Type\ParticipantSubmitType;
-use Agenda\Form\Type\CollectiveType;
-use Agenda\Form\Type\CollCotSupprType;
-use Agenda\Form\Type\filtreType;
 /**
  * Description of FicheCollectiveController
  *
@@ -72,9 +67,8 @@ class FicheCollectiveController {
             $commentForm = $app['form.factory']->create(new CommentType(), $comment);
             $commentForm->handleRequest($request);
             if($commentForm->isSubmitted() && $commentForm->isValid()) {
-                $app['dao.commentaire']->save($comment);
-                return $app->redirect('/fichecollective/'.$id);
-
+                
+                $this->traitementCommentaire($comment, $request, $app);
             }
             $commentFormView = $commentForm->createView();
         }
@@ -86,13 +80,12 @@ class FicheCollectiveController {
             $participant->setIDcollective($id);
             $user = $app['user'];
             $participant->setAdherent($user);
-//            $rdvList = array();
-//            $rdvs = $app['dao.rdv']->findAll($id);
-//            foreach ($rdvs as $rdv) {
-//                $idlieu = $rdv->getLieu()->getIdlieu();
-//                $rdvList[$idlieu]['lieu'] = $rdv->getLieu()->getLieuLibelle();
-//                $rdvList[$idlieu]['heure'] = $rdv->getHeureRDV();
-//            }
+            $NBrdv = 0;
+            $rdvs = $app['dao.rdv']->findAll($id);
+            foreach ($rdvs as $rdv) {
+                $NBrdv++;
+            }
+            
             
 
             $ParticipantSubmitForm = $app['form.factory']->create(new ParticipantSubmitType(), $participant);
@@ -136,13 +129,24 @@ class FicheCollectiveController {
                                                                   'participantSubmit' => $ParticipantSubmitView,
                                                                   'inscrit' => $inscrit,
                                                                   'inscritAlaMemeDate' => $inscritAlaMemeDate,
-                                                                  'participantActuel' => $participantActuel
+                                                                  'participantActuel' => $participantActuel,
+                                                                  'NBrdv' => $NBrdv
                                                                  ]);
     }
     
     public function ficheCollectiveInscriptionAction($id, Request $request, Application $app) {
         
         $this->ficheCollectiveAction($id, $request, $app);
+    }
+    
+    
+    
+    public function traitementCommentaire(Commentaire $comment, Request $request, Application $app) {
+        $contenu = $request->get('commentaire')['contenu'];
+        $comment->setContenu($contenu);
+        $id = $comment->getIDcollective();
+        $app['dao.commentaire']->save($comment);
+        return $app->redirect('/fichecollective/'.$id);
     }
     
     

@@ -97,27 +97,44 @@ $(function() {
 
 $(function() {
     
-    //$.datepicker.setDefaults( $.datepicker.regional[ "" ] );
-    $( "#filtre_debutPeriode" ).datepicker({ 
+    //filtre accueil
+    $( ".monDebutPeriodeEncadrant" ).datepicker({ 
+        
+        onClose : function(selectedDate) {
+            $("#filtre_finPeriode").datepicker("option", "minDate", selectedDate);
+        }
+    });
+    
+    $( ".monDebutPeriode" ).datepicker({ 
         minDate: '0', 
         onClose : function(selectedDate) {
             $("#filtre_finPeriode").datepicker("option", "minDate", selectedDate);
         }
     });
+    
     $( "#filtre_finPeriode" ).datepicker();
     
+    //editeur de collective
+    $( "#collective_collDateDebut" ).datepicker({ 
+        minDate: '0', 
+        onClose : function(selectedDate) {
+            $("#collective_collDateFin").datepicker("option", "minDate", selectedDate);
+        }
+    });
+    
+    $( "#collective_collDateFin" ).datepicker();
   });
 
 
 //********************************************************************************************////
 
-//fonction pour activer l'autocompletion de certain select
+//fonction pour activer l'autocompletion et l'add de certain select
 $(function() {
 //  $('#testform').submit(function(e){
 //    e.preventDefault();
 //  });
   
-  $('#collective_typeActivite').selectize({create: true});
+  $('#collective_typeActivite').selectize({create: false});
   $('#tags').selectize({    
     delimiter: ',',
     persist: true,
@@ -128,12 +145,7 @@ $(function() {
       };
     }
   });
-});
 
-$(function() {
-//  $('#testform').submit(function(e){
-//    e.preventDefault();
-//  });
   
   $('#collective_objectif').selectize({create: true});
   $('#tags').selectize({    
@@ -146,14 +158,36 @@ $(function() {
       };
     }
   });
-});
 
-$(function() {
-//  $('#testform').submit(function(e){
-//    e.preventDefault();
-//  });
+
+
   
   $('#collective_secteur').selectize({create: true});
+  $('#tags').selectize({    
+    delimiter: ',',
+    persist: true,
+    create: function(input) {
+      return {
+        value: input,
+        text: input
+      };
+    }
+  });
+
+  
+  $('#collective_MaterielCollective').selectize({create: false});
+  $('#tags').selectize({    
+    delimiter: ',',
+    persist: true,
+    create: function(input) {
+      return {
+        value: input,
+        text: input
+      };
+    }
+  });
+  
+  $('#filtre_adherent').selectize({create: false});
   $('#tags').selectize({    
     delimiter: ',',
     persist: true,
@@ -197,4 +231,6 @@ $(document).ready(function()
 
 //********************************************************************************************////
 
+//tabs function
 
+$("#tabs").tabs( { show: { effect: "slide", direction: "left", duration: 500 }});

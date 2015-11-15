@@ -3,7 +3,21 @@ body {
   background-size: cover;
   
 }
-
+*::-webkit-input-placeholder {
+    color: red;
+}
+*:-moz-placeholder {
+    /* FF 4-18 */
+    color: red;
+}
+*::-moz-placeholder {
+    /* FF 19+ */
+    color: red;
+}
+*:-ms-input-placeholder {
+    /* IE 10+ */
+    color: red;
+}
 
 /*.row {
     margin-bottom: 15px;
@@ -147,6 +161,10 @@ body {
     padding-bottom: 20px;
     border-top: solid #286090 3px;
 }
+#mesfiltres .selectize-control {
+    width: 100%;
+    height: 50%;
+}
 
 .filtreHidden {
     display: none;
@@ -269,7 +287,8 @@ input::-webkit-calendar-picker-indicator {
     width: 25px;
 }
 #overrideBootstrap #tableauCotation .modal-dialog{
-    width: 90%;
+    width: 120vh;
+    margin-top: 0px;
 }
 
 .encartInscription p, .encartInscription button {
@@ -463,7 +482,9 @@ input::-webkit-calendar-picker-indicator {
     top: auto;
   }*/
 
-
+.editMateriel .selectize-input {
+    width:120%;
+}
 
 /***SELECTIZE************************/
 
@@ -554,6 +575,10 @@ input::-webkit-calendar-picker-indicator {
   top: 2px;
 }
 
+#description h4 {
+    text-align: center;
+}
+
 
 /******************
 /*************
@@ -571,6 +596,14 @@ input::-webkit-calendar-picker-indicator {
     border: 2px solid white;
     border-radius: 10px;
     box-shadow: 1px 1px 1px #000000;
+}
+.actiContainer_ {
+    background-color: rgba(50, 50, 50, 0.5);
+    
+}
+
+.nocollective {
+    text-align: center;
 }
 
 .ficheCollectiveDesc p {
@@ -591,6 +624,8 @@ input::-webkit-calendar-picker-indicator {
     text-align: center;
     
 }
+
+
 
 
 

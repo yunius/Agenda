@@ -21,13 +21,15 @@ class CollectiveType extends AbstractType {
     protected $adherents;
     protected $cotations;
     protected $secteur;
+    protected $materiels;
     
-    public function __construct($activites, $objectifs, $adherents, $cotations, $secteur) {
+    public function __construct($activites, $objectifs, $adherents, $cotations, $materiels ,$secteur) {
         $this->activites = $activites;
         $this->objectifs = $objectifs;
         $this->adherents = $adherents;
         $this->cotations = $cotations;
         $this->secteur = $secteur;
+        $this->materiels = $materiels;
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options) {
@@ -45,9 +47,18 @@ class CollectiveType extends AbstractType {
                 ))
                 ->add('collDateDebut', 'date', array(
                     'widget' => 'single_text',
-                    'format' => 'yyyy-MM-dd',
+                    'attr' => array( 'placeholder' => 'Choisir une date de debut' ),
+                    'format' => 'dd-MM-yyyy',
                     'input' => 'timestamp',
-                    'label' => 'Determinez la date de début : '
+                    
+                ))
+                ->add('collDateFin', 'date', array(
+                    'widget' => 'single_text',
+                    'attr' => array( 'placeholder' => 'Choisir une date de fin' ),
+                    'format' => 'dd-MM-yyyy',
+                    'input' => 'timestamp',
+                    'required' => false
+                    
                 ))
                 
                 ->add('objectif', 'choice', array(
@@ -82,7 +93,17 @@ class CollectiveType extends AbstractType {
                     'multiple'=>false
                 ))
                 
-                ->add('collDenivele', 'text');
+                ->add('collDenivele', 'text')
+                ->add('MaterielCollective', 'choice', array(
+                    'choices' => $this->materiels,
+                    'placeholder' => '-materiel à ajouter-',
+                    'label' => 'difficulté :',
+                    'required' => false,
+                    'expanded'=>false, 
+                    'multiple'=>false
+                ));
+//                ->setAction($this->router->generate('ModificationCollective'))
+//                ->setMethod("POST");
         
                 
                 
