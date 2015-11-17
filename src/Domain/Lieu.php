@@ -9,7 +9,7 @@ namespace Agenda\Domain;
 /**
  * Description of Lieu
  *
- * @author inpiron
+ * @author Gilou
  */
 class Lieu extends Popo {
     

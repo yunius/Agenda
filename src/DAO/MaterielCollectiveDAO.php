@@ -11,7 +11,7 @@ use Agenda\Domain\MaterielCollective;
 /**
  * Description of MaterielCollectiveDAO
  *
- * @author inpiron
+ * @author Gilou
  */
 class MaterielCollectiveDAO extends DAO {
     

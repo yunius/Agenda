@@ -1,4 +1,5 @@
 vendor/
+/dploy.yaml
 
 # Windows image file caches
 Thumbs.db

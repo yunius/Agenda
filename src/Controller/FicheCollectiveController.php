@@ -17,7 +17,7 @@ use Agenda\Form\Type\ParticipantSubmitType;
 /**
  * Description of FicheCollectiveController
  *
- * @author inpiron
+ * @author Gilou
  */
 class FicheCollectiveController {
     
@@ -66,6 +66,7 @@ class FicheCollectiveController {
             $comment->setAdherent($user);
             $commentForm = $app['form.factory']->create(new CommentType(), $comment);
             $commentForm->handleRequest($request);
+            
             if($commentForm->isSubmitted() && $commentForm->isValid()) {
                 
                 $this->traitementCommentaire($comment, $request, $app);

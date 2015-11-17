@@ -11,7 +11,7 @@ use Agenda\Domain\Cotation;
 /**
  * Description of CotationDAO
  *
- * @author inpiron
+ * @author Gilou
  */
 class CotationDAO extends DAO{
     

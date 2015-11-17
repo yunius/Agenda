@@ -14,7 +14,9 @@ $app->before(
 $app->match('login', "Agenda\Controller\loginController::loginAction")->bind('login');
 
 $app->match('/', "Agenda\Controller\AcceuilController::accueilAction")->bind('accueil');
-$app->match('/{semaine}', "Agenda\Controller\AcceuilController::accueilSemaineAction")->bind('accueilSemaine');
+
+$app->match('/semaine-{semaine}', "Agenda\Controller\AcceuilController::accueilSemaineAction")->bind('accueilSemaine');
+
 $app->match('/CollectiveAsuppr/', "Agenda\Controller\AcceuilController::supprimerCollectiveAction")->bind('CollectiveAsuppr');
 
 $app->match('/fichecollective/{id}', "Agenda\Controller\FicheCollectiveController::ficheCollectiveAction")->bind('fichecollective');

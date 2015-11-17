@@ -13,7 +13,7 @@ use Symfony\Component\Security\Acl\Exception\Exception;
 /**
  * Description of CollectivesDAO
  *
- * @author inpiron
+ * @author Gilou
  */
 class CollectiveDAO extends DAO {
     

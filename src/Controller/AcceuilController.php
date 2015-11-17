@@ -13,14 +13,9 @@ use Agenda\Form\Type\filtreType;
 /**
  * Description of AcceuilController
  *
- * @author inpiron
+ * @author Gilou
  */
 class AcceuilController {
-    
-//    public function semaineAction(Application $app) {
-//        $semaine = date('W');
-//        return $app->redirect('/'.$semaine);
-//    }
     
     /**
      * 
@@ -31,10 +26,9 @@ class AcceuilController {
     public function accueilAction(Request $request, Application $app) {
         
         $semaineActuelle = date('W');
-        $action = $this->accueilSemaineAction($semaineActuelle, $request, $app);
-        return $action;
-        
-        
+//        $action = $this->accueilSemaineAction($semaineActuelle, $request, $app);
+//        return $action;
+        return $app->redirect('/semaine-'.$semaineActuelle);
     }
     
     /**

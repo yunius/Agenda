@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * Description of Adherent
  *
- * @author inpiron
+ * @author Gilou
  */
 class Adherent extends Popo implements UserInterface {
     

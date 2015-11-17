@@ -13,7 +13,7 @@ use Agenda\Domain\CotationList;
 /**
  * Description of CotationListDAO
  *
- * @author inpiron
+ * @author Gilou
  */
 class CotationListDAO extends DAO{
     

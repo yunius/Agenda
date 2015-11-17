@@ -12,7 +12,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 /**
  * Description of CollectiveType
  *
- * @author inpiron
+ * @author Gilou
  */
 class CollectiveType extends AbstractType {
     
@@ -22,14 +22,16 @@ class CollectiveType extends AbstractType {
     protected $cotations;
     protected $secteur;
     protected $materiels;
+    protected $lieux;
     
-    public function __construct($activites, $objectifs, $adherents, $cotations, $materiels ,$secteur) {
+    public function __construct($activites, $objectifs, $adherents, $cotations, $materiels , $lieux, $secteur) {
         $this->activites = $activites;
         $this->objectifs = $objectifs;
         $this->adherents = $adherents;
         $this->cotations = $cotations;
         $this->secteur = $secteur;
         $this->materiels = $materiels;
+        $this->lieux = $lieux;
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options) {
@@ -63,10 +65,10 @@ class CollectiveType extends AbstractType {
                 
                 ->add('objectif', 'choice', array(
                     'choices' => $this->objectifs,
-                    'placeholder' => 'Choisissez ou creez un objectif',
+                    'placeholder' => 'objectif de l\'activité',
                     'expanded'=>false, 
                     'multiple'=>false,
-                    'label' => 'Objectif :'
+                    'label' => 'objectif :'
                 ))
 //                ->add('secteur', 'choice',array(
 //                    'choices' => $this->secteur,
@@ -101,7 +103,29 @@ class CollectiveType extends AbstractType {
                     'required' => false,
                     'expanded'=>false, 
                     'multiple'=>false
+                ))
+                ->add('lieuRDV', 'choice', array(
+                    'choices' => $this->lieux,
+                    'placeholder' => 'lieu de rendez-vous',
+                    'label' => 'Lieu :',
+                    'required' => false,
+                    'expanded'=>false, 
+                    'multiple'=>false
+                ))
+                ->add('heureRDV', 'datetime', array(
+                    'widget' => 'single_text',
+                    'attr' => array( 'placeholder' => 'heure' ),
+                    'format' => 'hh:mm',
+                    'input' => 'timestamp',
+                    'label' => 'heure de rendez-vous :',
+                    'required' => false
+                ))
+                ->add('nbMax', 'number', array(
+                    'label' => 'Nombre de participant max :',
+                    'attr' => array('min' => 1),
+                    'required' => false
                 ));
+                
 //                ->setAction($this->router->generate('ModificationCollective'))
 //                ->setMethod("POST");
         

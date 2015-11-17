@@ -13,13 +13,14 @@
             </ul>
         </div>
     </div>#}
-    {{ form_start(activiteFormView) }}
+    
     {% if collective.typeActivite %}
         {% set style = collective.typeActivite.IDtypeActivite %}
     {% else %}
         {% set style = '' %}
     {%  endif %}
     <div class="tab-content">
+        {{ form_start(activiteFormView) }}
         <div class="tab-pane fade in active" id="description">
             <div class="container monContenu actiContainer_{{style}}">
                 <div class="row"><h4>DESCRIPTION</h4></div>
@@ -73,7 +74,8 @@
                             {{form_widget(activiteFormView.cotation , { attr: { 'class' : 'selectCotation'} })}}
                             <input type="submit" class="btn btn-primary" value="Ajouter une cotation"/>
                             
-                            {% if cotations != '' %}
+                            {% if cotations %}
+                                
                                 <div class="row actiCartouche_ actiCartouche_{{style}}">
                             
                                     {% for cotation in cotations %}
@@ -127,8 +129,8 @@
                     </div>
                 </div>
                 
-                <div class="row">
-                    <input {#form="collective"#} type="submit" class="btn btn-primary pull-right" value="Enregistrer"/>
+                <div class="row spacer">
+                    
                 </div>
                             
                     
@@ -169,6 +171,58 @@
                     <div class="col-md-3"></div>
                     
                 </div>
+                <div class="row spacer"></div>
+            </div>
+                    
+            <div class="container monContenu actiContainer_{{style}}">
+                <div class="row"><h4>INSCRIPTION</h4></div>
+                
+                        
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    
+                    <div class="col-md-2">
+                        {#{{form_label(activiteFormView.lieuRDV)}}</br> #}
+                        {{form_errors(activiteFormView.lieuRDV)}}
+                        {{form_widget(activiteFormView.lieuRDV)}}
+                    </div>
+                    
+                    <div class="col-md-2">
+                        {#{{form_label(activiteFormView.heureRDV)}}</br>#}
+                        {{form_errors(activiteFormView.heureRDV)}}
+                        {{form_widget(activiteFormView.heureRDV)}}
+                    </div>
+                            
+                    
+                    <div class="col-md-2"><button type="submit" class="btn btn-primary" >Ajouter un RDV</button></div>
+                    <div class="col-md-3"></div>
+                </div>
+                
+                <div class="row">                
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        {% for rdv in collective.rdv %}
+                            <div class="row cartoucheRDV"> rdv {{loop.index}}: {{ rdv.heureRDV }} - {{ rdv.lieu.lieuLibelle }}<br /></div>
+                        {% endfor %}
+                    </div> 
+                    <div class="col-md-4"></div>
+                </div>
+                    
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                            <div class="row">
+                                {{form_label(activiteFormView.nbMax)}}</br> 
+                                {{form_errors(activiteFormView.nbMax)}}
+                                {{form_widget(activiteFormView.nbMax, { 'attr' :{ 'class' : 'pull-right' } })}}
+                            </div>
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+                            
+                <div class="row spacer">
+                    <input {#form="collective"#} type="submit" class="btn btn-primary pull-right enregistrer" value="Enregistrer"/>
+                </div>
             </div>
         </div>
         
@@ -183,7 +237,7 @@
                 INSCRIPTION
             </div>            
         </div>#}
-        
+    {{ form_end(activiteFormView) }}    
     </div><!-- tab-content -->
-    {{ form_end(activiteFormView) }}
+    
 {% endblock %}

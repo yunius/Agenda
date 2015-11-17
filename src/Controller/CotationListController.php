@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Description of newPHPClass
  *
- * @author inpiron
+ * @author Gilou
  */
 class CotationListController {
     

@@ -18,7 +18,7 @@ use Agenda\Domain\Adherent;
 /**
  * Description of AdherentDAO
  *
- * @author inpiron
+ * @author Gilou
  */
 class AdherentDAO extends DAO implements UserProviderInterface{
     

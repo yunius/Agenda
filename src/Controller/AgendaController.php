@@ -13,11 +13,15 @@ use Agenda\Domain\Collective;
 /**
  * Description of Controller
  *
- * @author inpiron
+ * @author Gilou
  */
 abstract class AgendaController {
     
-    
+    /**
+     * recupere une liste select ready de type d'activités
+     * @param Application $app
+     * @return array liste de type d'activités
+     */
     protected function findAllActivite(Application $app) {
         
         
@@ -54,6 +58,16 @@ abstract class AgendaController {
             $secteurList[$IDsecteur] = $secteur->getSecteurLibelle();
         }
         return $secteurList;
+    }
+    
+    protected function findAllLieu(Application $app) {
+        $lieus = $app['dao.lieu']->findAll();
+        $lieuList = array();
+        foreach ($lieus as $lieu) {
+            $IDlieu = $lieu->getIDlieu();
+            $lieuList[$IDlieu] = $lieu->getLieuLibelle();
+        }
+        return $lieuList;
     }
     
         

@@ -11,7 +11,7 @@ use DateTime;
 /**
  * Description of Popo
  *
- * @author inpiron
+ * @author Gilou
  */
 abstract class Popo {
     

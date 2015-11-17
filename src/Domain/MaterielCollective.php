@@ -9,7 +9,7 @@ namespace Agenda\Domain;
 /**
  * Description of MaterielCollective
  *
- * @author inpiron
+ * @author Gilou
  */
 class MaterielCollective extends Popo{
     

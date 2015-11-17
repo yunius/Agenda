@@ -9,7 +9,7 @@ namespace Agenda\Domain;
 /**
  * Description of Participant
  *
- * @author inpiron
+ * @author Gilou
  */
 class Participant extends Popo {
     

@@ -12,7 +12,7 @@ use Agenda\Domain\Collective;
 /**
  * Description of ParticipantDAO
  *
- * @author inpiron
+ * @author Gilou
  */
 class ParticipantDAO extends DAO{
     

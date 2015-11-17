@@ -11,7 +11,7 @@ use Agenda\Domain\Rdv;
 /**
  * Description of RdvDAO
  *
- * @author inpiron
+ * @author Gilou
  */
 class RdvDAO extends DAO {
     
@@ -46,6 +46,19 @@ class RdvDAO extends DAO {
         }
         return $rdvs;
         
+    }
+    
+    public function save(Rdv $RDV) {
+        $RDVdata = array(
+            'heureRDV' => $RDV->getHeureRDV(),
+            'IDlieu' => $RDV->getLieu()->getIDlieu(),
+            'IDcollective' => $RDV->getIDcollective(),
+        );
+        $this->getDB()->insert('rdv', $RDVdata);
+    }
+    
+    public function delete($IDcollective, $IDlieu) {
+        $this->getDB()->delete('rdv', array('IDcollective' => $IDcollective, 'IDlieu' => $IDlieu));
     }
     
     protected function buildDomainObject($row) {

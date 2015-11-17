@@ -1,4 +1,4 @@
-DROP DATABASE if exists Agenda;
+--DROP DATABASE if exists Agenda;
 
 CREATE DATABASE if not exists Agenda CHARACTER SET utf8 COLLATE utf8_general_ci;
 

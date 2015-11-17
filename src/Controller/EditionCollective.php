@@ -15,10 +15,11 @@ use Agenda\Domain\CollectiveCotation;
 use Agenda\Domain\MaterielCollective;
 use Agenda\Form\Type\CollectiveType;
 use Agenda\Form\Type\CollCotSupprType;
+use Agenda\Domain\Rdv;
 /**
  * Description of EditionCollective
  *
- * @author inpiron
+ * @author Gilou
  */
 class EditionCollective extends AgendaController {
     
@@ -38,12 +39,13 @@ class EditionCollective extends AgendaController {
         $cotationsList = $this->findAllcotation($app);
         $secteurList = $this->findAllSecteur($app);
         $materielList = $this->findAllMateriel($app);
+        $lieuList = $this->findAllLieu($app);
         
         if($id == 0) {
             $collective = new Collective();
             $collCotations = '';
             $materielCollective = '';
-            $activiteForm = $app['form.factory']->create(new CollectiveType($activiteList, $objectifList, $encadrantList, $cotationsList, $materielList, $secteurList), $collective, array( 'data' => array ('adherent'=> $encadrantParDefaut  )) );
+            $activiteForm = $app['form.factory']->create(new CollectiveType($activiteList, $objectifList, $encadrantList, $cotationsList, $materielList, $lieuList, $secteurList), $collective, array( 'data' => array ('adherent'=> $encadrantParDefaut  )) );
         }
         else {
             $collective = $app['dao.collective']->find($id);
@@ -51,29 +53,39 @@ class EditionCollective extends AgendaController {
             $collCotations = $app['dao.collectivecotation']->findAll($id);
             $materielCollective = $app['dao.materielcollective']->findAll($id);
             $titre = $collective->getCollTitre();
+            $nbMax = $collective->getCollNbParticipantMax();
             $activite = $collective->getTypeActivite()->getIDtypeActivite();
-            $date1 = strtotime($collective->getCollDateDebut());// 
-            $date2 = strtotime($collective->getCollDateFin());
+            $date1 = strtotime($collective->getCollDateDebut());
+            
+            if($collective->getCollDateFin()==null) {
+                
+                $date2 = null;
+            }else {
+                
+                $date2 = strtotime($collective->getCollDateFin());
+            }
+            
             $objectif = $collective->getObjectif()->getIDobjectif();
             $adherent = $collective->getAdherent()->getIDadherent();
             //$secteur = $collective->getObjectif()->getIDsecteur();
             $denivele = $collective->getCollDenivele();
-            $activiteForm = $app['form.factory']->create(new CollectiveType($activiteList, $objectifList, $encadrantList, $cotationsList, $materielList, $secteurList), $collective, array('data' => array( 'collTitre' => $titre,
+            $activiteForm = $app['form.factory']->create(new CollectiveType($activiteList, $objectifList, $encadrantList, $cotationsList, $materielList, $lieuList, $secteurList), $collective, array('data' => array( 'collTitre' => $titre,
                                                                                                                                                                                              'typeActivite' => $activite,
                                                                                                                                                                                              'collDateDebut' => $date1,
                                                                                                                                                                                              'collDateFin' => $date2,
                                                                                                                                                                                              'objectif' => $objectif ,
                                                                                                                                                                                              'adherent' => $adherent,
                                                                                                                                                                                              //'secteur' => $secteur,
-                                                                                                                                                                                             'collDenivele' => $denivele
+                                                                                                                                                                                             'collDenivele' => $denivele,
+                                                                                                                                                                                             'nbMax' => $nbMax
                                                                                                                                                                                             ) ) );
         }
         $activiteForm->handleRequest($request);
 
         if($activiteForm->isSubmitted()) {
-            
-            $this->traitementEdition($collective, $request, $app);
-            return $app->redirect('/editionCollective/'.$id);
+            var_dump($_POST);
+            $idcoll = $this->traitementEdition($collective, $request, $app);
+            return $app->redirect('/editionCollective/'.$idcoll);
             
             
         }
@@ -101,7 +113,12 @@ class EditionCollective extends AgendaController {
         $collTitre  = $request->get('collective')['collTitre'];
         $collDenivele = $request->get('collective')['collDenivele'];
         $collDateDebut = date('Y-m-d', strtotime($request->get('collective')['collDateDebut']));
-        $collDateFin = date('Y-m-d', strtotime($request->get('collective')['collDateFin']));
+        $collDateFin = NULL;
+        if($request->get('collective')['collDateFin'] != '') {
+            $collDateFin = date('Y-m-d', strtotime($request->get('collective')['collDateFin']));
+        }
+        $nbMax = $request->get('collective')['nbMax'];
+        
         $IDobjectif = $request->get('collective')['objectif'];
         $objectif = $app['dao.objectif']->find($IDobjectif);
         $IDadherent= $request->get('collective')['adherent'];
@@ -114,6 +131,7 @@ class EditionCollective extends AgendaController {
         $collective->setObjectif($objectif);
         $collective->setAdherent($adherent);
         $collective->setCollDenivele($collDenivele);
+        $collective->setCollNbParticipantMax($nbMax);
 
         $app['dao.collective']->save($collective);
         $idcoll = $collective->getIDcollective();
@@ -134,6 +152,18 @@ class EditionCollective extends AgendaController {
             $materielCollective->setIDcollective($idcoll);
             $app['dao.materielcollective']->save($materielCollective);
         }
+        if(!empty($request->get('collective')['heureRDV']) && !empty($request->get('collective')['lieuRDV'])) {
+            $rdv = new Rdv;
+            $horaireRecu = $request->get('collective')['heureRDV'];
+            $heureRDV = $horaireRecu.':00';
+            $IDlieu = $request->get('collective')['lieuRDV'];
+            $lieu = $app['dao.lieu']->find($IDlieu);
+            $rdv->setHeureRDV($heureRDV);
+            $rdv->setLieu($lieu);
+            $rdv->setIDcollective($idcoll);
+            $app['dao.rdv']->save($rdv);
+        }
+        return $idcoll;
     }
     
     

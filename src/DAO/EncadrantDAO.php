@@ -12,7 +12,7 @@ use Agenda\Domain\Encadrant;
 /**
  * Description of EncadrantDAO
  *
- * @author inpiron
+ * @author Gilou
  */
 class EncadrantDAO extends DAO {
     

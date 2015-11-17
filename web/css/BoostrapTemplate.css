@@ -1,6 +1,8 @@
 body { 
   background: url(/../img/ciel-gare-est-paris.NB.jpg)no-repeat center center fixed;
   background-size: cover;
+  font-family: roboto;
+  font-weight: 400;
   
 }
 *::-webkit-input-placeholder {
@@ -367,6 +369,11 @@ input::-webkit-calendar-picker-indicator {
 #overrideBootstrap .participantEncart .modal .btn-success {
     height: 44px;
 }
+
+#overrideBootstrap select {
+    height: 26px;
+}
+
 .ficheCollective .liste .row {
     margin-bottom: 3px;
 }
@@ -376,6 +383,14 @@ input::-webkit-calendar-picker-indicator {
     margin: 1px;
     border-radius: 10px;
     width: 48%;
+    background-color: rgba(50, 50, 50, 0.40); 
+    text-align: center;
+}
+.cartoucheRDV {
+    padding: 3px;
+    margin: 3px;
+    border-radius: 10px;
+    width: 100%;
     background-color: rgba(50, 50, 50, 0.40); 
     text-align: center;
 }
@@ -401,6 +416,14 @@ input::-webkit-calendar-picker-indicator {
 
 .materiel p {
     padding: 15px;
+}
+
+.spacer {  
+    margin-top: 40px; 
+}
+
+.enregistrer {
+    margin: 10px;
 }
 @media only screen and (min-width:1200px) {
     #overrideBootstrap .btn-danger, .btn-info {

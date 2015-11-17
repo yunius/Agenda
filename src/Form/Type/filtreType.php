@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 /**
  * Description of filtreType
  *
- * @author inpiron
+ * @author Gilou
  */
 class filtreType extends AbstractType {
     

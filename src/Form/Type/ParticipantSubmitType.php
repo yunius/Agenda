@@ -18,7 +18,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 /**
  * Description of ParticipantSubmitType
  *
- * @author inpiron
+ * @author Gilou
  */
 class ParticipantSubmitType extends AbstractType {
     

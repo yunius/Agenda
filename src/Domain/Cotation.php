@@ -9,7 +9,7 @@ namespace Agenda\Domain;
 /**
  * Description of Cotation
  *
- * @author inpiron
+ * @author Gilou
  */
 class Cotation extends Popo {
     

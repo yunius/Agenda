@@ -46,6 +46,9 @@ $(function() {
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip(); 
 });
+
+
+
 //fonction pour les spinner
 
 $(function() {
@@ -53,7 +56,14 @@ $(function() {
       step: 100,
       numberFormat: "n"
     });
+    
+    $( "#collective_nbMax" ).spinner({
+      step: 1,
+      numberFormat: "n"
+    });
   });
+  
+  
 
 
 
@@ -123,6 +133,18 @@ $(function() {
     });
     
     $( "#collective_collDateFin" ).datepicker();
+    
+    
+    $('#collective_heureRDV').timepicker({
+	timeOnlyTitle: 'Choisir l\'horaire',
+	timeText: 'Horaire',
+	hourText: 'heures',
+	minuteText: 'minutes',
+	currentText: 'maintenant',
+	closeText: 'Valider',
+        showButtonPanel: 'false'
+        }
+    );
   });
 
 

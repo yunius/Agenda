@@ -9,7 +9,7 @@ namespace Agenda\Domain;
 /**
  * Description of TypeActivite
  *
- * @author inpiron
+ * @author Gilou
  */
 class TypeActivite extends Popo {
     

@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Description of LoginController
  *
- * @author inpiron
+ * @author Gilou
  */
 class LoginController {
     

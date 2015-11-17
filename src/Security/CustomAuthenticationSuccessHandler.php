@@ -17,7 +17,7 @@ use Silex\Application;
 /**
  * Description of CustomAuthenticationSuccessHandler
  *
- * @author inpiron
+ * @author Gilou
  */
 class CustomAuthenticationSuccessHandler extends DefaultAuthenticationSuccessHandler{
     

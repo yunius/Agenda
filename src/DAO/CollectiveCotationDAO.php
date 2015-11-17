@@ -11,7 +11,7 @@ use Agenda\Domain\CollectiveCotation;
 /**
  * Description of CollectiveCotationDAO
  *
- * @author inpiron
+ * @author Gilou
  */
 class CollectiveCotationDAO extends DAO {
     

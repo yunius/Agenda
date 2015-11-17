@@ -11,7 +11,7 @@ use Agenda\Domain\Objectif;
 /**
  * Description of ObjectifDAO
  *
- * @author inpiron
+ * @author Gilou
  */
 class ObjectifDAO extends DAO {
     

@@ -9,7 +9,7 @@ namespace Agenda\Domain;
 /**
  * Description of Objectif
  *
- * @author inpiron
+ * @author Gilou
  */
 class Objectif extends Popo{
     

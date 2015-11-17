@@ -9,7 +9,7 @@ namespace Agenda\Domain;
 /**
  * Description of Secteur
  *
- * @author inpiron
+ * @author Gilou
  */
 class Secteur extends Popo {
     

@@ -11,7 +11,7 @@ namespace Agenda\Domain;
 /**
  * Description of Encadrant
  *
- * @author inpiron
+ * @author Gilou
  */
 class Encadrant extends Popo {
     

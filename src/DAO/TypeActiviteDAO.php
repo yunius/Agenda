@@ -11,7 +11,7 @@ use Agenda\Domain\TypeActivite;
 /**
  * Description of TypeActiviteDAO
  *
- * @author inpiron
+ * @author Gilou
  */
 class TypeActiviteDAO extends DAO {
     

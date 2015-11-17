@@ -11,7 +11,7 @@ use Agenda\Domain\Secteur;
 /**
  * Description of SecteurDAO
  *
- * @author inpiron
+ * @author Gilou
  */
 class SecteurDAO extends DAO {
     

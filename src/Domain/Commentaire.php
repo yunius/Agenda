@@ -9,7 +9,7 @@ namespace Agenda\Domain;
 /**
  * Description of Commentaire
  *
- * @author inpiron
+ * @author Gilou
  */
 class Commentaire {
     

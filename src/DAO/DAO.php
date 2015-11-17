@@ -14,7 +14,7 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 /**
  * Description of DAO
  *
- * @author inpiron
+ * @author Gilou
  */
 abstract class DAO {
     

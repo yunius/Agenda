@@ -13,7 +13,7 @@ use Agenda\Domain\Commentaire;
 /**
  * Description of CommentaireDAO
  *
- * @author inpiron
+ * @author Gilou
  */
 class CommentaireDAO extends DAO {
     

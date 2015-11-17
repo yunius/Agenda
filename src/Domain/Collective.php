@@ -12,7 +12,7 @@ namespace Agenda\Domain;
 /**
  * Description of Collective
  *
- * @author inpiron
+ * @author Gilou
  */
 class Collective extends Popo {
     

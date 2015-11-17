@@ -9,7 +9,7 @@ namespace Agenda\Domain;
 /**
  * Description of CotationList
  *
- * @author inpiron
+ * @author Gilou
  */
 class CotationList {
     

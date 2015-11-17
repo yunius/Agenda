@@ -11,7 +11,7 @@ use Agenda\Domain\Lieu;
 /**
  * Description of LieuDAO
  *
- * @author inpiron
+ * @author Gilou
  */
 class LieuDAO extends DAO {
     

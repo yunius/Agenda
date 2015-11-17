@@ -9,7 +9,7 @@ namespace Agenda\Domain;
 /**
  * Description of Rdv
  *
- * @author inpiron
+ * @author Gilou
  */
 class Rdv extends Popo {
     

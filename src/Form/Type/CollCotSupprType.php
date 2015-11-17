@@ -13,7 +13,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 /**
  * Description of CollCotSupprType
  *
- * @author inpiron
+ * @author Gilou
  */
 class CollCotSupprType extends AbstractType {
     
