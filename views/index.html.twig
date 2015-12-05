@@ -120,7 +120,7 @@
                             {%  endfor %}
                         {#</div>#} 
                     </div>
-                    {% if collective.collDenivele is not empty %}
+                    {% if collective.collDenivele != 0 %}
                     <div class="row">
                         <div class="actiCartouche_ actiCartouche_{{style}}">
                             denivelé :{{collective.collDenivele}}m
@@ -141,7 +141,11 @@
                         <div class="col-md-6 col-xs-6">
                             <div class="row">
                                 Nombre d'inscrit : {{participantsValide[id]}}</br >
+                            {% if collective.collNbParticipantMax - participantsValide[id] != 0 %}
                             Place restante : {{collective.collNbParticipantMax - participantsValide[id]}}</br >
+                            {% else %}
+                                <p class="warning1"><strong>complet</strong></p>
+                            {% endif %}
                             en file d'attente : {{participantsAttente[id]}}</br >
                             </div>
                             <div class="row">

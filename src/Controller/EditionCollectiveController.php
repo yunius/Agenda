@@ -16,12 +16,14 @@ use Agenda\Domain\MaterielCollective;
 use Agenda\Form\Type\CollectiveType;
 use Agenda\Form\Type\CollCotSupprType;
 use Agenda\Domain\Rdv;
+use Agenda\Domain\Secteur;
+use Agenda\Domain\Objectif;
 /**
  * Description of EditionCollective
  *
  * @author Gilou
  */
-class EditionCollective extends AgendaController {
+class EditionCollectiveController extends AgendaController {
     
     /**
      * 
@@ -66,28 +68,28 @@ class EditionCollective extends AgendaController {
             }
             
             $objectif = $collective->getObjectif()->getIDobjectif();
+            $observation = $collective->getCollObservations();
             $adherent = $collective->getAdherent()->getIDadherent();
-            //$secteur = $collective->getObjectif()->getIDsecteur();
+            $secteur = $collective->getObjectif()->getSecteur()->getIDsecteur();
             $denivele = $collective->getCollDenivele();
-            $activiteForm = $app['form.factory']->create(new CollectiveType($activiteList, $objectifList, $encadrantList, $cotationsList, $materielList, $lieuList, $secteurList), $collective, array('data' => array( 'collTitre' => $titre,
-                                                                                                                                                                                             'typeActivite' => $activite,
-                                                                                                                                                                                             'collDateDebut' => $date1,
-                                                                                                                                                                                             'collDateFin' => $date2,
-                                                                                                                                                                                             'objectif' => $objectif ,
-                                                                                                                                                                                             'adherent' => $adherent,
-                                                                                                                                                                                             //'secteur' => $secteur,
-                                                                                                                                                                                             'collDenivele' => $denivele,
-                                                                                                                                                                                             'nbMax' => $nbMax
-                                                                                                                                                                                            ) ) );
+            $activiteForm = $app['form.factory']->create(new CollectiveType($activiteList, $objectifList, $encadrantList, $cotationsList, $materielList, $lieuList, $secteurList), $collective, array('data' => array ( 'collTitre' => $titre,
+                                                                                                                                                                                                                       'typeActivite' => $activite,
+                                                                                                                                                                                                                       'collDateDebut' => $date1,
+                                                                                                                                                                                                                       'collDateFin' => $date2,
+                                                                                                                                                                                                                       'objectif' => $objectif ,
+                                                                                                                                                                                                                       'observation' => $observation,
+                                                                                                                                                                                                                       'adherent' => $adherent,
+                                                                                                                                                                                                                       'secteur' => $secteur,
+                                                                                                                                                                                                                       'collDenivele' => $denivele,
+                                                                                                                                                                                                                       'nbMax' => $nbMax
+                                                                                                                                                                                                                       )));
         }
         $activiteForm->handleRequest($request);
 
         if($activiteForm->isSubmitted()) {
-            var_dump($_POST);
+            
             $idcoll = $this->traitementEdition($collective, $request, $app);
-            return $app->redirect('/editionCollective/'.$idcoll);
-            
-            
+            return $app->redirect('/editionCollective/'.$idcoll); 
         }
 
         $activiteFormView = $activiteForm->createView();
@@ -111,6 +113,7 @@ class EditionCollective extends AgendaController {
         $IDactivite = $request->get('collective')['typeActivite'];
         $typeactivite = $app['dao.typeactivite']->find($IDactivite);
         $collTitre  = $request->get('collective')['collTitre'];
+        $observation = $request->get('collective')['observation'];
         $collDenivele = $request->get('collective')['collDenivele'];
         $collDateDebut = date('Y-m-d', strtotime($request->get('collective')['collDateDebut']));
         $collDateFin = NULL;
@@ -119,12 +122,34 @@ class EditionCollective extends AgendaController {
         }
         $nbMax = $request->get('collective')['nbMax'];
         
-        $IDobjectif = $request->get('collective')['objectif'];
-        $objectif = $app['dao.objectif']->find($IDobjectif);
+        if(is_numeric($request->get('collective')['secteur'])){
+            $secteur = $app['dao.secteur']->find($request->get('collective')['secteur']);
+        } else {
+            $secteur = new Secteur;
+            $secteur->setSecteurLibelle($request->get('collective')['secteur']);
+            $app['dao.secteur']->save($secteur);
+        }
+        
+        if(is_numeric($request->get('collective')['objectif'])) {
+            $IDobjectif = $request->get('collective')['objectif'];
+            $objectif = $app['dao.objectif']->find($IDobjectif);
+            $objectif->setSecteur($secteur);
+            $app['dao.objectif']->save($objectif);
+        }else {
+            $objectif = new Objectif;
+            $objectif->setObjectifLibelle($request->get('collective')['objectif']);
+//            $secteur = $app['dao.secteur']->find(1);
+            $objectif->setSecteur($secteur);
+            $app['dao.objectif']->save($objectif);
+            
+        }
+        
+        
         $IDadherent= $request->get('collective')['adherent'];
         $adherent = $app['dao.adherent']->find($IDadherent);
 
         $collective->setCollTitre($collTitre);
+        $collective->setCollObservations($observation);
         $collective->setTypeActivite($typeactivite);
         $collective->setCollDateDebut($collDateDebut);
         $collective->setCollDatefin($collDateFin);
@@ -144,6 +169,7 @@ class EditionCollective extends AgendaController {
             $collCotation->setIDcollective($idcoll);
             $app['dao.collectivecotation']->save($collCotation);
         }
+        
         if(is_numeric($request->get('collective')['MaterielCollective'])) {
             $materielCollective = new MaterielCollective();
             $IDtypeMat = $request->get('collective')['MaterielCollective'];
@@ -172,6 +198,13 @@ class EditionCollective extends AgendaController {
         $IDcollective = $request->get('IDcollAsuppr');
         $IDcotation =  $request->get('cotationAsuppr');
         $app['dao.collectivecotation']->delete($IDcollective, $IDcotation );
+        return $app->redirect('/editionCollective/'.$IDcollective);
+    }
+    
+    public function supprimerMaterielAction(Request $request, Application $app) {
+        $IDcollective = $request->get('IDcollAsuppr');
+        $IDtypeMat =  $request->get('materielAsuppr');
+        $app['dao.materielcollective']->delete($IDcollective, $IDtypeMat );
         return $app->redirect('/editionCollective/'.$IDcollective);
     }
 }

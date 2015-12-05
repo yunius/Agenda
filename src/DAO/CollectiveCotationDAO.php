@@ -53,7 +53,6 @@ class CollectiveCotationDAO extends DAO {
             $cotations[$count] = $this->buildDomainObject($row);            
         }
         return $cotations;
-        
     }
     
     

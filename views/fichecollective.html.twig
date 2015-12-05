@@ -18,7 +18,9 @@
                     <div class="row"><span>Secteur :</span> <p>{{collective.objectif.secteur.secteurLibelle}}</p></div>
 
                     {% if collective.collDateFin is not null%}
-                        <div class="row"><span>Date(s) de la collective:</span> <p>{{collective.collDateDebut}} - {{collective.collDateFin}}</p></div>
+                        <div class="row"><span>Date(s):</span> 
+                            <p>du {{collective.collDateDebut|localizeddate('none', 'none','null','Europe/Paris','EEEE d MMMM')}} 
+                                au {{collective.collDateFin|localizeddate('none', 'none','null','Europe/Paris','EEEE d MMMM Y')}}</p></div>
                     {% else %}
                         <div class="row"><span>Date(s) de la collective:</span> <p>{{collective.collDateDebut|localizeddate('full', 'none')}}</p></div>
                     {% endif %}
@@ -36,7 +38,12 @@
                     
                 </div>
                 <div class="row actiCartouche_ actiCartouche_{{style}}">
-                    difficulté :</br>
+                    difficulté :
+                    <div data-toggle="tooltip" data-trigger="hover" title="afficher le tableau des cotation" >
+                        <button class="lienTableau" data-toggle="modal" data-target="#tableauCotation">?</button>
+                    </div>
+                    
+                   
                     {% for cotation in cotations %}
                     {% set cotationStyle = cotation.cotation.LibelleCotation %}    
                     <div class="col-md-4 cotationStyle{{cotationStyle}}">
@@ -44,9 +51,7 @@
                         <div class="row">{{cotation.cotation.valeurCotation}}</div>
                     </div>                    
                     {% endfor %}
-                    <div data-toggle="tooltip" data-trigger="hover" title="afficher le tableau des cotation" >
-                        <button class="lienTableau" data-toggle="modal" data-target="#tableauCotation">?</button>
-                    </div>
+                    
                     <div class="modal fade" id="tableauCotation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -81,22 +86,20 @@
         </div>
         <div class="row section materiel">
             <div class="col-md-2"></div>
-
             <div class="col-md-8">
                 <div class="row actiCartouche_ actiCartouche_{{style}}">
                     <div class="row"><p><strong><u>Materiel requis</u></strong> pour cette collective</p></div>
                     <div class="row">
-                        <div class="col-md-2"></div>
-                        <div class="col-md-8 encartMateriel">
+                        <div class="col-md-2 col-xs-2"></div>
+                        <div class="col-md-8 col-xs-8 encartMateriel">
                             <div class="row">
                                 {% for materiel in listemateriel %}
-                                <div class="col-md-6 cartouchePieceMat"> - {{ materiel.TypeMateriel.typeMatLibelle }}</div>
+                                <div class="col-xs-12 {#col-md-6#}  cartouchePieceMat"> - 
+                                    {{ materiel.TypeMateriel.typeMatLibelle }}</div>
                                 {% endfor %}
                             </div>
                         </div>
-                        <div class="col-md-2"></div>
-
-
+                        <div class="col-md-2 col-xs-2"></div>
                     </div>
                     <div class="row">
                         <p class="warning1">Pour la sécurité de tous, toute personne n'ayant le matériel requis ne pourra participer à la sortie</p>
@@ -106,9 +109,7 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-md-2"></div>
-
         </div>
         <div class="row section participants">
             
@@ -123,7 +124,7 @@
                     </div>
 
                     <div class="row">
-                       <div class="col-md-3">
+                       <div class="col-md-3 col-xs-3">
                            <div class="row"><u>encadrants</u> :</div>
                            <div class="row">{{collective.adherent.prenomAdherent}} {{collective.adherent.nomAdherent}}</br>
                                {{collective.adherent.adherentNumTel}}</br>
@@ -131,7 +132,7 @@
                            </div>
                            <div class="row"><u>coencadrant</u></div>
                        </div>
-                        <div class="col-md-4 liste">
+                        <div class="col-md-4 col-xs-9 liste">
                             <div class="row"><u>Participants validé</u> :</div>
                             {% for participant in participantValide %}
                                 <div class="row CartoucheParticipants">- {{ participant.adherent.prenomAdherent }} {{ participant.adherent.nomAdherent }}
@@ -169,7 +170,7 @@
 
                         </div>
 
-                        <div class="col-md-5 liste">
+                        <div class="col-md-5 col-xs-9 liste">
                             <div class="row"><u>File d'attente</u> :</div>
                             {% for participant in listeAttente %}
                                 <div class="row CartoucheParticipants"> - {{ participant.adherent.prenomAdherent }} {{ participant.adherent.nomAdherent }}
@@ -177,7 +178,7 @@
                                     <span data-toggle="tooltip" data-trigger="hover" title="Invalider l'inscription">
                                         <button type="button" class="btn btn btn-danger btn-xs monBoutonRejet pull-right" data-toggle="modal" data-target="#rejetDialogAttente{{loop.index}}"><div class="glyphicon glyphicon-remove"></div></button>    
                                     </span>
-                                    <span data-toggle="tooltip" title="Valider l'inscription">#}
+                                    <span data-toggle="tooltip" title="Valider l'inscription">
                                         <button type="button" class="btn btn btn-success btn-xs pull-right" data-toggle="modal" data-target="#ValidationDialogAttente{{loop.index}}"><div class="glyphicon glyphicon-ok"></div></button>
                                     </span>
 
@@ -264,7 +265,7 @@
                                     </div>
                                 {{ form_end(commentForm) }}
                             {% else %}
-                                <a href="{{ path('login')}}">Connectez-vous</a> pour ajouter un commentaire 
+                                <a href="{{ path('fichecollectiveInscription',{'id': collective.IDcollective})}}">Connectez-vous</a> pour ajouter un commentaire 
                             {% endif %}
                             </div>
 
@@ -286,7 +287,13 @@
                                     <div class="row">
 
                                     {% if app.user != collective.adherent %}
-                                        {% if inscrit == 0 and inscritAlaMemeDate == 0 %}
+                                        {% if nbV == collective.collNbParticipantMax %}
+                                            <p class="warning1" >
+                                                La sortie est complète !
+                                            voir si d'autres sorties sont proposées
+                                            </p>
+                                            
+                                        {% elseif inscrit == 0 and inscritAlaMemeDate == 0 %}
 
                                                 <div class="form-group">
                                                     {{ form_errors(participantSubmit.IDcollective) }}

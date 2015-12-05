@@ -21,6 +21,20 @@ class MaterielCollectiveDAO extends DAO {
         $this->TypeMaterielDAO = $TypeMaterielDAO;
     }
     
+     
+    public function findAll($IDcollective) {
+        $sql = "SELECT * FROM liste_de_materiel_collective WHERE IDcollective=? ORDER BY IDtypeMat";
+        $result = $this->getDB()->fetchAll($sql, array($IDcollective));
+        $listeMateriel = array();
+        $count = 0;
+        foreach ($result as $row) {
+            $count++;
+            //$heureRDV = $row['heureRDV'];
+            $listeMateriel[$count] = $this->buildDomainObject($row);            
+        }
+        return $listeMateriel;
+    }
+    
     public function find($IDtypeMat, $IDcollective) {
         $sql = "SELECT * FROM liste_de_materiel_collective WHERE IDtypeMat=? AND IDcollective=?";
         $row = $this->getDB()->fetchAssoc($sql, array($IDtypeMat, $IDcollective));
@@ -33,21 +47,7 @@ class MaterielCollectiveDAO extends DAO {
         }
     }
     
-    
-    public function findAll($IDcollective) {
-        $sql = "SELECT * FROM liste_de_materiel_collective WHERE IDcollective=? ORDER BY IDtypeMat";
-        $result = $this->getDB()->fetchAll($sql, array($IDcollective));
-        
-        $listeMateriel = array();
-        $count = 0;
-        foreach ($result as $row) {
-            $count++;
-            //$heureRDV = $row['heureRDV'];
-            $listeMateriel[$count] = $this->buildDomainObject($row);            
-        }
-        return $listeMateriel;
-        
-    }
+   
     
     public function save(MaterielCollective $materielCollective) {
         

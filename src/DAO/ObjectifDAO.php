@@ -46,6 +46,22 @@ class ObjectifDAO extends DAO {
         return $objectifs;
         
     }
+    
+    public function save(Objectif $objectif) {
+        $objectifData = array(
+            'objectifLibelle' => $objectif->getObjectifLibelle(),
+            'IDsecteur' => $objectif->getSecteur()->getIDsecteur()
+        );
+        if($objectif->getIDobjectif()){
+            $this->getDB()->update('objectif', $objectifData, array('IDobjectif'=> $objectif->getIDobjectif() ));
+        }
+        else {
+            $this->getDB()->insert('objectif', $objectifData);
+            $id = $this->getDB()->lastInsertId();
+            $objectif->setIDobjectif($id);
+        }
+        
+    }
 
     protected function buildDomainObject($row) {
         $objectif = new Objectif();

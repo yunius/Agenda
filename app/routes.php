@@ -21,10 +21,12 @@ $app->match('/CollectiveAsuppr/', "Agenda\Controller\AcceuilController::supprime
 
 $app->match('/fichecollective/{id}', "Agenda\Controller\FicheCollectiveController::ficheCollectiveAction")->bind('fichecollective');
 $app->match('/fichecollectiveInscription/{id}', "Agenda\Controller\FicheCollectiveController::ficheCollectiveAction")->bind('fichecollectiveInscription');
+$app->match('/fichecollective_maCollective/{id}', "Agenda\Controller\FicheCollectiveController::ficheCollectiveAction")->bind('fichecollective_maCollective');
 
 
-$app->match('/editionCollective/{id}', "Agenda\Controller\EditionCollective::editerCollectiveAction")->bind('editionCollective');
-$app->match('/CollectiveCotationAsuppr/', "Agenda\Controller\EditionCollective::supprimerCotationAction")->bind('CollectiveCotationAsuppr');
+$app->match('/editionCollective/{id}', "Agenda\Controller\EditionCollectiveController::editerCollectiveAction")->bind('editionCollective');
+$app->match('/CollectiveCotationAsuppr/', "Agenda\Controller\EditionCollectiveController::supprimerCotationAction")->bind('CollectiveCotationAsuppr');
+$app->match('/materielAsuppr/', "Agenda\Controller\EditionCollectiveController::supprimerMaterielAction")->bind('materielAsuppr');
 
 //***************************************************************************************************************/
 
@@ -56,3 +58,5 @@ $app->match('/validerInscription/', function(Request $request) use($app) {
 
 
 $app->match('/cotation/', "Agenda\Controller\CotationListController::cotationListAction")->bind('cotation');
+$app->match('/materiel/', "Agenda\Controller\ListTypeMaterielController::ListTypeMaterielAction")->bind('materiel');
+

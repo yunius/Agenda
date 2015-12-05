@@ -21,13 +21,13 @@ class CotationListController {
     
     public function cotationListAction(Request $request, Application $app) {
         
-        if($_POST['idA']) {
+        if($request->get('idA')) {
             $htmlOutput = '';
-            $idtypeActivite=$_POST['idA'];
+            $idtypeActivite=$request->get('idA');
             $cotations = $app['dao.cotationList']->findAllByTypeActivite($idtypeActivite);
             //$cotationsList = array();
             
-            $htmlOutput ='<option selected="selected">-cotation à ajouter-</option>';
+//            $htmlOutput ='<option selected="selected">-cotation à ajouter-</option>';
 
             foreach ($cotations as $cotation) {
                 $IDcotation = $cotation->getCotation()->getIDcotation();

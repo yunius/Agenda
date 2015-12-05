@@ -178,8 +178,6 @@ class CollectiveDAO extends DAO {
     public function save(Collective $collective) {
         $typeactivite = $collective->getTypeActivite();
         $IDtypeactivite = $typeactivite->getIDtypeActivite();
-//        $originalDate = $collective->getCollDateDebut();
-//        $newDate = date("Y-m-d", strtotime($originalDate));
         $collectiveData = array(
             'collTitre' => $collective->getCollTitre(),
             'collDateDebut' => $collective->getCollDateDebut(),
@@ -208,9 +206,9 @@ class CollectiveDAO extends DAO {
             );
         
         if($collective->getIDcollective()) {
-            $this->getDB()->update('collectives', $collectiveData, array( 
-                                                                        'IDcollective' => $collective->getIDcollective() 
-                                                                        )  
+            $this->getDB()->update('collectives', 
+                                    $collectiveData, 
+                                    array('IDcollective' => $collective->getIDcollective())  
                                   );
         } else {
             $this->getDB()->insert('collectives', $collectiveData);
@@ -218,7 +216,6 @@ class CollectiveDAO extends DAO {
             $collective->setIDcollective($id);
            
         }
-        
     }
     
     public function delete($IDcollective) {

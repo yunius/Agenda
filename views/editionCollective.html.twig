@@ -22,61 +22,122 @@
     <div class="tab-content">
         {{ form_start(activiteFormView) }}
         <div class="tab-pane fade in active" id="description">
-            <div class="container monContenu actiContainer_{{style}}">
+            <div class="container monContenu actiContainer_{{style}} editdescription">
                 <div class="row"><h4>DESCRIPTION</h4></div>
                 
                 <div class="row">
                     <div class="col-md-2">
-                        {{ form_label(activiteFormView.typeActivite) }}
-                        {{form_errors(activiteFormView.typeActivite)}}
-                        {{form_widget(activiteFormView.typeActivite, { attr: { 'class' : 'selectActivite'} })}} 
+                        <div class="row actiCartouche_ actiCartouche_{{style}} editactivite">
+                            {{ form_label(activiteFormView.typeActivite) }}*
+                            {{form_errors(activiteFormView.typeActivite)}}
+                            {{form_widget(activiteFormView.typeActivite, { attr: { 'class' : 'selectActivite'} })}} 
+                        </div>
+                         
                     </div>
                                 
-                    <div class="col-md-6 {#actiCartouche_ actiCartouche_{{style}}#}">
-                        <div class="row">
-                            {{ form_label(activiteFormView.collTitre) }}
-                            {{form_errors(activiteFormView.collTitre)}}
-                            {{form_widget(activiteFormView.collTitre)}}
-                        </div>
+                    <div class="col-md-6">
+                        <div class="actiCartouche_ actiCartouche_{{style}}">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    Le titre *
+                                </div>
+                                <div class="col-md-6">
+                                    {{form_errors(activiteFormView.collTitre)}}
+                                    {{form_widget(activiteFormView.collTitre)}}
+                                </div>
+                                
+                                
+                            </div>
 
-                        <div class="row">
-                              
-                            {{form_errors(activiteFormView.collDateDebut)}}
-                            {{form_widget(activiteFormView.collDateDebut)}}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    Date de début * 
+                                </div>
+                                <div class="col-md-6">
+                                    {{form_errors(activiteFormView.collDateDebut)}}
+                                    {{form_widget(activiteFormView.collDateDebut)}}
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    Date de fin ( si plusieurs jours )
+                                </div>
+                                <div class="col-md-6">
+                                    {{form_errors(activiteFormView.collDateFin)}}
+                                    {{form_widget(activiteFormView.collDateFin)}}
+                                </div>
+                                
+                                
+                            </div>
+                                
+                            <div class="row"> 
+                                <div class="col-md-6">
+                                   Secteur géographique de la sortie *
+                                </div>
+                                <div class="col-md-6">
+                                    {{form_errors(activiteFormView.secteur)}}
+                                    {{form_widget(activiteFormView.secteur)}}
+                                </div>
+                            </div>
+                                
+                            <div class="row"> 
+                                <div class="col-md-6">
+                                    Objectif de la sortie *
+                                </div>
+                                <div class="col-md-6">
+                                    {{form_errors(activiteFormView.objectif)}}
+                                    {{form_widget(activiteFormView.objectif)}}
+                                </div>
+                            </div>
+                            <div class="row"> 
+                                <div class="col-md-6">
+                                    Observation
+                                </div>
+                                <div class="col-md-6">
+                                    {{form_errors(activiteFormView.observation)}}
+                                    {{form_widget(activiteFormView.observation)}}
+                                </div>
+                            </div>
+                            
                         </div>
-                        <div class="row">
-                               
-                            {{form_errors(activiteFormView.collDateFin)}}
-                            {{form_widget(activiteFormView.collDateFin)}} ( si la collective dure plus d'un jour )
-                        </div>
-                        <div class="row"> 
-                            {{ form_label(activiteFormView.objectif) }} 
-                            {{form_errors(activiteFormView.objectif)}}
-                            {{form_widget(activiteFormView.objectif)}}
-                        </div>
-                        {#<div class="row"> 
-                            {{ form_label(activiteFormView.secteur) }} 
-                            {{form_errors(activiteFormView.secteur)}}
-                            {{form_widget(activiteFormView.secteur)}}
-                        </div>#}
                     </div>
+                        
                     
                     <div class="col-md-4">
-                        <div class="row">
+                        <div class="row actiCartouche_ actiCartouche_{{style}}">
                             {{form_label(activiteFormView.adherent)}} 
                             {{form_errors(activiteFormView.adherent)}}
                             {{form_widget(activiteFormView.adherent)}}
                         </div>
                         
-                        <div class="row">
-                            {{form_label(activiteFormView.cotation)}} 
+                        <div class="row actiCartouche_ actiCartouche_{{style}} editCotation">
+                            <div data-toggle="tooltip" data-trigger="hover" title="afficher le tableau des cotation" >
+                                <button type="button" class="lienTableau" data-toggle="modal" data-target="#tableauCotation">?</button>
+                            </div> 
+                            <div class="modal fade" id="tableauCotation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title" id="myModalLabel">Tableau des cotations</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <img src="{{app.request.basepath}}/img/Cotations-activités-Club-Alpin-de-Pau5.jpg" />
+                                        </div>
+                                        <div class="modal-footer">
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
                             {{form_errors(activiteFormView.cotation)}}
                             {{form_widget(activiteFormView.cotation , { attr: { 'class' : 'selectCotation'} })}}
                             <input type="submit" class="btn btn-primary" value="Ajouter une cotation"/>
                             
                             {% if cotations %}
                                 
-                                <div class="row actiCartouche_ actiCartouche_{{style}}">
+                                <div class="row ">
                             
                                     {% for cotation in cotations %}
 
@@ -121,7 +182,7 @@
                             {% endif %}
                             
                         </div>
-                        <div class="row">
+                        <div class="row actiCartouche_ actiCartouche_{{style}} editdenivele">
                             {{form_label(activiteFormView.collDenivele)}} 
                             {{form_errors(activiteFormView.collDenivele)}}
                             {{form_widget(activiteFormView.collDenivele, { attr: { 'placeholder' : 'estimer le dénivelé'} })}}
@@ -136,12 +197,12 @@
                     
             </div>  
                 
-            <div class="container monContenu actiContainer_{{style}}">
+            <div class="container monContenu actiContainer_{{style}} editmateriel">
                 <div class="row"><h4>MATERIEL</h4></div>
                 <div class="row">
                     <div class="col-md-3"></div>
                     <div class="col-md-6">
-                        <div class="row">
+                        <div class="row actiCartouche_ actiCartouche_{{style}}">
                             <div class="col-md-6 editMateriel">
                                 {{form_errors(activiteFormView.MaterielCollective)}}
                                 {{form_widget(activiteFormView.MaterielCollective)}}
@@ -152,19 +213,51 @@
                         </div>
                     </div>
                     <div class="col-md-3"></div>
-                    
                 </div>
                         
                 <div class="row">
                     <div class="col-md-3"></div>
                     <div class="col-md-6">
                         {% if materielCollective %}
-                            <div class="row">
+                            <div class="row actiCartouche_ actiCartouche_{{style}}">
                             {% for materiel in materielCollective %}
                         
-                            <div class="col-md-6 cartouchePieceMat">{{ materiel.TypeMateriel.typeMatLibelle }}</div>
-                        
+                            <div class="col-md-6 cartouchePieceMat listMatEdit">
+                                {{ materiel.TypeMateriel.typeMatLibelle }}
+                                <span class="pull-right" data-toggle="tooltip" data-trigger="hover" title="Supprimer cet equipement">
+                                    <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#SuppCotDialog{{ materiel.TypeMateriel.IDtypeMat }}"><span class="glyphicon glyphicon-remove"></span></button>
+                                </span>
+                            </div>
+                                
+                            <div class="modal fade" id="SuppCotDialog{{ materiel.TypeMateriel.IDtypeMat }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            Voulez vous vraiment supprimer l'equipement "{{ materiel.TypeMateriel.typeMatLibelle  }}"?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form></form>
+                                            <form id="deleteForm-{{ loop.index }}" method="post" action="{{path('materielAsuppr')}}">
+                                                <input type="hidden" name="materielAsuppr" value="{{materiel.TypeMateriel.IDtypeMat}}" />
+                                                <input type="hidden" name="IDcollAsuppr" value="{{materiel.IDcollective}}" />
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            <button  form="deleteForm-{{ loop.index }}" type="submit" class="btn btn-danger">Confirmer</button>
+                                            </form>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
+                            
+                                
                             {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="row listTypeMateriel">
+                                
                             </div>
                         {% endif %}
                     </div>
@@ -190,11 +283,11 @@
                     <div class="col-md-2">
                         {#{{form_label(activiteFormView.heureRDV)}}</br>#}
                         {{form_errors(activiteFormView.heureRDV)}}
-                        {{form_widget(activiteFormView.heureRDV)}}
+                        {{form_widget(activiteFormView.heureRDV)}} 
                     </div>
                             
                     
-                    <div class="col-md-2"><button type="submit" class="btn btn-primary" >Ajouter un RDV</button></div>
+                    <div class="col-md-2"><button type="submit" class="btn btn-primary" >Ajouter un RDV</button>*</div>
                     <div class="col-md-3"></div>
                 </div>
                 
@@ -210,13 +303,14 @@
                     
                 <div class="row">
                     <div class="col-md-3"></div>
-                    <div class="col-md-6">
+                    <div class="col-md-3 nbmax">
                             <div class="row">
-                                {{form_label(activiteFormView.nbMax)}}</br> 
+                                {{form_label(activiteFormView.nbMax)}} *</br> 
                                 {{form_errors(activiteFormView.nbMax)}}
-                                {{form_widget(activiteFormView.nbMax, { 'attr' :{ 'class' : 'pull-right' } })}}
+                                {{form_widget(activiteFormView.nbMax, { 'attr' :{ 'class' : 'pull-right' } })}} 
                             </div>
                     </div>
+                    <div class="col-md-3"></div>
                     <div class="col-md-3"></div>
                 </div>
                             

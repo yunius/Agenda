@@ -55,6 +55,7 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
     ),
     'security.access_rules' => array(
         array('^/editionCollective', 'ROLE_REDACTEUR'),
+        array('/fichecollective_maCollective', 'ROLE_REDACTEUR'),
         array('/fichecollectiveInscription', 'ROLE_USER')
     )
 ));
@@ -149,9 +150,9 @@ $app['dao.cotationList'] = $app->share ( function ($app) {
     return $cotationListDAO;
 });
 
-
-
-
-
-
-
+$app['dao.listtypemateriel'] =$app->share (function($app) {
+    $listTypeMateriel = new Agenda\DAO\ListTypeMaterielDAO($app['db']);
+    $listTypeMateriel->setTypeMaterielDAO($app['dao.typemateriel']);
+    $listTypeMateriel->setTypeActiviteDAO($app['dao.typeactivite']);
+    return $listTypeMateriel;
+});

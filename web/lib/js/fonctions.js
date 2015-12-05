@@ -244,7 +244,33 @@ $(document).ready(function()
 				$(".selectCotation").html(html);
 			} 
 		});
+                $.ajax
+                ({
+                        type: "POST",
+			url: '/materiel/',
+			data: dataString,
+			cache: false,
+			success: function(html)
+			{
+				$(".listTypeMateriel").html(html);
+			} 
+                });
 	});
+        $('#MatTempDeleteForm').on('submit', function(e) {
+            e.preventDefault();
+            var materielAsuppr = $('#materielAsuppr').val();
+            $.ajax
+                ({
+                        type: "POST",
+			url: '/materiel/',
+			data: materielAsuppr,
+			cache: false,
+			success: function(html)
+			{
+				$(".listTypeMateriel").html(html);
+			} 
+                });
+        });
 	
 });
 

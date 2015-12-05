@@ -46,7 +46,7 @@ CREATE TABLE adherents(
         MailAdherent       Varchar (60) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
         adherentLibelleRue Varchar (50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
         adherentNumRue     Int NOT NULL ,
-        adherentNumTel     Int NOT NULL ,
+        adherentNumTel     Varchar (10) NOT NULL ,
         Vehicule           Bool ,
         co_voitureur       Bool ,
         CompteActif        Bool ,
@@ -289,13 +289,20 @@ ALTER TABLE liste_de_materiel_type ADD CONSTRAINT FK_liste_de_materiel_type_IDty
 ALTER TABLE liste_de_materiel_type ADD CONSTRAINT FK_liste_de_materiel_type_IDtypeActivite FOREIGN KEY (IDtypeActivite) REFERENCES type_activite(IDtypeActivite);
 ALTER TABLE liste_de_cotation ADD CONSTRAINT FK_liste_de_cotation_IDtypeActivite FOREIGN KEY (IDtypeActivite) REFERENCES type_activite(IDtypeActivite);
 ALTER TABLE liste_de_cotation ADD CONSTRAINT FK_liste_de_cotation_IDcotation FOREIGN KEY (IDcotation) REFERENCES cotation(IDcotation);
-ALTER TABLE rdv ADD CONSTRAINT FK_rdv_IDlieu FOREIGN KEY (IDlieu) REFERENCES lieu(IDlieu);
-ALTER TABLE rdv ADD CONSTRAINT FK_rdv_IDcollective FOREIGN KEY (IDcollective) REFERENCES collectives(IDcollective) ON DELETE CASCADE;
-ALTER TABLE participants ADD CONSTRAINT FK_participants_IDadherent FOREIGN KEY (IDadherent) REFERENCES adherents(IDadherent);
-ALTER TABLE participants ADD CONSTRAINT FK_participants_IDetats FOREIGN KEY (IDetats) REFERENCES etats(IDetats);
-ALTER TABLE participants ADD CONSTRAINT FK_participants_IDcollective FOREIGN KEY (IDcollective) REFERENCES collectives(IDcollective) ON DELETE CASCADE;
-ALTER TABLE encadrantpro_liste ADD CONSTRAINT FK_encadrantpro_liste_IDencadrantPro FOREIGN KEY (IDencadrantPro) REFERENCES encadrant_professionnel(IDencadrantPro);
-ALTER TABLE encadrantpro_liste ADD CONSTRAINT FK_encadrantpro_liste_IDcollective FOREIGN KEY (IDcollective) REFERENCES collectives(IDcollective) ON DELETE CASCADE;
+
+ALTER TABLE rdv 
+ADD CONSTRAINT FK_rdv_IDlieu FOREIGN KEY (IDlieu) REFERENCES lieu(IDlieu);
+ADD CONSTRAINT FK_rdv_IDcollective FOREIGN KEY (IDcollective) REFERENCES collectives(IDcollective) ON DELETE CASCADE;
+
+ALTER TABLE participants 
+ADD CONSTRAINT FK_participants_IDadherent FOREIGN KEY (IDadherent) REFERENCES adherents(IDadherent);
+ADD CONSTRAINT FK_participants_IDetats FOREIGN KEY (IDetats) REFERENCES etats(IDetats);
+ADD CONSTRAINT FK_participants_IDcollective FOREIGN KEY (IDcollective) REFERENCES collectives(IDcollective) ON DELETE CASCADE;
+
+ALTER TABLE encadrantpro_liste 
+ADD CONSTRAINT FK_encadrantpro_liste_IDencadrantPro FOREIGN KEY (IDencadrantPro) REFERENCES encadrant_professionnel(IDencadrantPro);
+ADD CONSTRAINT FK_encadrantpro_liste_IDcollective FOREIGN KEY (IDcollective) REFERENCES collectives(IDcollective) ON DELETE CASCADE;
+
 ALTER TABLE co_encadrant ADD CONSTRAINT FK_co_encadrant_IDadherent FOREIGN KEY (IDadherent) REFERENCES adherents(IDadherent);
 ALTER TABLE co_encadrant ADD CONSTRAINT FK_co_encadrant_IDcollective FOREIGN KEY (IDcollective) REFERENCES collectives(IDcollective) ON DELETE CASCADE;
 ALTER TABLE commentaire ADD CONSTRAINT FK_commentaire_IDadherent FOREIGN KEY (IDadherent) REFERENCES adherents(IDadherent);

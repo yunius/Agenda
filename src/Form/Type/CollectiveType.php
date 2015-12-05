@@ -70,14 +70,19 @@ class CollectiveType extends AbstractType {
                     'multiple'=>false,
                     'label' => 'objectif :'
                 ))
-//                ->add('secteur', 'choice',array(
-//                    'choices' => $this->secteur,
-//                    'placeholder' => 'Choisissez ou creez un secteur',
-//                    'expanded'=>false, 
-//                    'multiple'=>false,
-//                    'label' => 'secteur :'
-//                ))
-                
+                ->add('secteur', 'choice',array(
+                    'choices' => $this->secteur,
+                    'placeholder' => 'Choisissez ou creez un secteur',
+                    'expanded'=>false, 
+                    'multiple'=>false,
+                    'label' => 'secteur :'
+                ))
+                ->add('observation', 'textarea', array(
+                    'required' => false,
+                    'attr' => array('placeholder' => 'Redigez une observation ou une courte description de votre sortie',
+                                    'rows' => 4,
+                                    )
+                ))
                 ->add('adherent', 'choice', array(
                     'choices' => $this->adherents,
                     'label' => 'désigner un responsable :',
@@ -95,7 +100,10 @@ class CollectiveType extends AbstractType {
                     'multiple'=>false
                 ))
                 
-                ->add('collDenivele', 'text')
+                ->add('collDenivele', 'text', array(
+                    'label' => 'Éstimation dénivelé',
+                    'required' => false
+                ))
                 ->add('MaterielCollective', 'choice', array(
                     'choices' => $this->materiels,
                     'placeholder' => '-materiel à ajouter-',

@@ -41,6 +41,15 @@ class SecteurDAO extends DAO {
         
     }
     
+    public function save(Secteur $secteur) {
+        $secteurData = array(
+            'secteurLibelle' => $secteur->getSecteurLibelle()
+        );
+        $this->getDB()->insert('secteur', $secteurData);
+        $id = $this->getDB()->lastInsertId();
+        $secteur->setIDsecteur($id);
+    }
+    
     protected function buildDomainObject($row) {
         $secteur = new Secteur();
         $secteur->setIDsecteur($row['IDsecteur']);

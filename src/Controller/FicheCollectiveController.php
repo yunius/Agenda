@@ -30,6 +30,7 @@ class FicheCollectiveController {
         $listemateriel = $app['dao.materielcollective']->findAll($id);
         $cotations = $app['dao.collectivecotation']->findAll($id);
         $participantValide = $app['dao.participant']->findAllValide($collective);
+        $nbV = $app['dao.participant']->countParticipantValide($collective);
         $listeAttente = $app['dao.participant']->findAllAttente($collective);
 
         //pour gerer les utilisateur déja inscrit a cette collective, ou à une collective de la même date
@@ -102,11 +103,12 @@ class FicheCollectiveController {
                 }
                                 
                 $app['dao.participant']->save($participant);
+                
                 $message = \Swift_Message::newInstance()
                         ->setSubject('Agenda : Nouveau Participant')
                         ->setFrom(array('noreply@agenda.com'))
-                        ->setTo(array('yunius@msn.com'))
-                        ->setBody('bonjour, il y a un nouveau participant en attente de validation sur votre collective <a href="http://agenda/fichecollective/'.$id.'">"'.$titre.'"</a>', 'text/html');
+                        ->setTo(array('yunius@msn.com', 'gilou2501@gmail.com'))
+                        ->setBody('bonjour, il y a un nouveau participant en attente de validation sur votre collective <a href="http://agenda/fichecollective_maCollective/'.$id.'">"'.$titre.'"</a>', 'text/html');
                         
                 $app['mailer']->send($message);
                 return $app->redirect('/fichecollective/'.$id);
@@ -114,7 +116,12 @@ class FicheCollectiveController {
             }
             $ParticipantSubmitView = $ParticipantSubmitForm->createView();
         }
-
+        
+        $NBrdv = 0;
+        $rdvs = $app['dao.rdv']->findAll($id);
+        foreach ($rdvs as $rdv) {
+            $NBrdv++;
+        }
         $commentaires = $app['dao.commentaire']->findAll($id);
         //var_dump($ParticipantSubmitView);
         //echo '-------------------------------------';
@@ -131,7 +138,8 @@ class FicheCollectiveController {
                                                                   'inscrit' => $inscrit,
                                                                   'inscritAlaMemeDate' => $inscritAlaMemeDate,
                                                                   'participantActuel' => $participantActuel,
-                                                                  'NBrdv' => $NBrdv
+                                                                  'NBrdv' => $NBrdv,
+                                                                  'nbV' => $nbV
                                                                  ]);
     }
     
