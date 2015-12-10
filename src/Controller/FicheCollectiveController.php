@@ -123,6 +123,7 @@ class FicheCollectiveController {
             $NBrdv++;
         }
         $commentaires = $app['dao.commentaire']->findAll($id);
+        $activites = $app['dao.typeactivite']->findAll();
         //var_dump($ParticipantSubmitView);
         //echo '-------------------------------------';
         //var_dump($commentFormView);
@@ -139,7 +140,8 @@ class FicheCollectiveController {
                                                                   'inscritAlaMemeDate' => $inscritAlaMemeDate,
                                                                   'participantActuel' => $participantActuel,
                                                                   'NBrdv' => $NBrdv,
-                                                                  'nbV' => $nbV
+                                                                  'nbV' => $nbV,
+                                                                  'activites' => $activites
                                                                  ]);
     }
     

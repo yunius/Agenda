@@ -1,0 +1,349 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}Comptes Rendus de Collective{% endblock %}
+
+{% block content %}
+    
+    {#<div class="row">
+        <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+            <ul class="nav nav-tabs nav-justified">
+                <li class="active"><a href="#description" data-toggle="tab">Description</a></li>
+                <li><a href="#materiel" data-toggle="tab">Materiel</a></li>
+                <li><a href="#inscription" data-toggle="tab">Inscription</a></li>
+            </ul>
+        </div>
+    </div>#}
+    
+    {% if collective.typeActivite %}
+        {% set style = collective.typeActivite.IDtypeActivite %}
+    {% else %}
+        {% set style = '' %}
+    {%  endif %}
+    <div class="tab-content">
+        {{ form_start(activiteFormView) }}
+        <div class="tab-pane fade in active" id="description">
+            <div class="container monContenu actiContainer_{{style}} editdescription">
+                <div class="row"><h4>COMPTES RENDUS DESCRIPTION</h4></div>
+                
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="row actiCartouche_ actiCartouche_{{style}} editactivite">
+                            {{ form_label(activiteFormView.typeActivite) }}*
+                            {{form_errors(activiteFormView.typeActivite)}}
+                            {{form_widget(activiteFormView.typeActivite, { attr: { 'class' : 'selectActivite'} })}} 
+                        </div>
+                         
+                    </div>
+                                
+                    <div class="col-md-6">
+                        <div class="actiCartouche_ actiCartouche_{{style}}">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    Le titre *
+                                </div>
+                                <div class="col-md-6">
+                                    {{form_errors(activiteFormView.collTitre)}}
+                                    {{form_widget(activiteFormView.collTitre)}}
+                                </div>
+                                
+                                
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    Date de début * 
+                                </div>
+                                <div class="col-md-6">
+                                    {{form_errors(activiteFormView.collDateDebut)}}
+                                    {{form_widget(activiteFormView.collDateDebut)}}
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    Date de fin ( si plusieurs jours )
+                                </div>
+                                <div class="col-md-6">
+                                    {{form_errors(activiteFormView.collDateFin)}}
+                                    {{form_widget(activiteFormView.collDateFin)}}
+                                </div>
+                                
+                                
+                            </div>
+                                
+                            <div class="row"> 
+                                <div class="col-md-6">
+                                   Secteur géographique de la sortie *
+                                </div>
+                                <div class="col-md-6">
+                                    {{form_errors(activiteFormView.secteur)}}
+                                    {{form_widget(activiteFormView.secteur)}}
+                                </div>
+                            </div>
+                                
+                            <div class="row"> 
+                                <div class="col-md-6">
+                                    Objectif de la sortie *
+                                </div>
+                                <div class="col-md-6">
+                                    {{form_errors(activiteFormView.objectif)}}
+                                    {{form_widget(activiteFormView.objectif)}}
+                                </div>
+                            </div>
+                            <div class="row"> 
+                                <div class="col-md-6">
+                                    Observation
+                                </div>
+                                <div class="col-md-6">
+                                    {{form_errors(activiteFormView.observation)}}
+                                    {{form_widget(activiteFormView.observation)}}
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                        
+                    
+                    <div class="col-md-4">
+                        <div class="row actiCartouche_ actiCartouche_{{style}}">
+                            {{form_label(activiteFormView.adherent)}} 
+                            {{form_errors(activiteFormView.adherent)}}
+                            {{form_widget(activiteFormView.adherent)}}
+                        </div>
+                        
+                        <div class="row actiCartouche_ actiCartouche_{{style}} editCotation">
+                            <div data-toggle="tooltip" data-trigger="hover" title="afficher le tableau des cotation" >
+                                <button type="button" class="lienTableau" data-toggle="modal" data-target="#tableauCotation">?</button>
+                            </div> 
+                            <div class="modal fade" id="tableauCotation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title" id="myModalLabel">Tableau des cotations</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <img src="{{app.request.basepath}}/img/Cotations-activités-Club-Alpin-de-Pau5.jpg" />
+                                        </div>
+                                        <div class="modal-footer">
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
+                            {{form_errors(activiteFormView.cotation)}}
+                            {{form_widget(activiteFormView.cotation , { attr: { 'class' : 'selectCotation'} })}}
+                            <input type="submit" class="btn btn-primary" value="Ajouter une cotation"/>
+                            
+                            {% if cotations %}
+                                
+                                <div class="row ">
+                            
+                                    {% for cotation in cotations %}
+
+                                    <div class="col-md-3 xsDiv">
+
+                                            <div class="row">
+                                                {{cotation.cotation.LibelleCotation}}
+                                            </div>
+                                            <div class="row">
+                                                {{cotation.cotation.valeurCotation}}
+                                            </div>
+
+                                            <div data-toggle="tooltip" data-trigger="hover" title="Supprimer la cotation">
+                                                <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#SuppCotDialog{{ cotation.cotation.IDcotation }}"><span class="glyphicon glyphicon-remove"></span></button>
+                                            </div>
+
+                                    </div>
+                                    <div class="modal fade" id="SuppCotDialog{{ cotation.cotation.IDcotation }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Voulez vous vraiment supprimer la cotation n° {{ cotation.cotation.IDcotation }}?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <form></form>
+                                                    <form id="deleteForm-{{ loop.index }}" method="post" action="{{path('CollectiveCotationAsuppr')}}">
+                                                        <input type="hidden" name="cotationAsuppr" value="{{cotation.cotation.IDcotation}}" />
+                                                        <input type="hidden" name="IDcollAsuppr" value="{{cotation.IDcollective}}" />
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                    <button  form="deleteForm-{{ loop.index }}" type="submit" class="btn btn-danger">Confirmer</button>
+                                                    </form>
+                                                </div>
+                                            </div><!-- /.modal-content -->
+                                        </div><!-- /.modal-dialog -->
+                                    </div><!-- /.modal -->
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            
+                        </div>
+                        <div class="row actiCartouche_ actiCartouche_{{style}} editdenivele">
+                            {{form_label(activiteFormView.collDenivele)}} 
+                            {{form_errors(activiteFormView.collDenivele)}}
+                            {{form_widget(activiteFormView.collDenivele, { attr: { 'placeholder' : 'estimer le dénivelé'} })}}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row spacer">
+                    
+                </div>
+                            
+                    
+            </div>  
+                
+            <div class="container monContenu actiContainer_{{style}} editmateriel">
+                <div class="row"><h4>COMPTES RENDUS MATERIEL</h4></div>
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <div class="row actiCartouche_ actiCartouche_{{style}}">
+                            <div class="col-md-6 editMateriel">
+                                {{form_errors(activiteFormView.MaterielCollective)}}
+                                {{form_widget(activiteFormView.MaterielCollective)}}
+                            </div>
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-primary" >Ajouter une piece de materiel</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+                        
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        {% if materielCollective %}
+                            <div class="row actiCartouche_ actiCartouche_{{style}}">
+                            {% for materiel in materielCollective %}
+                        
+                            <div class="col-md-6 cartouchePieceMat listMatEdit">
+                                {{ materiel.TypeMateriel.typeMatLibelle }}
+                                <span class="pull-right" data-toggle="tooltip" data-trigger="hover" title="Supprimer cet equipement">
+                                    <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#SuppCotDialog{{ materiel.TypeMateriel.IDtypeMat }}"><span class="glyphicon glyphicon-remove"></span></button>
+                                </span>
+                            </div>
+                                
+                            <div class="modal fade" id="SuppCotDialog{{ materiel.TypeMateriel.IDtypeMat }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            Voulez vous vraiment supprimer l'equipement "{{ materiel.TypeMateriel.typeMatLibelle  }}"?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form></form>
+                                            <form id="deleteForm-{{ loop.index }}" method="post" action="{{path('materielAsuppr')}}">
+                                                <input type="hidden" name="materielAsuppr" value="{{materiel.TypeMateriel.IDtypeMat}}" />
+                                                <input type="hidden" name="IDcollAsuppr" value="{{materiel.IDcollective}}" />
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            <button  form="deleteForm-{{ loop.index }}" type="submit" class="btn btn-danger">Confirmer</button>
+                                            </form>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
+                            
+                                
+                            {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="row listTypeMateriel">
+                                
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-3"></div>
+                    
+                </div>
+                <div class="row spacer"></div>
+            </div>
+                    
+            <div class="container monContenu actiContainer_{{style}}">
+                <div class="row"><h4>INFORMATION COMPLEMENTAIRE</h4></div>
+                
+                        
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    
+                    <div class="col-md-5">
+                        {{form_label(activiteFormView.collHeureDepartTerrain)}}
+                        {{form_errors(activiteFormView.collHeureDepartTerrain)}}
+                        {{form_widget(activiteFormView.collHeureDepartTerrain)}} 
+                    </div>
+                    
+                    <div class="col-md-5">
+                        {{form_label(activiteFormView.collHeureRetourTerrain)}}
+                        {{form_errors(activiteFormView.collHeureRetourTerrain)}}
+                        {{form_widget(activiteFormView.collHeureRetourTerrain)}}
+                    </div>
+                    
+                    <div class="col-md-1"></div>
+                </div>
+                    
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    
+                    <div class="col-md-5">
+                        {{form_errors(activiteFormView.collConditionMeteo)}}
+                        {{form_widget(activiteFormView.collConditionMeteo)}} 
+                    </div>
+                    
+                    <div class="col-md-5">
+                        {{form_label(activiteFormView.collDureeCourse)}}
+                        {{form_errors(activiteFormView.collDureeCourse)}}
+                        {{form_widget(activiteFormView.collDureeCourse)}}
+                    </div>
+                    
+                    <div class="col-md-1"></div>
+                </div>
+                    
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    
+                    <div class="col-md-5">
+                        {{form_errors(activiteFormView.coll_incident_accident)}}
+                        {{form_widget(activiteFormView.coll_incident_accident)}} 
+                    </div>
+                    
+                    <div class="col-md-5">
+                        {{form_errors(activiteFormView.collInfoComplementaire)}}
+                        {{form_widget(activiteFormView.collInfoComplementaire)}}
+                    </div>
+                    
+                    <div class="col-md-1"></div>
+                </div>
+                
+                
+                            
+                <div class="row spacer">
+                    <input {#form="collective"#} type="submit" class="btn btn-primary pull-right enregistrer" value="Enregistrer"/>
+                </div>
+            </div>
+                
+            <div class="hiding hidden">
+                {{form_errors(activiteFormView.lieuRDV)}}
+                {{form_widget(activiteFormView.lieuRDV)}} 
+
+                {{form_errors(activiteFormView.heureRDV)}}
+                {{form_widget(activiteFormView.heureRDV)}}
+                
+                {{form_label(activiteFormView.nbMax)}} 
+                {{form_errors(activiteFormView.nbMax)}}
+                {{form_widget(activiteFormView.nbMax)}} 
+            </div>
+        </div>
+        
+        
+    {{ form_end(activiteFormView) }}    
+    </div><!-- tab-content -->
+    
+{% endblock %}

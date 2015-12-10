@@ -10,6 +10,7 @@ namespace Agenda\Controller;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Agenda\Form\Type\filtreType;
+use Agenda\Domain\Collective;
 /**
  * Description of AcceuilController
  *
@@ -145,112 +146,29 @@ class AcceuilController {
                                                         'filtreHidden'=> $filtreHidden,
                                                         'debut' => $debut,
                                                         'fin' => $fin,
-                                                        'message' => $message
+                                                        'message' => $message,
+                                                        'activites' => $activites
                                                         ]);
     }
-    
-    
-    public function accueilEncadrantAction($semaine, Request $request, Application $app ) {
-        
-        $encadrantParDefaut = $app['user']->getIDadherent();
-        //determiner les dates par defaut
-        $semaineActuelle = date('W');
-        $dates = afficheDateSemaine($semaine);
-        $lundi = $dates['debut'];
-        $dimanche = $dates['fin'];
-        $debut = date('Ymd') /*$dates['lundiIso']->format('Ymd')*/;
-        $fin = $dates['dimancheIso']->format('Ymd') ;
-        $activite = '';
-        //$adherent = '';
-        $FiltreEntete = 'Semaine';
-        
-        //recuperer les infos pour les filtre par defaut ( semaine reçu en get )
-        $activites = $app['dao.typeactivite']->findAll();
-        $activiteList = array();    
-        foreach ($activites as $activite) {
-            $IDactivite = $activite->getIDtypeActivite();
-            $activiteList[$IDactivite] = $activite->getActiviteLibelle();         
-        }
-
-        $encadrants = $app['dao.encadrant']->findAll();
-        $encadrantList = array();
-        foreach ($encadrants as $encadrant) {
-            $IDadherent = $encadrant->getAdherent()->getIDadherent();
-            $nom = $encadrant->getAdherent()->getNomAdherent();
-            $prenom = $encadrant->getAdherent()->getPrenomAdherent();
-            $encadrantList[$IDadherent] = $prenom.' '.$nom;
-        }
-
-        $filtreForm = $app['form.factory']->create(new filtreType($activiteList, $encadrantList));
-        $filtreForm->handleRequest($request);
-        
-        //traitement du filtrage de l'accueil
-        $filtreHidden = 'filtreHidden';
-        $filtreDateFinHidden = 'filtreDateFinHidden';
-        $activiteFiltre = '';
-        $all ='';
-        if($filtreForm->isSubmitted()) {
-            $filtreHidden = '';
-//            if($_POST['filtre']['choixFiltre'] == 1) {
-//                $filtreDateFinHidden = '';
-//            }
-            if(!empty($_POST['filtre']['debutPeriode']) && !empty($_POST['filtre']['finPeriode'])) {
-                $FiltreEntete = 'Periode';
-            }
-            if(!empty($_POST['filtre']['typeActivite'])) {
-                $activiteFiltre = $_POST['filtre']['typeActivite'];
-            }
-            if(!empty($_POST['filtre']['debutPeriode'])) {
-                $debut = date('Y-m-d', strtotime($_POST['filtre']['debutPeriode']));
-            }
-            if(!empty($_POST['filtre']['finPeriode'])) {
-                $fin = date('Y-m-d', strtotime($_POST['filtre']['finPeriode']));
-            }else {
-                $fin = '';
-            }
-        }
-        $filtreFormView = $filtreForm->createView();
-
-        
-        $collectives = $app['dao.collective']->findAllByFilter($debut, $fin, $activiteFiltre);
-        
-        $participantsValide = array();
-        $participantsAttente = array();
-        $cotations = array();
-
-        foreach ($collectives as $collective) {
-            $id = $collective->getIDcollective();
-            $nbV = $app['dao.participant']->countParticipantValide($collective);
-            $participantsValide[$id] = $nbV;
-            $nbA = $app['dao.participant']->countParticipantAttente($collective);
-            $participantsAttente[$id] = $nbA;
-            $cotations[$id] = $app['dao.collectivecotation']->findAll($id);
-        }
-
-        $fil = '';
-        return $app['twig']->render('index.html.twig', ['collectives' => $collectives, 
-                                                        'participantsValide' => $participantsValide,
-                                                        'participantsAttente' => $participantsAttente,
-                                                        'cotations' => $cotations,
-                                                        'fil' => $fil,
-                                                        'lundi' => $lundi,
-                                                        'dimanche' => $dimanche,
-                                                        'semaine' => $semaine,
-                                                        'semaineActuelle' => $semaineActuelle,
-                                                        'filtreFormView' => $filtreFormView,
-                                                        'FiltreEntete'=> $FiltreEntete,
-                                                        'filtreHidden'=> $filtreHidden,
-                                                        'debut' => $debut,
-                                                        'fin' => $fin,
-                                                        ]);
-    }
-    
     
     public function supprimerCollectiveAction(Request $request, Application $app) {
         
         $IDcollective = $request->get('IDcollAsuppr');
         $app['dao.collective']->delete($IDcollective);
         return $app->redirect('/');
+    }
+    
+    public function creerCollectiveAction(Request $request, Application $app) {
+        
+        $collective = new Collective();
+        $IDtypeActivite = $request->get('activiteChoice');
+        $typeActivite = $app['dao.typeactivite']->find($IDtypeActivite);
+        $adherent = $app['user'];
+        $collective->setAdherent($adherent);
+        $collective->setTypeActivite($typeActivite);
+        $app['dao.collective']->save($collective);
+        $IDcollective = $collective->getIDcollective();
+        return $app->redirect('/editionCollective/'.$IDcollective);
     }
     
 }

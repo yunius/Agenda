@@ -1,5 +1,7 @@
 <?php
 include_once 'utils.php';
+include_once 'PHPExcel.php';
+include_once 'PHPExcel/IOFactory.php';
 
 use Symfony\Component\HttpFoundation\Request;
 
@@ -18,6 +20,7 @@ $app->match('/', "Agenda\Controller\AcceuilController::accueilAction")->bind('ac
 $app->match('/semaine-{semaine}', "Agenda\Controller\AcceuilController::accueilSemaineAction")->bind('accueilSemaine');
 
 $app->match('/CollectiveAsuppr/', "Agenda\Controller\AcceuilController::supprimerCollectiveAction")->bind('CollectiveAsuppr');
+$app->match('/CollectiveAcreer/', "Agenda\Controller\AcceuilController::creerCollectiveAction")->bind('CollectiveAcreer');
 
 $app->match('/fichecollective/{id}', "Agenda\Controller\FicheCollectiveController::ficheCollectiveAction")->bind('fichecollective');
 $app->match('/fichecollectiveInscription/{id}', "Agenda\Controller\FicheCollectiveController::ficheCollectiveAction")->bind('fichecollectiveInscription');
@@ -27,6 +30,8 @@ $app->match('/fichecollective_maCollective/{id}', "Agenda\Controller\FicheCollec
 $app->match('/editionCollective/{id}', "Agenda\Controller\EditionCollectiveController::editerCollectiveAction")->bind('editionCollective');
 $app->match('/CollectiveCotationAsuppr/', "Agenda\Controller\EditionCollectiveController::supprimerCotationAction")->bind('CollectiveCotationAsuppr');
 $app->match('/materielAsuppr/', "Agenda\Controller\EditionCollectiveController::supprimerMaterielAction")->bind('materielAsuppr');
+
+$app->match('/CompteRendu/{id}', "Agenda\Controller\ComptesRendusCollectiveController::ComptesRendusCollectiveAction")->bind('CompteRendu');
 
 //***************************************************************************************************************/
 

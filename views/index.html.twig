@@ -153,10 +153,10 @@
                             </div>
                             <div class="row">
                                 {% if app.user == collective.adherent %}
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <a href="{{ path('editionCollective',{'id': id} ) }}"><button class="btn btn-info {#col-md-4 col-md-offset-3#}" data-toggle="tooltip" title="Modifier la collective"><span class="glyphicon glyphicon-pencil"></span></button></a>
                                     </div>
-                                    <div class="col-md-6" class="supprWrapper" data-toggle="tooltip" data-trigger="hover" title="Supprimer la collective">
+                                    <div class="col-md-4" class="supprWrapper" data-toggle="tooltip" data-trigger="hover" title="Supprimer la collective">
                                         <button type="button" class="btn btn-danger {#col-md-4 col-md-offset-1#}" data-toggle="modal" data-target="#SuppCollDialog{{ collective.idcollective }}"><span class="glyphicon glyphicon-remove"></span></button>
                                     </div>
                                     <!-- fenetre modal -->
@@ -182,6 +182,9 @@
                                                 </div><!-- /.modal-content -->
                                             </div><!-- /.modal-dialog -->
                                         </div><!-- /.modal -->
+                                    <div class="col-md-4">
+                                        <a href="{{ path('CompteRendu',{'id': id} ) }}"><button class="btn btn-success {#col-md-4 col-md-offset-3#}" data-toggle="tooltip" title="Générer le compte rendu"><span class="glyphicon glyphicon-book"></span></button></a>
+                                    </div>
                                 {% endif %}
                             </div>
                         

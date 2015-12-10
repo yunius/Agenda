@@ -178,6 +178,11 @@ class CollectiveDAO extends DAO {
     public function save(Collective $collective) {
         $typeactivite = $collective->getTypeActivite();
         $IDtypeactivite = $typeactivite->getIDtypeActivite();
+        if($collective->getObjectif()) {
+            $IDobjectif = $collective->getObjectif()->getIDobjectif();
+        } else {
+            $IDobjectif = null;
+        }
         $collectiveData = array(
             'collTitre' => $collective->getCollTitre(),
             'collDateDebut' => $collective->getCollDateDebut(),
@@ -201,7 +206,7 @@ class CollectiveDAO extends DAO {
             'collConditionTerrain' => $collective->getCollConditionTerrain(),
             'collCR_Horodateur' => $collective->getCollCR_Horodateur(),
             'IDtypeActivite' => $IDtypeactivite,
-            'IDobjectif' => $collective->getObjectif()->getIDobjectif(),
+            'IDobjectif' => $IDobjectif,
             'IDadherent' => $collective->getAdherent()->getIDadherent(),
             );
         

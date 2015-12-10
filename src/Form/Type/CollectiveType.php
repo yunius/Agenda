@@ -132,10 +132,57 @@ class CollectiveType extends AbstractType {
                     'label' => 'Nombre de participant max :',
                     'attr' => array('min' => 1),
                     'required' => false
+                ))
+                
+                //specifique compte rendu tron commun
+                
+                ->add('collHeureDepartTerrain', 'datetime', array(
+                    'widget' => 'single_text',
+                    'attr' => array( 'placeholder' => 'heure' ),
+                    'format' => 'hh:mm',
+                    'input' => 'timestamp',
+                    'label' => 'Heure de départ terrain :',
+                    'required' => false
+                ))
+                
+                ->add('collHeureRetourTerrain', 'datetime', array(
+                    'widget' => 'single_text',
+                    'attr' => array( 'placeholder' => 'heure' ),
+                    'format' => 'hh:mm',
+                    'input' => 'timestamp',
+                    'label' => 'Heure de retour terrain :',
+                    'required' => false
+                ))
+                ->add('collConditionMeteo', 'textarea', array(
+                    'required' => false,
+                    'attr' => array('placeholder' => 'description de la météo',
+                                    'rows' => 4,
+                                    )
+                ))
+                ->add('collDureeCourse', 'datetime', array(
+                    'widget' => 'single_text',
+                    'attr' => array( 'placeholder' => 'Durée' ),
+                    'format' => 'hh:mm',
+                    'input' => 'timestamp',
+                    'label' => 'Durée course sans les pauses :',
+                    'required' => false
+                ))
+                ->add('coll_incident_accident', 'textarea', array(
+                    'required' => false,
+                    'attr' => array('placeholder' => 'incidents ou accidents ?',
+                                    'rows' => 4,
+                                    )
+                ))
+                ->add('collInfoComplementaire', 'textarea', array(
+                    'label' => 'Observations particulières (sécurité, balisage, refuge, accès, comportement, etc.)',
+                    'required' => false,
+                    'attr' => array('placeholder' => 'Observation particuliere',
+                                    'rows' => 4,
+                                    )
                 ));
                 
-//                ->setAction($this->router->generate('ModificationCollective'))
-//                ->setMethod("POST");
+        
+                
         
                 
                 

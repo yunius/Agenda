@@ -21,6 +21,7 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Loader\IniFileLoader;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
+use Symfony\Component\DependencyInjection\Loader\DirectoryLoader;
 use Symfony\Component\DependencyInjection\Loader\ClosureLoader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -58,11 +59,11 @@ abstract class Kernel implements KernelInterface, TerminableInterface
     protected $startTime;
     protected $loadClassCache;
 
-    const VERSION = '2.7.6';
-    const VERSION_ID = 20706;
+    const VERSION = '2.8.0';
+    const VERSION_ID = 20800;
     const MAJOR_VERSION = 2;
-    const MINOR_VERSION = 7;
-    const RELEASE_VERSION = 6;
+    const MINOR_VERSION = 8;
+    const RELEASE_VERSION = 0;
     const EXTRA_VERSION = '';
 
     const END_OF_MAINTENANCE = '05/2018';
@@ -685,6 +686,7 @@ abstract class Kernel implements KernelInterface, TerminableInterface
             new YamlFileLoader($container, $locator),
             new IniFileLoader($container, $locator),
             new PhpFileLoader($container, $locator),
+            new DirectoryLoader($container, $locator),
             new ClosureLoader($container),
         ));
 

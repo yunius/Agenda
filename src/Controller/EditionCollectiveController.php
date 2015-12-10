@@ -8,6 +8,7 @@
 
 namespace Agenda\Controller;
 
+
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Agenda\Domain\Collective;
@@ -18,6 +19,7 @@ use Agenda\Form\Type\CollCotSupprType;
 use Agenda\Domain\Rdv;
 use Agenda\Domain\Secteur;
 use Agenda\Domain\Objectif;
+
 /**
  * Description of EditionCollective
  *
@@ -43,6 +45,7 @@ class EditionCollectiveController extends AgendaController {
         $materielList = $this->findAllMateriel($app);
         $lieuList = $this->findAllLieu($app);
         
+        
         if($id == 0) {
             $collective = new Collective();
             $collCotations = '';
@@ -53,24 +56,40 @@ class EditionCollectiveController extends AgendaController {
             $collective = $app['dao.collective']->find($id);
             $cotationsList = $this->findAllCotationByActivity($collective, $app);
             $collCotations = $app['dao.collectivecotation']->findAll($id);
+            $activite = $collective->getTypeActivite()->getIDtypeActivite();
             $materielCollective = $app['dao.materielcollective']->findAll($id);
+//          
+            if(empty($materielCollective)) {
+                $listeType = $app['dao.listtypemateriel']->findAll($activite);
+                $materielCollective = $app['dao.materielcollective']->ListTypeToMaterielCollective($id, $listeType );
+            }
             $titre = $collective->getCollTitre();
             $nbMax = $collective->getCollNbParticipantMax();
-            $activite = $collective->getTypeActivite()->getIDtypeActivite();
-            $date1 = strtotime($collective->getCollDateDebut());
+            
+            if($collective->getCollDateDebut()) {
+                $date1 = strtotime($collective->getCollDateDebut());
+            }else {
+                $date1 = null;
+            }
+            
             
             if($collective->getCollDateFin()==null) {
-                
                 $date2 = null;
             }else {
-                
                 $date2 = strtotime($collective->getCollDateFin());
             }
             
-            $objectif = $collective->getObjectif()->getIDobjectif();
+            if($collective->getObjectif()) {
+                $objectif = $collective->getObjectif()->getIDobjectif();
+                $secteur = $collective->getObjectif()->getSecteur()->getIDsecteur();
+            } else {
+                $objectif = null;
+                $secteur = null;
+            }
+            
             $observation = $collective->getCollObservations();
             $adherent = $collective->getAdherent()->getIDadherent();
-            $secteur = $collective->getObjectif()->getSecteur()->getIDsecteur();
+            
             $denivele = $collective->getCollDenivele();
             $activiteForm = $app['form.factory']->create(new CollectiveType($activiteList, $objectifList, $encadrantList, $cotationsList, $materielList, $lieuList, $secteurList), $collective, array('data' => array ( 'collTitre' => $titre,
                                                                                                                                                                                                                        'typeActivite' => $activite,
@@ -87,7 +106,6 @@ class EditionCollectiveController extends AgendaController {
         $activiteForm->handleRequest($request);
 
         if($activiteForm->isSubmitted()) {
-            
             $idcoll = $this->traitementEdition($collective, $request, $app);
             return $app->redirect('/editionCollective/'.$idcoll); 
         }
@@ -96,19 +114,22 @@ class EditionCollectiveController extends AgendaController {
         $CotSupprSubmitForm = $app['form.factory']->create(new CollCotSupprType($app['url_generator']));
         $CotSupprSubmitForm->handleRequest($request);
         $CotSupprSubmitFormView = $CotSupprSubmitForm->createView();
-        
+        $activites = $app['dao.typeactivite']->findAll();
         $fil = ' / Creation d\'une nouvelle collective';
         return $app['twig']->render('editionCollective.html.twig', array('fil' => $fil, 
                                                                                'activiteFormView' => $activiteFormView, 
                                                                                'cotations' => $collCotations,
                                                                                'CotSupprSubmitFormView' =>$CotSupprSubmitFormView, 
                                                                                'collective' =>$collective,
-                                                                               'materielCollective' => $materielCollective
+                                                                               'materielCollective' => $materielCollective,
+                                                                               'activites' => $activites
                                                                                ));
     }
     
     
     public function traitementEdition(Collective $collective, Request $request , Application $app ) {
+        
+        
         
         $IDactivite = $request->get('collective')['typeActivite'];
         $typeactivite = $app['dao.typeactivite']->find($IDactivite);

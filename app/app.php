@@ -4,7 +4,6 @@ use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\ExceptionHandler;
 
 
-
 //recuperer les erreurs et exceptions
 ErrorHandler::register();
 ExceptionHandler::register();
@@ -65,6 +64,7 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
 ///recuperer les services pour les generation de formulaire           
 $app->register(new Silex\Provider\FormServiceProvider());
 $app->register(new Silex\Provider\TranslationServiceProvider());
+
 
 
 //recuperer les service

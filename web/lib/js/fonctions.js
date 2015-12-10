@@ -145,6 +145,36 @@ $(function() {
         showButtonPanel: 'false'
         }
     );
+    $('#collective_collHeureDepartTerrain').timepicker({
+	timeOnlyTitle: 'Choisir l\'horaire',
+	timeText: 'Horaire',
+	hourText: 'heures',
+	minuteText: 'minutes',
+	currentText: 'maintenant',
+	closeText: 'Valider',
+        showButtonPanel: 'false'
+        }
+    );
+    $('#collective_collHeureRetourTerrain').timepicker({
+	timeOnlyTitle: 'Choisir l\'horaire',
+	timeText: 'Horaire',
+	hourText: 'heures',
+	minuteText: 'minutes',
+	currentText: 'maintenant',
+	closeText: 'Valider',
+        showButtonPanel: 'false'
+        }
+    );
+    $('#collective_collDureeCourse').timepicker({
+	timeOnlyTitle: 'Choisir la durée',
+	timeText: 'Horaire',
+	hourText: 'heures',
+	minuteText: 'minutes',
+	currentText: 'maintenant',
+	closeText: 'Valider',
+        showButtonPanel: 'false'
+        }
+    );
   });
 
 

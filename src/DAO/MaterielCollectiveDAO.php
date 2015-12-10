@@ -58,6 +58,23 @@ class MaterielCollectiveDAO extends DAO {
             $this->getDB()->insert('liste_de_materiel_collective', $materielCollectiveData);
     }
     
+    public function ListTypeToMaterielCollective($IDcollective, array $listType ) {
+        $listeMateriel = array();
+        $count = 0;
+        foreach ($listType as $type)
+        {
+            $TypeMateriel = $type->getTypemateriel();
+            $materielCollective = new MaterielCollective();
+            $materielCollective->setIDcollective($IDcollective);
+            $materielCollective->setTypeMateriel($TypeMateriel);
+            $this->save($materielCollective);
+            $count++;
+            $listeMateriel[$count] = $materielCollective;
+            
+        }
+        return $listeMateriel;
+    }
+    
     public function delete($IDcollective, $IDtypeMat) {
         $this->getDB()->delete('liste_de_materiel_collective', array('IDcollective' => $IDcollective, 'IDtypeMat' => $IDtypeMat));
     }

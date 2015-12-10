@@ -339,7 +339,7 @@ input::-webkit-calendar-picker-indicator {
     background-color: #3366ff;
 }
 
-#overrideBootstrap .btn-danger, .btn-info {
+#overrideBootstrap .btn-danger, .btn-info, .btn-success {
     border: 2px solid white;
     border-radius: 20px;
     height: 40px;

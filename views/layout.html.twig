@@ -89,7 +89,33 @@
                     <ul class="nav navbar-nav">
                         {% if app.user and is_granted('ROLE_REDACTEUR') %}
                             <li>
-                                <a href="{{ path('editionCollective',{'id': 0}) }}">CREER UNE NOUVELLE COLLECTIVE</a>
+                                <a href="{#{{ path('editionCollective',{'id': 0}) }}#}" data-toggle="modal" data-target="#CreaCollective">CREER UNE NOUVELLE COLLECTIVE</a>
+                                
+                                <div class="modal fade" id="CreaCollective" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="myModalLabel">Création de collective</h4>
+                                            </div>
+                                            <form id="crea" method="post" action="{{path('CollectiveAcreer')}}">
+                                                <div class="modal-body">
+                                                    <p>selectionner l'activité</p>
+                                                    <select name="activiteChoice">
+                                                       {% for activite in activites%}
+                                                           <option value="{{activite.IDtypeActivite}}">{{activite.activiteLibelle}}</option>
+                                                        {% endfor %} 
+                                                    </select>
+                                                    
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                    <button  form="crea" type="submit" class="btn btn-success">Creer collective</button>
+                                                </div>
+                                            </form>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal-dialog -->
+                                </div><!-- /.modal -->
                             </li>
                         {% endif %}
                             <li><a href="{{path('accueil')}}">

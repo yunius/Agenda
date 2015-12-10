@@ -29,7 +29,7 @@ class ObjectifDAO extends DAO {
             return $this->buildDomainObject($row);
         }
         else {
-            throw new Exception("pas de d'objectif n°" . $IDobjectif);
+            return null;
         }
     }
     
