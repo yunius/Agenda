@@ -120,10 +120,9 @@ class CollectiveType extends AbstractType {
                     'expanded'=>false, 
                     'multiple'=>false
                 ))
-                ->add('heureRDV', 'datetime', array(
+                ->add('heureRDV', 'time', array(
                     'widget' => 'single_text',
                     'attr' => array( 'placeholder' => 'heure' ),
-                    'format' => 'hh:mm',
                     'input' => 'timestamp',
                     'label' => 'heure de rendez-vous :',
                     'required' => false
@@ -136,19 +135,17 @@ class CollectiveType extends AbstractType {
                 
                 //specifique compte rendu tron commun
                 
-                ->add('collHeureDepartTerrain', 'datetime', array(
+                ->add('collHeureDepartTerrain', 'time', array(
                     'widget' => 'single_text',
                     'attr' => array( 'placeholder' => 'heure' ),
-                    'format' => 'hh:mm',
                     'input' => 'timestamp',
                     'label' => 'Heure de départ terrain :',
                     'required' => false
                 ))
                 
-                ->add('collHeureRetourTerrain', 'datetime', array(
+                ->add('collHeureRetourTerrain', 'time', array(
                     'widget' => 'single_text',
                     'attr' => array( 'placeholder' => 'heure' ),
-                    'format' => 'hh:mm',
                     'input' => 'timestamp',
                     'label' => 'Heure de retour terrain :',
                     'required' => false
@@ -159,10 +156,9 @@ class CollectiveType extends AbstractType {
                                     'rows' => 4,
                                     )
                 ))
-                ->add('collDureeCourse', 'datetime', array(
+                ->add('collDureeCourse', 'time', array(
                     'widget' => 'single_text',
                     'attr' => array( 'placeholder' => 'Durée' ),
-                    'format' => 'hh:mm',
                     'input' => 'timestamp',
                     'label' => 'Durée course sans les pauses :',
                     'required' => false
@@ -179,7 +175,30 @@ class CollectiveType extends AbstractType {
                     'attr' => array('placeholder' => 'Observation particuliere',
                                     'rows' => 4,
                                     )
+                ))
+                //specifique compte rendu en fonction de l'activité
+                ->add('collDureeCourseAlpi', 'time', array(
+                    'widget' => 'single_text',
+                    'attr' => array( 'placeholder' => 'Durée course' ),
+                    'input' => 'timestamp',
+                    'label' => 'Durée course (hors approche et retour) :',
+                    'required' => false
+                ))
+                ->add('collDureeApproche', 'time', array(
+                            'widget' => 'single_text',
+                            'attr' => array( 'placeholder' => 'Durée Approche' ),
+                            'input' => 'timestamp',
+                            'label' => 'Durée approche',
+                            'required' => false
+                ))
+                ->add('collCondition_neige_rocher_glace', 'textarea', array(
+                    'label' => 'Observations particulières (sécurité, balisage, refuge, accès, comportement, etc.)',
+                    'required' => false,
+                    'attr' => array('placeholder' => 'Conditions neige / rocher / glace',
+                                    'rows' => 4,
+                                    )
                 ));
+                
                 
         
                 

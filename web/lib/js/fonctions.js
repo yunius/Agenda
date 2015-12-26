@@ -175,6 +175,26 @@ $(function() {
         showButtonPanel: 'false'
         }
     );
+    $('#collective_collDureeCourseAlpi').timepicker({
+	timeOnlyTitle: 'Choisir la durée',
+	timeText: 'Horaire',
+	hourText: 'heures',
+	minuteText: 'minutes',
+	currentText: 'maintenant',
+	closeText: 'Valider',
+        showButtonPanel: 'false'
+        }
+    );
+    $('#collective_collDureeApproche').timepicker({
+	timeOnlyTitle: 'Choisir la durée',
+	timeText: 'Horaire',
+	hourText: 'heures',
+	minuteText: 'minutes',
+	currentText: 'maintenant',
+	closeText: 'Valider',
+        showButtonPanel: 'false'
+        }
+    );
   });
 
 

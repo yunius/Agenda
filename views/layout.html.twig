@@ -15,7 +15,11 @@
         <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
         
         <title>{% block title %}{% endblock %}</title>  
-        
+        <style>
+            body {
+                background-color: #6F6464;
+            }
+        </style>
     </head>
     <body id="overrideBootstrap">
             <div class="container-fluid">
@@ -119,7 +123,7 @@
                             </li>
                         {% endif %}
                             <li><a href="{{path('accueil')}}">
-                                    <span class="glyphicon glyphicon-home" > </span><span> Agenda </span>
+                                    <span class="glyphicon glyphicon-home" > </span><span> Agenda  </span>
                                 </a>
                             </li> 
                         {#<li><a href="#">Calendrier</a></li>                    
@@ -127,7 +131,17 @@
                         <li><a href="#">Petites Annonces</a></li>
                         <li><a href="#">Météo</a></li>
                         <li><a href="#">Aide</a></li>#}
-                    </ul>    
+                    </ul>
+                    <div>
+                            {% if app.user and is_granted('ROLE_REDACTEUR') %}
+                                {% if compteRenduEnAttente == 1 %}
+                                    <form method="post" action="#" >
+                                        <input type="hidden" name="CRswitch" value="ON"/>
+                                        <button class="btn btn-success" type="submit">Compte(s) Rendu(s) en attente(s) ({{nbCR}})</button>
+                                    </form>
+                                {% endif %}
+                            {% endif %}
+                        </div>
                 </div> 
             </div>    
                     {% block content %}{% endblock %}

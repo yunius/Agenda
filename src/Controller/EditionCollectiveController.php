@@ -34,6 +34,19 @@ class EditionCollectiveController extends AgendaController {
      * @return type
      */
     public function editerCollectiveAction($id, Request $request, Application $app) {
+        $nbCR = '';
+        if($app['user']) {
+            $IDencadrant = $app['user']->getIDadherent();
+            $now = date('Ymd');
+            if($app['dao.collective']->findAllCompteRenduEnAttente($IDencadrant, $now)) {
+                $compteRenduEnAttente = 1;
+                $nbCR = count($array = $app['dao.collective']->findAllCompteRenduEnAttente($IDencadrant, $now));
+            } else {
+                $compteRenduEnAttente = 0;
+            }
+        } else {
+            $compteRenduEnAttente = 0;
+        }
         
         $encadrantParDefaut = $app['user']->getIDadherent();
         //recuperation des toute les liste d'entité pour les select non filtré
@@ -122,7 +135,9 @@ class EditionCollectiveController extends AgendaController {
                                                                                'CotSupprSubmitFormView' =>$CotSupprSubmitFormView, 
                                                                                'collective' =>$collective,
                                                                                'materielCollective' => $materielCollective,
-                                                                               'activites' => $activites
+                                                                               'activites' => $activites,
+                                                                               'compteRenduEnAttente' => $compteRenduEnAttente,
+                                                                               'nbCR' => $nbCR
                                                                                ));
     }
     

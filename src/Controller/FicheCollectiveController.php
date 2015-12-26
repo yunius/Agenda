@@ -22,6 +22,19 @@ use Agenda\Form\Type\ParticipantSubmitType;
 class FicheCollectiveController {
     
     public function ficheCollectiveAction($id, Request $request, Application $app) {
+        $nbCR = '';
+        if($app['user']) {
+            $IDencadrant = $app['user']->getIDadherent();
+            $now = date('Ymd');
+            if($app['dao.collective']->findAllCompteRenduEnAttente($IDencadrant, $now)) {
+                $compteRenduEnAttente = 1;
+                $nbCR = count($array = $app['dao.collective']->findAllCompteRenduEnAttente($IDencadrant, $now));
+            } else {
+                $compteRenduEnAttente = 0;
+            }
+        } else {
+            $compteRenduEnAttente = 0;
+        }
         //var_dump($_POST);
         //Initialisation de toute les donnée conçernant la collective
         $collective = $app['dao.collective']->find($id);
@@ -141,7 +154,9 @@ class FicheCollectiveController {
                                                                   'participantActuel' => $participantActuel,
                                                                   'NBrdv' => $NBrdv,
                                                                   'nbV' => $nbV,
-                                                                  'activites' => $activites
+                                                                  'activites' => $activites,
+                                                                  'compteRenduEnAttente' => $compteRenduEnAttente,
+                                                                  'nbCR' => $nbCR
                                                                  ]);
     }
     

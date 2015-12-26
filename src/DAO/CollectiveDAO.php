@@ -89,6 +89,24 @@ class CollectiveDAO extends DAO {
         return $collectives;
     }
     
+    public function findAllCompteRenduEnAttente($IDadherent, $now) {
+        
+        $sql = "SELECT * FROM collectives 
+                        WHERE IDadherent=?
+                        AND collDateDebut<?
+                        AND collCR_Horodateur IS NULL
+                        ORDER BY collDateDebut";
+                
+        $result = $this->getDB()->fetchAll($sql, array($IDadherent, $now));
+        
+        $collectives = array();
+        foreach ($result as $row) {
+            $IDcollective = $row['IDcollective'];
+            $collectives[$IDcollective] = $this->buildDomainObject($row);            
+        }
+        return $collectives;
+    }
+    
     public function findAllByFilter($debut, $fin, $IDactivite, $encadrant, $noPeriode) {
         
         if(!empty($encadrant)) {
@@ -104,6 +122,7 @@ class CollectiveDAO extends DAO {
                 $sql = "SELECT * FROM collectives 
                         WHERE collDateDebut >= ?
                         ".$AND."
+                        AND collCR_Horodateur IS NULL
                         ORDER BY collDateDebut";
                 $result = $this->getDB()->fetchAll($sql, array($debut));
             }
@@ -112,6 +131,7 @@ class CollectiveDAO extends DAO {
                         WHERE IDtypeActivite=?
                         ".$AND."
                         AND collDateDebut >= ?
+                        AND collCR_Horodateur IS NULL
                         ORDER BY collDateDebut";
                 $result = $this->getDB()->fetchAll($sql, array($IDactivite, $debut));
             }
@@ -131,6 +151,7 @@ class CollectiveDAO extends DAO {
                 $sql = "SELECT * FROM collectives 
                         WHERE collDateDebut=? 
                         ".$AND."
+                        AND collCR_Horodateur IS NULL
                         ORDER BY collDateDebut ";
                 
                 $result = $this->getDB()->fetchAll($sql, array($debut));
@@ -138,6 +159,7 @@ class CollectiveDAO extends DAO {
                 $sql = "SELECT * FROM collectives 
                         WHERE collDateDebut BETWEEN ? AND ?
                         ".$AND."
+                        AND collCR_Horodateur IS NULL
                         ORDER BY collDateDebut ";
                 
                 $result = $this->getDB()->fetchAll($sql, array($debut, $fin ));
@@ -151,6 +173,7 @@ class CollectiveDAO extends DAO {
                         WHERE collDateDebut BETWEEN ? AND ?
                         ".$AND."
                         AND IDtypeActivite = ?
+                        AND collCR_Horodateur IS NULL
                         ORDER BY collDateDebut ";
                 
                 $result = $this->getDB()->fetchAll($sql, array($debut, $fin, $IDactivite ));
@@ -159,6 +182,7 @@ class CollectiveDAO extends DAO {
                         WHERE collDateDebut = ?
                         ".$AND."
                         AND IDtypeActivite = ?
+                        AND collCR_Horodateur IS NULL
                         ORDER BY collDateDebut ";
                 
                 $result = $this->getDB()->fetchAll($sql, array($debut, $IDactivite));

@@ -29,7 +29,7 @@ class AcceuilController {
         $semaineActuelle = date('W');
 //        $action = $this->accueilSemaineAction($semaineActuelle, $request, $app);
 //        return $action;
-        return $app->redirect('/semaine-'.$semaineActuelle);
+        return $app->redirect('semaine-'.$semaineActuelle);
     }
     
     /**
@@ -40,6 +40,21 @@ class AcceuilController {
      * @return tout les composants de la page d'accueil quand l'utilisateur navigue entre les semaines
      */
     public function accueilSemaineAction($semaine, Request $request, Application $app ) {
+        
+        $nbCR = '';
+        if($app['user']) {
+            $IDencadrant = $app['user']->getIDadherent();
+            $now = date('Ymd');
+            if($app['dao.collective']->findAllCompteRenduEnAttente($IDencadrant, $now)) {
+                $compteRenduEnAttente = 1;
+                $nbCR = count($array = $app['dao.collective']->findAllCompteRenduEnAttente($IDencadrant, $now));
+            } else {
+                $compteRenduEnAttente = 0;
+            }
+        } else {
+            $compteRenduEnAttente = 0;
+        }
+        
         
         //determiner les dates par defaut
         $semaineActuelle = date('W');
@@ -114,10 +129,18 @@ class AcceuilController {
         $filtreFormView = $filtreForm->createView();
         
         
-        $collectives = $app['dao.collective']->findAllByFilter($debut, $fin, $activiteFiltre, $choixEncadrant, $noPeriode);
-        if(empty($collectives)){
-            $message = 'Pas de collective à cette periode';
+        if($request->get('CRswitch')) {
+            $collectives = $app['dao.collective']->findAllCompteRenduEnAttente($IDencadrant, $now);
+//            var_dump($collectives);
+        } else {
+            $collectives = $app['dao.collective']->findAllByFilter($debut, $fin, $activiteFiltre, $choixEncadrant, $noPeriode);
+            if(empty($collectives)){
+                $message = 'Pas de collective à cette periode';
+            }
         }
+        
+        
+        
         $participantsValide = array();
         $participantsAttente = array();
         $cotations = array();
@@ -130,7 +153,6 @@ class AcceuilController {
             $participantsAttente[$id] = $nbA;
             $cotations[$id] = $app['dao.collectivecotation']->findAll($id);
         }
-
         $fil = '';
         return $app['twig']->render('index.html.twig', ['collectives' => $collectives, 
                                                         'participantsValide' => $participantsValide,
@@ -147,7 +169,9 @@ class AcceuilController {
                                                         'debut' => $debut,
                                                         'fin' => $fin,
                                                         'message' => $message,
-                                                        'activites' => $activites
+                                                        'activites' => $activites,
+                                                        'compteRenduEnAttente' => $compteRenduEnAttente,
+                                                        'nbCR' => $nbCR
                                                         ]);
     }
     

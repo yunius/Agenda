@@ -13,14 +13,14 @@ $app->before(
 
 
 //$app->get('/', "Agenda\Controller\AcceuilController::semaineAction");
-$app->match('login', "Agenda\Controller\loginController::loginAction")->bind('login');
+$app->match('login', "Agenda\Controller\LoginController::loginAction")->bind('login');
 
 $app->match('/', "Agenda\Controller\AcceuilController::accueilAction")->bind('accueil');
 
 $app->match('/semaine-{semaine}', "Agenda\Controller\AcceuilController::accueilSemaineAction")->bind('accueilSemaine');
 
 $app->match('/CollectiveAsuppr/', "Agenda\Controller\AcceuilController::supprimerCollectiveAction")->bind('CollectiveAsuppr');
-$app->match('/CollectiveAcreer/', "Agenda\Controller\AcceuilController::creerCollectiveAction")->bind('CollectiveAcreer');
+$app->match('CollectiveAcreer/', "Agenda\Controller\AcceuilController::creerCollectiveAction")->bind('CollectiveAcreer');
 
 $app->match('/fichecollective/{id}', "Agenda\Controller\FicheCollectiveController::ficheCollectiveAction")->bind('fichecollective');
 $app->match('/fichecollectiveInscription/{id}', "Agenda\Controller\FicheCollectiveController::ficheCollectiveAction")->bind('fichecollectiveInscription');

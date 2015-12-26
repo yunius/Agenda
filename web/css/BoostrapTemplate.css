@@ -1,10 +1,11 @@
 body { 
-  background: url(/../img/ciel-gare-est-paris.NB.jpg)no-repeat center center fixed;
+  background: url(../img/ciel-gare-est-paris.NB.jpg)no-repeat center center fixed;
   background-size: cover;
   font-family: roboto;
   font-weight: 400;
   
 }
+
 *::-webkit-input-placeholder {
     color: black;
 }
@@ -50,7 +51,7 @@ body {
     width:100%;
     height: 15vw;
     min-height: 110px;
-    background-image: url(/../img/galerie_photos_pyr_1_001.jpg);
+    background-image: url(../img/galerie_photos_pyr_1_001.jpg);
     background-repeat: none;
     background-size: cover;
 }
@@ -706,13 +707,13 @@ input::-webkit-calendar-picker-indicator {
 .actiIcon_1 {
     width: 50px;
     height: 50px;
-    background-image : url(/../img/icon/Randonnee.png);
+    background-image : url(../img/icon/Randonnee.png);
     background-repeat: no-repeat;
     background-size: cover;
 }
 .actiContainer_1 {
     background-color: rgba(67, 156, 43, 0.50);
-/*    background-image : url(/../img/randoCartouche.jpg);
+/*    background-image : url(../img/randoCartouche.jpg);
     background-repeat: no-repeat;
     background-size: cover;*/
     
@@ -729,13 +730,13 @@ input::-webkit-calendar-picker-indicator {
 .actiIcon_2 {
     width: 50px;
     height: 50px;
-    background-image : url(/../img/icon/Alpinisme.png);
+    background-image : url(../img/icon/Alpinisme.png);
     background-repeat: no-repeat;
     background-size: cover;
 }
 .actiContainer_2 {
     background-color: rgba(233, 98, 32, 0.50);
-/*    background-image : url(/../img/rocher.cartouche.jpg);
+/*    background-image : url(../img/rocher.cartouche.jpg);
     background-repeat: no-repeat;
     background-size: cover;*/
 }
@@ -748,7 +749,7 @@ input::-webkit-calendar-picker-indicator {
 .actiIcon_3 {
     width: 50px;
     height: 50px;
-    background-image : url(/../img/icon/Escalade.png);
+    background-image : url(../img/icon/Escalade.png);
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -765,7 +766,7 @@ input::-webkit-calendar-picker-indicator {
 .actiIcon_4 {
     width: 50px;
     height: 50px;
-    background-image : url(/../img/icon/Canyon.png);
+    background-image : url(../img/icon/Canyon.png);
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -783,7 +784,7 @@ input::-webkit-calendar-picker-indicator {
 .actiIcon_5 {
     width: 50px;
     height: 50px;
-    background-image : url(/../img/icon/Speleologie.png);
+    background-image : url(../img/icon/Speleologie.png);
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -800,7 +801,7 @@ input::-webkit-calendar-picker-indicator {
 .actiIcon_6 {
     width: 50px;
     height: 50px;
-    background-image : url(/../img/icon/Velo-de-montagne.png);
+    background-image : url(../img/icon/Velo-de-montagne.png);
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -818,7 +819,7 @@ input::-webkit-calendar-picker-indicator {
 .actiIcon_7 {
     width: 50px;
     height: 50px;
-    background-image : url(/../img/icon/marche-nordique.png);
+    background-image : url(../img/icon/marche-nordique.png);
     background-repeat: no-repeat;
     background-size: cover;
 }

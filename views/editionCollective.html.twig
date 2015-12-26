@@ -320,26 +320,8 @@
             </div>
         </div>
         
-        <div class="hiding hidden">
-            {{form_errors(activiteFormView.collHeureDepartTerrain)}}
-            {{form_widget(activiteFormView.collHeureDepartTerrain)}} 
-
-            {{form_errors(activiteFormView.collHeureRetourTerrain)}}
-            {{form_widget(activiteFormView.collHeureRetourTerrain)}}
-
-            {{form_errors(activiteFormView.collConditionMeteo)}}
-            {{form_widget(activiteFormView.collConditionMeteo)}}
-
-            {{form_errors(activiteFormView.collDureeCourse)}}
-            {{form_widget(activiteFormView.collDureeCourse)}}
-
-            {{form_errors(activiteFormView.coll_incident_accident)}}
-            {{form_widget(activiteFormView.coll_incident_accident)}}
-
-            {{form_errors(activiteFormView.collInfoComplementaire)}}
-            {{form_widget(activiteFormView.collInfoComplementaire)}}
-        </div>
-    {{ form_end(activiteFormView) }}    
+        
+    {{ form_end(activiteFormView, {'render_rest': false}) }}    
     </div><!-- tab-content -->
     
 {% endblock %}

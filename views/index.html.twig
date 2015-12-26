@@ -133,7 +133,7 @@
                     <div class="row">
                         <div class="col-md-6 col-xs-6">
                             <div class="actiCartouche_ actiCartouche_{{style}}">
-                                encadrant <h4>{{collective.adherent.prenomAdherent}}</h4> 
+                                encadrant(e) <h4>{{collective.adherent.prenomAdherent}}</h4> 
                                           <h4>{{collective.adherent.nomAdherent}}</h4>
                             </div>
                         </div>
@@ -149,7 +149,7 @@
                             en file d'attente : {{participantsAttente[id]}}</br >
                             </div>
                             <div class="row">
-                                <h5><a href="{{ path('fichecollective',{'id': id} ) }}"><button class="btn btn-info">JE M'INSCRIS</button></a></h5>
+                                <h5><a href="{{ path('fichecollective',{'id': id} ) }}"><button class="btn btn-info">FICHE DÉTAILLÉE</button></a></h5>
                             </div>
                             <div class="row">
                                 {% if app.user == collective.adherent %}
@@ -182,9 +182,11 @@
                                                 </div><!-- /.modal-content -->
                                             </div><!-- /.modal-dialog -->
                                         </div><!-- /.modal -->
+                                    {% if collective.collDateDebut < "now"|date("Y-m-d") %}
                                     <div class="col-md-4">
                                         <a href="{{ path('CompteRendu',{'id': id} ) }}"><button class="btn btn-success {#col-md-4 col-md-offset-3#}" data-toggle="tooltip" title="Générer le compte rendu"><span class="glyphicon glyphicon-book"></span></button></a>
                                     </div>
+                                    {% endif %}
                                 {% endif %}
                             </div>
                         

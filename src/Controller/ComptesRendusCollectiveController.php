@@ -34,6 +34,20 @@ class ComptesRendusCollectiveController extends AgendaController {
      * @return type
      */
     public function ComptesRendusCollectiveAction($id, Request $request, Application $app) {
+        $nbCR = '';
+        if($app['user']) {
+            $IDencadrant = $app['user']->getIDadherent();
+            $now = date('Ymd');
+            if($app['dao.collective']->findAllCompteRenduEnAttente($IDencadrant, $now)) {
+                $compteRenduEnAttente = 1;
+                $nbCR = count($array = $app['dao.collective']->findAllCompteRenduEnAttente($IDencadrant, $now));
+            } else {
+                $compteRenduEnAttente = 0;
+            }
+        } else {
+            $compteRenduEnAttente = 0;
+        }
+        
         
         $encadrantParDefaut = $app['user']->getIDadherent();
         //recuperation des toute les liste d'entité pour les select non filtré
@@ -54,6 +68,7 @@ class ComptesRendusCollectiveController extends AgendaController {
         }
         else {
             $collective = $app['dao.collective']->find($id);
+            $participantValide = $app['dao.participant']->findAllValide($collective);
             $cotationsList = $this->findAllCotationByActivity($collective, $app);
             $collCotations = $app['dao.collectivecotation']->findAll($id);
             $activite = $collective->getTypeActivite()->getIDtypeActivite();
@@ -87,6 +102,7 @@ class ComptesRendusCollectiveController extends AgendaController {
                 $secteur = null;
             }
             
+            
             $observation = $collective->getCollObservations();
             $adherent = $collective->getAdherent()->getIDadherent();
             
@@ -100,67 +116,24 @@ class ComptesRendusCollectiveController extends AgendaController {
                                                                                                                                                                                                                        'adherent' => $adherent,
                                                                                                                                                                                                                        'secteur' => $secteur,
                                                                                                                                                                                                                        'collDenivele' => $denivele,
-                                                                                                                                                                                                                       'nbMax' => $nbMax
+                                                                                                                                                                                                                       'nbMax' => $nbMax,
+                                                                                                                                                                                                                       'collHeureDepartTerrain' => strtotime($collective->getCollHeureDepartTerrain()), 
+                                                                                                                                                                                                                       'collHeureRetourTerrain' => strtotime($collective->getCollHeureRetourTerrain()),
+                                                                                                                                                                                                                       'collConditionMeteo' => $collective->getCollConditionMeteo(),
+                                                                                                                                                                                                                       'coll_incident_accident' => $collective->getColl_incident_accident(),
+                                                                                                                                                                                                                       'collInfoComplementaire' => $collective->getCollInfoComplementaire(),
+                                                                                                                                                                                                                       'collDureeApproche' => strtotime($collective->getCollDureeApproche()),
+                                                                                                                                                                                                                       'collDureeCourse' => strtotime($collective->getCollDureeCourse()),
+                                                                                                                                                                                                                       'collDureeCourseAlpi' => strtotime($collective->getCollDureeCourse()),
+                                                                                                                                                                                                                       'collCondition_neige_rocher_glace' => $collective->getCollCondition_neige_rocher_glace()
                                                                                                                                                                                                                        )));
         }
         $activiteForm->handleRequest($request);
 
         if($activiteForm->isSubmitted()) {
-//            $typeActivite = $collective->getTypeActivite()->getActiviteLibelle();
-//            $encadrant = $collective->getAdherent()->getPrenomAdherent().' '.$collective->getAdherent()->getNomAdherent();
-//            $dateDebut = $collective->getCollDateDebut();
-//            if(file_exists('comptes rendus/'.utf8_decode($typeActivite).'.xlsx')) {
-//                $objPHPExcel = \PHPExcel_IOFactory::load('dir2/'.utf8_decode($typeActivite).'.xlsx');
-//                $sheet = $objPHPExcel->setActiveSheetIndex(0);
-//                $lastEntry = $sheet->getHighestDataRow();
-//                $row = $lastEntry+1;
-//            }
-//            else {
-//                $objPHPExcel = new \PHPExcel();
-//                $row = 2;
-//                // Set document properties
-//                $objPHPExcel->getProperties()->setCreator("$encadrant")
-//                                             ->setLastModifiedBy("$encadrant")
-//                                             ->setTitle("Compte rendu test")
-//                                             ->setSubject("Compte rendu test")
-//                                             ->setDescription("Compte rendu test")
-//                                              ->setKeywords("Compte rendu test")
-//                                             ->setCategory("Compte rendu test");
-//                // Add Data in your file
-//                $objPHPExcel->setActiveSheetIndex(0)
-//                            ->setCellValue('A1', 'Titre')
-//                            ->setCellValue('B1', 'date')
-//                            ->setCellValue('C1', 'activité')
-//                            ->setCellValue('D1', 'encadrant');
-//            }
-//            
-//            $objPHPExcel->getActiveSheet()->setCellValue('A'.$row.'', $collective->getCollTitre());
-//            $objPHPExcel->getActiveSheet()->setCellValue('B'.$row.'', $dateDebut);
-//            $objPHPExcel->getActiveSheet()->setCellValue('C'.$row.'', $typeActivite);
-//            $objPHPExcel->getActiveSheet()->setCellValue('D'.$row.'', $encadrant);
-//            $objPHPExcel->getActiveSheet()->getRowDimension(8)->setRowHeight(-1);
-//            $objPHPExcel->getActiveSheet()->getStyle('A8')->getAlignment()->setWrapText(true);
-
-
-
-//            // Rename worksheet
-//            $objPHPExcel->getActiveSheet()->setTitle('Compte Rendu');
-//
-//
-//            // Set active sheet index to the first sheet, so Excel opens this as the first sheet
-//            $objPHPExcel->setActiveSheetIndex(0);
-//
-//
-//            // Save Excel 2007 file
-//
-//            $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-//            if(!file_exists('comptes rendus')) {
-//                mkdir('comptes rendus', 0777);
-//            }
-//            $objWriter->save('comptes rendus/'.utf8_decode($typeActivite).'.xlsx');
-            
             
             $idcoll = $this->traitementEdition($collective, $request, $app);
+            $this->creerCompteRendu($idcoll, $request, $app);
             return $app->redirect('/CompteRendu/'.$idcoll); 
         }
 
@@ -176,26 +149,25 @@ class ComptesRendusCollectiveController extends AgendaController {
                                                                                'CotSupprSubmitFormView' =>$CotSupprSubmitFormView, 
                                                                                'collective' =>$collective,
                                                                                'materielCollective' => $materielCollective,
-                                                                               'activites' => $activites
+                                                                               'participantValide' => $participantValide,
+                                                                               'activites' => $activites,
+                                                                               'compteRenduEnAttente' => $compteRenduEnAttente,
+                                                                               'nbCR' => $nbCR
                                                                                ));
     }
     
     
     public function traitementEdition(Collective $collective, Request $request , Application $app ) {
-        
-        
-        
         $IDactivite = $request->get('collective')['typeActivite'];
         $typeactivite = $app['dao.typeactivite']->find($IDactivite);
         $collTitre  = $request->get('collective')['collTitre'];
-        $observation = $request->get('collective')['observation'];
         $collDenivele = $request->get('collective')['collDenivele'];
         $collDateDebut = date('Y-m-d', strtotime($request->get('collective')['collDateDebut']));
         $collDateFin = NULL;
         if($request->get('collective')['collDateFin'] != '') {
             $collDateFin = date('Y-m-d', strtotime($request->get('collective')['collDateFin']));
         }
-        $nbMax = $request->get('collective')['nbMax'];
+        
         
         if(is_numeric($request->get('collective')['secteur'])){
             $secteur = $app['dao.secteur']->find($request->get('collective')['secteur']);
@@ -219,20 +191,42 @@ class ComptesRendusCollectiveController extends AgendaController {
             
         }
         
-        
         $IDadherent= $request->get('collective')['adherent'];
         $adherent = $app['dao.adherent']->find($IDadherent);
+        
+        $collHeureDepartTerrain = $request->get('collective')['collHeureDepartTerrain'];
+        $collHeureRetourTerrain = $request->get('collective')['collHeureRetourTerrain'];
+        $collConditionMeteo = $request->get('collective')['collConditionMeteo'];
+        $coll_incident_accident = $request->get('collective')['coll_incident_accident'];
+        $collInfoComplementaire = $request->get('collective')['collInfoComplementaire'];
+        $collDureeApproche = $request->get('collective')['collDureeApproche'];
+        if(isset($request->get('collective')['collDureeCourse'])) {
+            $collDureeCourse = $request->get('collective')['collDureeCourse'];
+        } else {
+            $collDureeCourse = $request->get('collective')['collDureeCourseAlpi'];
+        }
+        $collCondition_neige_rocher_glace =  $request->get('collective')['collCondition_neige_rocher_glace'];
+        $collCR_Horodateur = date('Y-m-d H:i:s');
 
         $collective->setCollTitre($collTitre);
-        $collective->setCollObservations($observation);
         $collective->setTypeActivite($typeactivite);
         $collective->setCollDateDebut($collDateDebut);
         $collective->setCollDatefin($collDateFin);
         $collective->setObjectif($objectif);
         $collective->setAdherent($adherent);
         $collective->setCollDenivele($collDenivele);
-        $collective->setCollNbParticipantMax($nbMax);
-
+        
+        $collective->setCollHeureDepartTerrain($collHeureDepartTerrain);
+        $collective->setCollHeureRetourTerrain($collHeureRetourTerrain);
+        $collective->setCollConditionMeteo($collConditionMeteo);
+        $collective->setColl_incident_accident($coll_incident_accident);
+        $collective->setCollInfoComplementaire($collInfoComplementaire);
+        $collective->setCollDureeApproche($collDureeApproche);
+        $collective->setCollDureeCourse($collDureeCourse);
+        $collective->setCollCondition_neige_rocher_glace($collCondition_neige_rocher_glace);
+        
+        $collective->setCollCR_Horodateur($collCR_Horodateur);
+        
         $app['dao.collective']->save($collective);
         $idcoll = $collective->getIDcollective();
 
@@ -267,7 +261,96 @@ class ComptesRendusCollectiveController extends AgendaController {
         return $idcoll;
     }
     
-    
+    public function creerCompteRendu($idcoll, Request $request, Application $app) {
+        $collective = $app['dao.collective']->find($idcoll);
+        $typeActivite = $collective->getTypeActivite()->getActiviteLibelle();
+        $encadrant = $collective->getAdherent()->getPrenomAdherent().' '.$collective->getAdherent()->getNomAdherent();
+        $dateDebut = $collective->getCollDateDebut();
+        
+        
+        $materielCollective = $request->get('MaterielCollective');
+        $materielList = '';
+        foreach ($materielCollective as $materiel)
+        {
+            $materielList .= $materiel.' - ';
+        }
+        $participants = $request->get('participant');
+        $participantList = '';
+        foreach ($participants as $participant)
+        {
+            $participantList .= $participant.' - ';
+        }
+        $cotation = $request->get('cotation')[1];
+        
+        if(file_exists('comptes rendus/'.utf8_decode($typeActivite).'.xlsx')) {
+            $objPHPExcel = \PHPExcel_IOFactory::load('dir2/'.utf8_decode($typeActivite).'.xlsx');
+            $sheet = $objPHPExcel->setActiveSheetIndex(0);
+            $lastEntry = $sheet->getHighestDataRow();
+            $row = $lastEntry+1;
+        }
+        else {
+            $objPHPExcel = new \PHPExcel();
+            $row = 2;
+            // Set document properties
+            $objPHPExcel->getProperties()->setCreator("$encadrant")
+                                         ->setLastModifiedBy("$encadrant")
+                                         ->setTitle("Compte rendu test")
+                                         ->setSubject("Compte rendu test")
+                                         ->setDescription("Compte rendu test")
+                                          ->setKeywords("Compte rendu test")
+                                         ->setCategory("Compte rendu test");
+            // Add Data in your file
+            $objPHPExcel->setActiveSheetIndex(0)
+                        ->setCellValue('A1', 'Horodateur')
+                        ->setCellValue('B1', 'Activité')
+                        ->setCellValue('C1', 'Nom et prénom du responsable de sortie')
+                        ->setCellValue('D1', 'Date de sortie (premier jour)')
+                        ->setCellValue('E1', 'Date de sortie (dernier jour)')
+                        ->setCellValue('F1', 'Secteur')
+                        ->setCellValue('G1', 'But')
+                        ->setCellValue('H1', 'Heure de départ sur le terrain')
+                        ->setCellValue('I1', 'Heure de retour sur le terrain')
+                        ->setCellValue('J1', 'Durée de l\'approche')
+                        ->setCellValue('K1', 'Durée de la course (hors approche et retour)')
+                        ->setCellValue('L1', 'Cotation')
+                        ->setCellValue('M1', 'Conditions météo')
+                        ->setCellValue('N1', 'Conditions neige / rocher / glace')
+                        ->setCellValue('O1', 'Matériel utilisé')
+                        ->setCellValue('P1', 'Incidents/Accidents?')
+                        ->setCellValue('Q1', 'Observations particulières (sécurité, balisage, refuge, accès, comportement, etc.)')
+                        ->setCellValue('R1', 'Participants');
+        }
+        $objPHPExcel->getActiveSheet()->setCellValue('A'.$row.'', $collective->getCollCR_Horodateur());
+        $objPHPExcel->getActiveSheet()->setCellValue('B'.$row.'', $typeActivite);
+        $objPHPExcel->getActiveSheet()->setCellValue('C'.$row.'', $encadrant);
+        $objPHPExcel->getActiveSheet()->setCellValue('D'.$row.'', $dateDebut);
+        $objPHPExcel->getActiveSheet()->setCellValue('E'.$row.'', $collective->getCollDatefin());
+        $objPHPExcel->getActiveSheet()->setCellValue('F'.$row.'', $collective->getObjectif()->getSecteur()->getSecteurLibelle());
+        $objPHPExcel->getActiveSheet()->setCellValue('G'.$row.'', $collective->getObjectif()->getObjectifLibelle());
+        $objPHPExcel->getActiveSheet()->setCellValue('H'.$row.'', $collective->getCollHeureDepartTerrain());
+        $objPHPExcel->getActiveSheet()->setCellValue('I'.$row.'', $collective->getCollHeureRetourTerrain());
+        $objPHPExcel->getActiveSheet()->setCellValue('J'.$row.'', $collective->getCollDureeApproche());
+        $objPHPExcel->getActiveSheet()->setCellValue('K'.$row.'', $collective->getCollDureeCourse());
+        $objPHPExcel->getActiveSheet()->setCellValue('L'.$row.'', $cotation);
+        $objPHPExcel->getActiveSheet()->setCellValue('M'.$row.'', $collective->getCollConditionMeteo());
+        $objPHPExcel->getActiveSheet()->setCellValue('N'.$row.'', $collective->getCollCondition_neige_rocher_glace());
+        $objPHPExcel->getActiveSheet()->setCellValue('O'.$row.'', $materielList);
+        $objPHPExcel->getActiveSheet()->setCellValue('P'.$row.'', $collective->getColl_incident_accident());
+        $objPHPExcel->getActiveSheet()->setCellValue('Q'.$row.'', $collective->getCollInfoComplementaire());
+        $objPHPExcel->getActiveSheet()->setCellValue('R'.$row.'', $participantList);
+        $objPHPExcel->getActiveSheet()->getRowDimension(8)->setRowHeight(-1);
+//        $objPHPExcel->getActiveSheet()->getStyle('A8')->getAlignment()->setWrapText(true);
+        // Rename worksheet
+        $objPHPExcel->getActiveSheet()->setTitle('Compte Rendu');
+        // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+        $objPHPExcel->setActiveSheetIndex(0);
+        // Save Excel 2007 file
+        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        if(!file_exists('comptes rendus')) {
+            mkdir('comptes rendus', 0777);
+        }
+        $objWriter->save('comptes rendus/'.utf8_decode($typeActivite).'.xlsx');
+    }
     
     public function supprimerCotationAction(Request $request, Application $app) {
         $IDcollective = $request->get('IDcollAsuppr');

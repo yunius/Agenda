@@ -91,15 +91,7 @@
                                     {{form_widget(activiteFormView.objectif)}}
                                 </div>
                             </div>
-                            <div class="row"> 
-                                <div class="col-md-6">
-                                    Observation
-                                </div>
-                                <div class="col-md-6">
-                                    {{form_errors(activiteFormView.observation)}}
-                                    {{form_widget(activiteFormView.observation)}}
-                                </div>
-                            </div>
+                            
                             
                         </div>
                     </div>
@@ -149,7 +141,7 @@
                                             <div class="row">
                                                 {{cotation.cotation.valeurCotation}}
                                             </div>
-
+                                                <input type="hidden" name="cotation[{{loop.index}}]" value="{{cotation.cotation.valeurCotation}}" />
                                             <div data-toggle="tooltip" data-trigger="hover" title="Supprimer la cotation">
                                                 <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#SuppCotDialog{{ cotation.cotation.IDcotation }}"><span class="glyphicon glyphicon-remove"></span></button>
                                             </div>
@@ -224,6 +216,7 @@
                         
                             <div class="col-md-6 cartouchePieceMat listMatEdit">
                                 {{ materiel.TypeMateriel.typeMatLibelle }}
+                                <input type="hidden" name="MaterielCollective[{{loop.index}}]" value="{{ materiel.TypeMateriel.typeMatLibelle }}"  />
                                 <span class="pull-right" data-toggle="tooltip" data-trigger="hover" title="Supprimer cet equipement">
                                     <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#SuppCotDialog{{ materiel.TypeMateriel.IDtypeMat }}"><span class="glyphicon glyphicon-remove"></span></button>
                                 </span>
@@ -267,8 +260,8 @@
                 <div class="row spacer"></div>
             </div>
                     
-            <div class="container monContenu actiContainer_{{style}}">
-                <div class="row"><h4>INFORMATION COMPLEMENTAIRE</h4></div>
+            <div class="container monContenu actiContainer_{{style}} compteRenduInfo">
+                <div class="row"><h4>COMPTE RENDU - INFORMATION COMPLEMENTAIRE</h4></div>
                 
                         
                 <div class="row">
@@ -298,9 +291,11 @@
                     </div>
                     
                     <div class="col-md-5">
+                        {% if collective.typeActivite.IDtypeActivite != 2 %}
                         {{form_label(activiteFormView.collDureeCourse)}}
                         {{form_errors(activiteFormView.collDureeCourse)}}
                         {{form_widget(activiteFormView.collDureeCourse)}}
+                        {% endif %}
                     </div>
                     
                     <div class="col-md-1"></div>
@@ -325,25 +320,85 @@
                 
                             
                 <div class="row spacer">
-                    <input {#form="collective"#} type="submit" class="btn btn-primary pull-right enregistrer" value="Enregistrer"/>
+                    
+                </div>
+            </div>
+             
+            {% if collective.typeActivite.IDtypeActivite == 2 %}
+            <div class="container monContenu actiContainer_{{style}} compteRenduSpec">
+                <div class="row"><h4>COMPTE RENDU - INFO SPÉCIFIQUES</h4></div>
+                
+                        
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    
+                    <div class="col-md-5">
+                        {{form_label(activiteFormView.collDureeApproche)}}
+                        {{form_errors(activiteFormView.collDureeApproche)}}
+                        {{form_widget(activiteFormView.collDureeApproche)}} 
+                    </div>
+                    
+                    <div class="col-md-5">
+                        {{form_label(activiteFormView.collDureeCourseAlpi)}}
+                        {{form_errors(activiteFormView.collDureeCourseAlpi)}}
+                        {{form_widget(activiteFormView.collDureeCourseAlpi)}}
+                    </div>
+                    
+                    <div class="col-md-1"></div>
+                </div>
+                    
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    
+                    <div class="col-md-5">
+                        {{form_label(activiteFormView.collCondition_neige_rocher_glace)}}
+                        {{form_errors(activiteFormView.collCondition_neige_rocher_glace)}}
+                        {{form_widget(activiteFormView.collCondition_neige_rocher_glace)}} 
+                    </div>
+                    
+                    <div class="col-md-5">
+                        
+                    </div>
+                    
+                    <div class="col-md-1"></div>
+                </div>                
+                
+                            
+                <div class="row spacer">
+                </div>
+            </div>
+            {% endif %}
+            <div class="container monContenu actiContainer_{{style}} compteRenduParticipant">
+                <div class="row"><h4>COMPTE RENDU - PARTICIPANTS</h4></div>
+                
+                        
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    
+                    <div class="col-md-4">
+                    {% for participant in participantValide %}
+                        <div class="row CartoucheParticipants">
+                            {{ participant.adherent.prenomAdherent }} {{ participant.adherent.nomAdherent }}
+                            <input type="hidden" name="participant[{{loop.index}}]" value="{{ participant.adherent.prenomAdherent }} {{ participant.adherent.nomAdherent }}"  />
+                        </div>
+                    {% endfor %}
+                    </div>
+                    
+                    <div class="col-md-4">
+                        
+                    </div>
+                </div>
+                            
+                <div class="row spacer">
+                    <input {#form="collective"#} type="submit" class="btn btn-primary pull-right enregistrer" value="Enregistrer le Compte Rendu"/>
                 </div>
             </div>
                 
-            <div class="hiding hidden">
-                {{form_errors(activiteFormView.lieuRDV)}}
-                {{form_widget(activiteFormView.lieuRDV)}} 
-
-                {{form_errors(activiteFormView.heureRDV)}}
-                {{form_widget(activiteFormView.heureRDV)}}
-                
-                {{form_label(activiteFormView.nbMax)}} 
-                {{form_errors(activiteFormView.nbMax)}}
-                {{form_widget(activiteFormView.nbMax)}} 
-            </div>
+            
         </div>
         
         
-    {{ form_end(activiteFormView) }}    
+    {{ form_end(activiteFormView, {'render_rest': false}) }}    
     </div><!-- tab-content -->
     
 {% endblock %}
