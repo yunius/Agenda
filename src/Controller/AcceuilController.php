@@ -39,7 +39,7 @@ class AcceuilController {
      * @param Application $app
      * @return tout les composants de la page d'accueil quand l'utilisateur navigue entre les semaines
      */
-    public function accueilSemaineAction($semaine, Request $request, Application $app ) {
+    public function accueilSemaineAction($semaine = null, Request $request, Application $app ) {
         
         $nbCR = '';
         if($app['user']) {

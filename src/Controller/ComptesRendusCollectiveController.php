@@ -94,12 +94,43 @@ class ComptesRendusCollectiveController extends AgendaController {
                 $date2 = strtotime($collective->getCollDateFin());
             }
             
+            if($collective->getCollHeureDepartTerrain()==null) {
+                $collHeureDepartTerrain = null;
+            }else {
+                $collHeureDepartTerrain = strtotime($collective->getCollHeureDepartTerrain());
+            }
+            
+            if($collective->getCollHeureRetourTerrain()==null) {
+                $collHeureRetourTerrain = null;
+            }else {
+                $collHeureRetourTerrain = strtotime($collective->getCollHeureRetourTerrain());
+            }
+            
+            if($collective->getCollDureeApproche()==null) {
+                $collDureeApproche = null;
+            }else {
+                $collDureeApproche = strtotime($collective->getCollDureeApproche());
+            }
+            
+            
             if($collective->getObjectif()) {
                 $objectif = $collective->getObjectif()->getIDobjectif();
                 $secteur = $collective->getObjectif()->getSecteur()->getIDsecteur();
             } else {
                 $objectif = null;
                 $secteur = null;
+            }
+            
+            if($collective->getCollDureeCourse()==null) {
+                $collDureeCourse = null;
+            }else {
+                $collDureeCourse = strtotime($collective->getCollDureeCourse());
+            }
+            
+            if($collective->getCollDureeCourse()==null) {
+                $collDureeCourseAlpi = null;
+            }else {
+                $collDureeCourseAlpi = strtotime($collective->getCollDureeCourse());
             }
             
             
@@ -117,14 +148,14 @@ class ComptesRendusCollectiveController extends AgendaController {
                                                                                                                                                                                                                        'secteur' => $secteur,
                                                                                                                                                                                                                        'collDenivele' => $denivele,
                                                                                                                                                                                                                        'nbMax' => $nbMax,
-                                                                                                                                                                                                                       'collHeureDepartTerrain' => strtotime($collective->getCollHeureDepartTerrain()), 
-                                                                                                                                                                                                                       'collHeureRetourTerrain' => strtotime($collective->getCollHeureRetourTerrain()),
+                                                                                                                                                                                                                       'collHeureDepartTerrain' => $collHeureDepartTerrain,
+                                                                                                                                                                                                                       'collHeureRetourTerrain' => $collHeureRetourTerrain,
                                                                                                                                                                                                                        'collConditionMeteo' => $collective->getCollConditionMeteo(),
                                                                                                                                                                                                                        'coll_incident_accident' => $collective->getColl_incident_accident(),
                                                                                                                                                                                                                        'collInfoComplementaire' => $collective->getCollInfoComplementaire(),
-                                                                                                                                                                                                                       'collDureeApproche' => strtotime($collective->getCollDureeApproche()),
-                                                                                                                                                                                                                       'collDureeCourse' => strtotime($collective->getCollDureeCourse()),
-                                                                                                                                                                                                                       'collDureeCourseAlpi' => strtotime($collective->getCollDureeCourse()),
+                                                                                                                                                                                                                       'collDureeApproche' => $collDureeApproche,
+                                                                                                                                                                                                                       'collDureeCourse' => $collDureeCourse,
+                                                                                                                                                                                                                       'collDureeCourseAlpi' => $collDureeCourseAlpi,
                                                                                                                                                                                                                        'collCondition_neige_rocher_glace' => $collective->getCollCondition_neige_rocher_glace()
                                                                                                                                                                                                                        )));
         }

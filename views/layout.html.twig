@@ -135,7 +135,7 @@
                     <div>
                             {% if app.user and is_granted('ROLE_REDACTEUR') %}
                                 {% if compteRenduEnAttente == 1 %}
-                                    <form method="post" action="#" >
+                                    <form method="post" action="{{path('accueilSemaine',{'semaine' : 0})}}" >
                                         <input type="hidden" name="CRswitch" value="ON"/>
                                         <button class="btn btn-success" type="submit">Compte(s) Rendu(s) en attente(s) ({{nbCR}})</button>
                                     </form>

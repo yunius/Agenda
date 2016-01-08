@@ -3,11 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/wamp/www/Agenda/src/DAO/AdherentDAO.php</file>
+            <file>file:/C:/wamp/www/Agenda/src/Form/Type/filtreType.php</file>
             <file>file:/C:/wamp/www/Agenda/app/app.php</file>
             <file>file:/C:/wamp/www/Agenda/src/Controller/AcceuilController.php</file>
+            <file>file:/C:/wamp/www/Agenda/views/layout.html.twig</file>
+            <file>file:/C:/wamp/www/Agenda/src/Domain/Adherent.php</file>
             <file>file:/C:/wamp/www/Agenda/web/css/BoostrapTemplate.css</file>
             <file>file:/C:/wamp/www/Agenda/app/routes.php</file>
-            <file>file:/C:/wamp/www/Agenda/dploy.yaml</file>
+            <file>file:/C:/wamp/www/Agenda/src/Form/Type/CommentType.php</file>
+            <file>file:/C:/wamp/www/Agenda/src/Form/Type/AdherentType.php</file>
         </group>
     </open-files>
 </project-private>

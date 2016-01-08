@@ -20,7 +20,7 @@ $app->match('/', "Agenda\Controller\AcceuilController::accueilAction")->bind('ac
 $app->match('/semaine-{semaine}', "Agenda\Controller\AcceuilController::accueilSemaineAction")->bind('accueilSemaine');
 
 $app->match('/CollectiveAsuppr/', "Agenda\Controller\AcceuilController::supprimerCollectiveAction")->bind('CollectiveAsuppr');
-$app->match('CollectiveAcreer/', "Agenda\Controller\AcceuilController::creerCollectiveAction")->bind('CollectiveAcreer');
+$app->match('/CollectiveAcreer/', "Agenda\Controller\AcceuilController::creerCollectiveAction")->bind('CollectiveAcreer');
 
 $app->match('/fichecollective/{id}', "Agenda\Controller\FicheCollectiveController::ficheCollectiveAction")->bind('fichecollective');
 $app->match('/fichecollectiveInscription/{id}', "Agenda\Controller\FicheCollectiveController::ficheCollectiveAction")->bind('fichecollectiveInscription');

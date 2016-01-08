@@ -3,7 +3,7 @@
 function afficheDateSemaine($week) {
     date_default_timezone_set('Europe/Paris');
     setlocale(LC_TIME, 'fra_fra');
-    $annee = 2015;
+    $annee = date('Y');
     $lundi = new DateTime();
     $dimanche = new DateTime();    
     $lundi->setISOdate($annee, $week);

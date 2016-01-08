@@ -46,6 +46,47 @@ class AdherentDAO extends DAO implements UserProviderInterface{
         }
         return $adherents;
     }
+    
+    public function save(Adherent $adherent) {
+        $AdherentData = array(
+            $adherent->getIDadherent(),
+            $adherent->getNumLicence(),
+            $adherent->getPrenomAdherent(),
+            $adherent->getNomAdherent(),
+            $adherent->getStatut(),
+            $adherent->getUsername(),
+            $adherent->getPassword(),
+            $adherent->getSalt(),
+            $adherent->getRole(),
+            $adherent->getCompteActif(),
+            $adherent->getDateNaissAdherent(),
+            $adherent->getMailAdherent(),
+            $adherent->getGenreAdherent(),
+            $adherent->getVehicule(),
+            $adherent->getCo_voitureur(),
+            $adherent->getAdherentNumRue(),
+            $adherent->getAdherentLibelleRue(),
+            $adherent->getAdherentNumRue(),
+            $adherent->getAdherentNumTel(),
+            $adherent->getIDclub(),
+            $adherent->getIDcommune()
+        );
+        
+        if ($adherent->getIDadherent()) {
+            $this->getDB()->update('adherents', $AdherentData, array('IDadherent' => $adherent->getIDadherent()));
+        }
+        else {
+            $this->getDB()->insert('adherents', $AdherentData);
+            $IDadherent = $this->getDB()->lastInsertId();
+            $adherent->setIDadherent($IDadherent);
+        }
+        
+    }
+    
+    public function delete($IDadherent) {
+        $this->getDB()->delete('adherents', array('IDadherent' => $IDadherent));
+    }
+            
     /**
      * {@inheritDoc}
      */
