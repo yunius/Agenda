@@ -7,6 +7,6 @@ $app['db.options'] = array(
     'port'     => '3306',
     'dbname'   => 'agenda',
     'user'     => 'root',
-    'password' => '',
+    'password' => '*gilou2501*',
 );
 

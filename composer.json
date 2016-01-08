@@ -11,8 +11,7 @@
         "symfony/translation": "2.7.*",
         "symfony/config": "2.7.*",
         "symfony/validator": "2.7.*",
-        "swiftmailer/swiftmailer": ">=4.1.2,<4.2-dev",
-        "jaza/excel-service-provider": "1.0.*@dev"
+        "swiftmailer/swiftmailer": ">=4.1.2,<4.2-dev"
         
     },
     "autoload": {
